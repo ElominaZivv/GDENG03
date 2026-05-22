@@ -9,7 +9,14 @@ namespace jazzy
 	public:
 		GraphicsEngine(const GraphicsEngineDesc& desc);
 		virtual ~GraphicsEngine() override;
+
+
+		GraphicsDevice& getGraphicsDevice() noexcept;
+
+		void render(SwapChain& swapChain);
 	private:
-		std::unique_ptr<RenderSystem> m_renderSystem{};
+		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
+		DeviceContextPtr m_deviceContext{};
+		GraphicsPipelineStatePtr m_pipeline{};
 	};
 }

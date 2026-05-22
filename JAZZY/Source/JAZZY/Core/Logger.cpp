@@ -6,7 +6,11 @@ jazzy::Logger::Logger(LogLevel loglevel): m_logLevel(loglevel)
 	std::clog << "------------------------------------------------" << "\n";
 }
 
-void jazzy::Logger::log(LogLevel level, const char* message) const
+jazzy::Logger::~Logger()
+{
+}
+
+void jazzy::Logger::log(LogLevel level, const char* message)
 {
 	auto logLevelToString = [](LogLevel level)
 		{

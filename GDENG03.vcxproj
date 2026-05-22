@@ -105,7 +105,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,25 +131,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\Display.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Game.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Base.cpp" />
     <ClCompile Include="Game\main.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Win32\Win32Game.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Window\Win32\Win32Window.cpp" />
-    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Logger.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\SwapChain.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec4.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Game\Display.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Common.h" />
-    <ClInclude Include="JAZZY\Include\JAZZY\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.h" />
     <ClInclude Include="JAZZY\Include\All.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Core.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Game.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Rect.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Window\Window.h" />
-    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsLogUtils.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsResource.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Logger.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsUtil.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\SwapChain.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

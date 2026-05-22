@@ -9,7 +9,7 @@ jazzy::Base::~Base()
 {
 }
 
-Logger& Base::getLogger() const noexcept
+Logger& Base::getLogger() noexcept
 {
 	return m_logger;
 }

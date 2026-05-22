@@ -8,7 +8,7 @@ namespace jazzy
 	public:
 		explicit Base(const BaseDesc& desc);
 		virtual ~Base();
-		virtual Logger& getLogger() const noexcept final;
+		virtual Logger& getLogger() noexcept final;
 
 	protected:
 		//	These /**/ is causing issues with the code. I have to use the // instead >:[
@@ -25,3 +25,17 @@ namespace jazzy
 	};
 }
 
+#define DX3DLogInfo(message)\
+	DX3DLog(getLogger(), Logger::LogLevel::Info, message)
+
+#define DX3DLogWarning(message)\
+	DX3DLog(getLogger(), Logger::LogLevel::Warning, message)
+
+#define DX3DLogError(message)\
+	DX3DLog(getLogger(), Logger::LogLevel::Error, message)
+
+#define DX3DLogThrowError(message)\
+	DX3DLogThrow(getLogger(), std::runtime_error, Logger::LogLevel::Error, message)
+
+#define DX3DLogThrowInvalidArg(message)\
+	DX3DLogThrow(getLogger(), std::invalid_argument, Logger::LogLevel::Error, message)
