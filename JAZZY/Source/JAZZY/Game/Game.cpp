@@ -3,13 +3,14 @@
 #include <JAZZY/Graphics/GraphicsEngine.h>
 #include <JAZZY/Core/Logger.h>
 
-jazzy::Game::Game()
+jazzy::Game::Game(const GameDesc& desc):
+	Base({*std::make_unique<Logger>(desc.logLevel).release()}),
+	m_LoggerPtr(&m_logger)
 {
-	m_LoggerPtr = std::make_unique<Logger>(Logger::LogLevel::Info);
-	m_graphicsEngine = std::make_unique<GraphicsEngine>();
-	m_display = std::make_unique<Window>();
+	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger});
+	m_display = std::make_unique<Window>(WindowDesc{m_logger});
 
-	m_LoggerPtr->log(Logger::LogLevel::Info, "Game Initialized.");
+	m_LoggerPtr->log(Logger::LogLevel::Info, "Game initialized.");
 }
 
 jazzy::Game::~Game()

@@ -4,7 +4,7 @@ int main()
 {
 	try
 	{
-		jazzy::Game game{};
+		jazzy::Game game({jazzy::Logger::LogLevel::Error});
 		game.run();
 	}
 	catch (const std::runtime_error&)

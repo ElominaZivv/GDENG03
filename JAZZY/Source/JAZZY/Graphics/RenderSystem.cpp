@@ -1,6 +1,6 @@
 #include <JAZZY/Graphics/RenderSystem.h>
 
-jazzy::RenderSystem::RenderSystem()
+jazzy::RenderSystem::RenderSystem(const RenderSystemDesc& desc): Base(desc.base)
 {
 	D3D_FEATURE_LEVEL featureLevel{};
 	UINT createDeviceFlags{};
@@ -27,6 +27,7 @@ jazzy::RenderSystem::RenderSystem()
 
 	if (FAILED(hr))
 	{
+		getLogger().log(Logger::LogLevel::Error, "Direct3D initialization failed.");
 		throw std::runtime_error("Direct3D initialization failed.");
 	}
 }

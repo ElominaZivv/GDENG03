@@ -141,6 +141,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Core\Common.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Graphics\GraphicsEngine.h" />
     <ClInclude Include="JAZZY\Include\All.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Core.h" />

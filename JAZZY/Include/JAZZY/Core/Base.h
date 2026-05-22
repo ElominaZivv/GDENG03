@@ -1,12 +1,14 @@
 #pragma once
+#include <JAZZY/Core/Common.h>
 
 namespace jazzy
 {
 	class Base
 	{
 	public:
-		Base();
+		explicit Base(const BaseDesc& desc);
 		virtual ~Base();
+		virtual Logger& getLogger() const noexcept final;
 
 	protected:
 		//	These /**/ is causing issues with the code. I have to use the // instead >:[
@@ -18,6 +20,8 @@ namespace jazzy
 		Base& operator = (const Base&) = delete;
 		Base& operator = (Base&&) = delete;
 
+	protected:
+		Logger& m_logger;
 	};
 }
 

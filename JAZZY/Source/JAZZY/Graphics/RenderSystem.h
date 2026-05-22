@@ -1,5 +1,5 @@
 #pragma once
-#include<JAZZY/Core/Core.h>
+#include<JAZZY/Core/Common.h>
 #include<JAZZY/Core/Base.h>
 #include<d3d11.h>
 #include<wrl.h>
@@ -12,7 +12,7 @@ namespace jazzy
 	class RenderSystem final: public Base
 	{
 	public:
-		RenderSystem();
+		explicit RenderSystem(const RenderSystemDesc& desc);
 		virtual ~RenderSystem() override;
 	private:
 		// Beautiful smart pointers keep tracks of the number of references to the pointer

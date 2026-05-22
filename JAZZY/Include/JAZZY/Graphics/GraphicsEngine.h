@@ -7,7 +7,7 @@ namespace jazzy
 	class GraphicsEngine final: public Base
 	{
 	public:
-		GraphicsEngine();
+		GraphicsEngine(const GraphicsEngineDesc& desc);
 		virtual ~GraphicsEngine() override;
 	private:
 		std::unique_ptr<RenderSystem> m_renderSystem{};
