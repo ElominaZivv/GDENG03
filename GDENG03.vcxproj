@@ -113,6 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,18 +131,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Game.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Base.cpp" />
     <ClCompile Include="Game\main.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Win32\Win32Game.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Window\Win32\Win32Window.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Core\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Graphics\GraphicsEngine.h" />
     <ClInclude Include="JAZZY\Include\All.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Core.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Game.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Window\Window.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Core\Logger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

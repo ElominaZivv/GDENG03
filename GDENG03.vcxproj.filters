@@ -30,6 +30,15 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Win32\Win32Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Core\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -45,6 +54,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\All.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Graphics\GraphicsEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Core\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
