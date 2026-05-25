@@ -66,6 +66,13 @@ namespace jazzy
 		const ShaderBinary& ps;
 	};
 
+	struct VertexBufferDesc
+	{
+		const void* vertexList{};
+		ui32 vertexListSize{};
+		ui32 vertexSize{};
+	};
+
 	struct GameDesc
 	{
 		Rect windowSize{ 1280,720 };

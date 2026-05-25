@@ -16,6 +16,7 @@ namespace jazzy
 	class DeviceContext;
 	class ShaderBinary;
 	class GraphicsPipelineState;
+	class VertexBuffer;
 
 	using i32 = int;
 	using ui32 = unsigned int;
@@ -26,4 +27,5 @@ namespace jazzy
 	using DeviceContextPtr = std::shared_ptr<DeviceContext>;
 	using ShaderBinaryPtr = std::shared_ptr<ShaderBinary>;
 	using GraphicsPipelineStatePtr = std::shared_ptr<GraphicsPipelineState>;
+	using VertexBufferPtr = std::shared_ptr< VertexBuffer>;
 }

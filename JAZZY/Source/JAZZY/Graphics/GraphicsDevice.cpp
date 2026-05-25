@@ -4,6 +4,7 @@
 #include <JAZZY/Graphics/DeviceContext.h>
 #include <JAZZY/Graphics/ShaderBinary.h>
 #include <JAZZY/Graphics/GraphicsPipelineState.h>
+#include <JAZZY/Graphics/VertexBuffer.h>
 
 using namespace jazzy;
 
@@ -77,6 +78,11 @@ ShaderBinaryPtr GraphicsDevice::compileShader(const ShaderCompileDesc& desc)
 GraphicsPipelineStatePtr GraphicsDevice::createGraphicsPipelineState(const GraphicsPipelineStateDesc& desc)
 {
 	return std::make_shared<GraphicsPipelineState>(desc, getGraphicsResourceDesc());
+}
+
+VertexBufferPtr jazzy::GraphicsDevice::createVertexBuffer(const VertexBufferDesc& desc)
+{
+	return std::make_shared<VertexBuffer>(desc, getGraphicsResourceDesc());
 }
 
 void GraphicsDevice::executeCommandList(DeviceContext& context)

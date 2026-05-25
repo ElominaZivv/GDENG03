@@ -12,19 +12,11 @@ namespace jazzy
 
 			if (FAILED(hr))
 			{
-				if (errorMsg)
-				{
-					DX3DLogThrow(logger, std::runtime_error, Logger::LogLevel::Error, errorMsg);
-				}
-				else
-				{
-					DX3DLogThrow(logger, std::runtime_error, Logger::LogLevel::Error, "Shader compilation failed.");
-				}
+				DX3DLogThrow(logger, std::runtime_error, Logger::LogLevel::Error, errorMsg ? errorMsg :
+					"Shader compilation failed.");
 			}
 			if (errorMsg)
-			{
 				DX3DLog(logger, Logger::LogLevel::Warning, errorMsg);
-			}
 		}
 	}
 }

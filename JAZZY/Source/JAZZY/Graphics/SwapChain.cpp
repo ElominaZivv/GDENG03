@@ -1,7 +1,7 @@
 #include <JAZZY/Graphics/SwapChain.h>
 
 jazzy::SwapChain::SwapChain(const SwapChainDesc& desc, const GraphicsResourceDesc& gDesc):
-	GraphicsResource(gDesc)
+	GraphicsResource(gDesc), m_size(desc.winSize)
 {
 	if (!desc.winHandle) DX3DLogThrowInvalidArg("No window handle provided.");
 	DXGI_SWAP_CHAIN_DESC dxgiDesc{};
@@ -23,6 +23,11 @@ jazzy::SwapChain::SwapChain(const SwapChainDesc& desc, const GraphicsResourceDes
 	);
 
 	reloadBuffers();
+}
+
+jazzy::Rect jazzy::SwapChain::getSize() const noexcept
+{
+	return m_size;
 }
 
 void jazzy::SwapChain::present(bool vsync)

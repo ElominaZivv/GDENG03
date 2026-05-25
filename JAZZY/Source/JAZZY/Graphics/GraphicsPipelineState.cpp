@@ -9,6 +9,26 @@ jazzy::GraphicsPipelineState::GraphicsPipelineState(const GraphicsPipelineStateD
 
 	auto vs = desc.vs.getData();
 	auto ps = desc.ps.getData();
+
+	constexpr D3D11_INPUT_ELEMENT_DESC elements[] =
+	{
+		{
+			"POSITION",						// Semantic Name
+			0,								// Semantic Index
+			DXGI_FORMAT_R32G32B32_FLOAT,	// Format of the this attribute
+			0,								// Which vertex buffer this element comes from
+			0,								// Byte offset of this element from the start of the vertex buffer
+			D3D11_INPUT_PER_VERTEX_DATA,	// 
+			0								//
+		}
+	};
+
+	DX3DGraphicsLogThrowOnFail
+	(
+		m_device.CreateInputLayout(elements, std::size(elements), vs.data, vs.dataSize, &m_layout),
+		"CreateInputLayout failed."
+	);
+
 	DX3DGraphicsLogThrowOnFail
 	(
 		m_device.CreateVertexShader

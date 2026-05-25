@@ -54,6 +54,9 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -111,6 +114,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
