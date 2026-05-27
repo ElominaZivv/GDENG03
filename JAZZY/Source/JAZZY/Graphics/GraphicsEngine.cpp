@@ -35,9 +35,9 @@ return float4(0.086, 0.85, 0.529, 0.125);
 
 	const Vec3 vertexList[] =
 	{
-		{-0.5f, -0.5f, 0.0f},
+		{-0.25f, -0.25f, 0.0f},
 		{0.0f, 0.5f, 0.0f},
-		{0.5f, -0.5f, 0.0f},
+		{0.25f, -0.25f, 0.0f}
 	};
 	m_vb = device.createVertexBuffer({vertexList, std::size(vertexList), sizeof(Vec3)});
 }
