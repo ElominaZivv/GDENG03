@@ -17,7 +17,6 @@ namespace jazzy
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_rtv{};
 		Rect m_size{};
 
-
 		friend class DeviceContext;
 	};
 }
