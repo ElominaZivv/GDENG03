@@ -145,6 +145,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\SwapChain.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h" />
@@ -164,10 +165,11 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsResource.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Logger.h" />
-    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsUtil.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsUtils.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\SwapChain.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

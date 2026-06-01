@@ -1,5 +1,5 @@
 #include <JAZZY/Graphics/ShaderBinary.h>
-#include <JAZZY/Graphics/GraphicsUtil.h>
+#include <JAZZY/Graphics/GraphicsUtils.h>
 #include <d3dcompiler.h>
 jazzy::ShaderBinary::ShaderBinary(const ShaderCompileDesc& desc, const GraphicsResourceDesc& gDesc): 
 	GraphicsResource(gDesc), m_type(desc.shaderType)
@@ -36,7 +36,7 @@ jazzy::ShaderBinary::ShaderBinary(const ShaderCompileDesc& desc, const GraphicsR
 	);
 }
 
-jazzy::ShaderBinaryData jazzy::ShaderBinary::getData() const noexcept
+jazzy::BinaryData jazzy::ShaderBinary::getData() const noexcept
 {
 	return
 	{

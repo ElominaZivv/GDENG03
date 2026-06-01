@@ -54,7 +54,12 @@ namespace jazzy
 		ShaderType shaderType{};
 	};
 
-	struct ShaderBinaryData
+	struct VertexShaderSignatureDesc
+	{
+		const ShaderBinaryPtr& vsBinary;
+	};
+
+	struct BinaryData
 	{
 		const void* data{};
 		size_t dataSize{};
@@ -62,7 +67,7 @@ namespace jazzy
 
 	struct GraphicsPipelineStateDesc
 	{
-		const ShaderBinary& vs;
+		const VertexShaderSignature& vs;
 		const ShaderBinary& ps;
 	};
 

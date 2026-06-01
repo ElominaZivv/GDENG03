@@ -4,6 +4,7 @@
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Graphics/VertexBuffer.h>	
 #include <JAZZY/Math/Vec3.h>
+#include <fstream>
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc): Base(desc.base)
@@ -13,33 +14,48 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc): Base(desc
 	auto& device = *m_graphicsDevice;
 	m_deviceContext = device.createDeviceContext();
 
-
-	constexpr char shaderSourceCode[] =
-		R"(
-float4 VSMain(float3 pos: POSITION): SV_Position
-{
-return float4(pos.xyz, 1.0);
-}
-float4 PSMain(): SV_Target
-{
-return float4(0.086, 0.85, 0.529, 0.125);
-}
-)";
-	constexpr char shaderSourceName[] = "Basic";
-	constexpr auto shaderSourceCodeSize = std::size(shaderSourceCode);
-
-	auto vs = device.compileShader({shaderSourceName, shaderSourceCode, shaderSourceCodeSize, "VSMain", ShaderType::VertexShader});
-	auto ps = device.compileShader({shaderSourceName, shaderSourceCode, shaderSourceCodeSize, "PSMain", ShaderType::PixelShader});
-	
-	m_pipeline = device.createGraphicsPipelineState({ *vs, *ps });
-
-	const Vec3 vertexList[] =
+	constexpr char shaderFilePath[] = "JAZZY/Assets/Shaders/Basic.hlsl";
+	std::ifstream shaderStream(shaderFilePath);
+	if (!shaderStream) DX3DLogThrowError("Failed to open shader file");
+	std::string shaderFileData
 	{
-		{-0.25f, -0.25f, 0.0f},
-		{0.0f, 0.5f, 0.0f},
-		{0.25f, -0.25f, 0.0f}
+		std::istreambuf_iterator<char>(shaderStream),
+		std::istreambuf_iterator<char>()
 	};
-	m_vb = device.createVertexBuffer({vertexList, std::size(vertexList), sizeof(Vec3)});
+
+	auto shaderSourceCode = shaderFileData.c_str();
+	auto shaderSourceCodeSize = shaderFileData.length();
+
+	auto vs = device.compileShader({shaderFilePath, shaderSourceCode, shaderSourceCodeSize, "VSMain", ShaderType::VertexShader});
+	auto ps = device.compileShader({shaderFilePath, shaderSourceCode, shaderSourceCodeSize, "PSMain", ShaderType::PixelShader});
+	auto vsSig = device.createVertexShaderSignature({ vs });
+
+	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
+
+	const Vertex vertexList[] =
+	{
+		// Rainbow Rectangle
+		{{-0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
+		{{-0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
+		{{0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
+		{{0.125f, -0.125f, 0.0f}, {1, 0, 1, 1} },
+		{{-0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
+
+		// Rainbow Triangle
+		{ { 0.5 -0.125f, -0.125f, 0.0f }, {1, 0, 0, 1} },
+		{{0.5 -0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{0.5 + 0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
+
+		// Green Rectangle
+		{ { -0.5 -0.125f, -0.125f, 0.0f }, {0, 1, 0, 1} },
+		{{-0.5 -0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{-0.5 + 0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{-0.5 + 0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{-0.5 + 0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} },
+		{{-0.5 -0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} }
+	};
+	m_vb = device.createVertexBuffer({vertexList, std::size(vertexList), sizeof(Vertex)});
 }
 
 jazzy::GraphicsEngine::~GraphicsEngine()

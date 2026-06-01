@@ -57,6 +57,9 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -110,7 +113,7 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsUtil.h">
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
