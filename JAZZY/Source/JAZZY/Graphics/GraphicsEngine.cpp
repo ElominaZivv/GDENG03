@@ -59,7 +59,7 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
-	float myOffset = 0.25;
+	float myOffset = 0.3;
 
 	Quad rainbowRectangle
 	(
@@ -70,13 +70,14 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	);
 	addQuadIntoVertexList(rainbowRectangle);
 
-	Triangle rainbowTriangle
+	/*Triangle rainbowTriangle
 	(
 		{ {0, 0.125f, 0.0f }, {1, 0, 0, 1} },
 		{{0.1f, -0.125f, 0.0f}, {0, 1, 0, 1} },
 		{{-0.1, -0.125f, 0.0f}, {0, 0, 1, 1} }
 	);
-	//addTriangleIntoVertexList(rainbowTriangle);
+	addTriangleIntoVertexList(rainbowTriangle);*/
+
 	Quad middleRectangle
 	(
 		{ {-0.125f, 0.125f, 0.0f}, {1, 0, 0, 1} },
