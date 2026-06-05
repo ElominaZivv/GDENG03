@@ -76,7 +76,15 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 		{{0.1f, -0.125f, 0.0f}, {0, 1, 0, 1} },
 		{{-0.1, -0.125f, 0.0f}, {0, 0, 1, 1} }
 	);
-	addTriangleIntoVertexList(rainbowTriangle);
+	//addTriangleIntoVertexList(rainbowTriangle);
+	Quad middleRectangle
+	(
+		{ {-0.125f, 0.125f, 0.0f}, {1, 0, 0, 1} },
+		{ {+0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
+		{ {+0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
+		{ {-0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} }
+	);
+	addQuadIntoVertexList(middleRectangle);
 
 	Quad greenRectangle
 	(
