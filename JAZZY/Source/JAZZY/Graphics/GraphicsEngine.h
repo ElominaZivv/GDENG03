@@ -27,5 +27,6 @@ namespace jazzy
 		DeviceContextPtr m_deviceContext{};
 		GraphicsPipelineStatePtr m_pipeline{};
 		VertexBufferPtr m_vb{};
+		ConstantBufferPtr m_cb{};
 	};
 }

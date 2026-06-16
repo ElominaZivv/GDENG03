@@ -29,6 +29,7 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc): Base(desc
 	auto vs = device.compileShader({shaderFilePath, shaderSourceCode, shaderSourceCodeSize, "VSMain", ShaderType::VertexShader});
 	auto ps = device.compileShader({shaderFilePath, shaderSourceCode, shaderSourceCodeSize, "PSMain", ShaderType::PixelShader});
 	auto vsSig = device.createVertexShaderSignature({ vs });
+	//auto cb = device.createConstantBuffer()
 
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 

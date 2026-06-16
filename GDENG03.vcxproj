@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Display.cpp" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec4.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.h" />

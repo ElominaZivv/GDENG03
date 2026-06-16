@@ -78,6 +78,12 @@ namespace jazzy
 		ui32 vertexSize{};
 	};
 
+	struct ConstantBufferDesc
+	{
+		const void* buffer{};
+		ui32 bufferSize;
+	};
+
 	struct GameDesc
 	{
 		Rect windowSize{ 1280,720 };
