@@ -5,6 +5,7 @@
 #include <JAZZY/Graphics/VertexBuffer.h>	
 #include <JAZZY/Math/Vec3.h>
 #include <fstream>
+#include <string>
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -56,7 +57,6 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	auto vs = device.compileShader({ vShaderFilePath, vShaderSourceCode, vShaderSourceCodeSize, "main", ShaderType::VertexShader });
 	auto ps = device.compileShader({ pShaderFilePath, pShaderSourceCode, pShaderSourceCodeSize, "main", ShaderType::PixelShader });
 	auto vsSig = device.createVertexShaderSignature({ vs });
-	//auto cb = device.createConstantBuffer()
 
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
@@ -97,35 +97,9 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	);
 	addQuadIntoVertexList(greenRectangle);
 
-	m_vb = device.createVertexBuffer({vertexList.data(), static_cast<ui32>(vertexList.size()), sizeof(Vertex) });
-	
-	//const Vertex vertexList[] =
-	//{
-	//	// Rainbow Rectangle
-	//	{{-0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
-	//	{{-0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
-	//	{{0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
-	//	{{0.125f, -0.125f, 0.0f}, {1, 0, 1, 1} },
-	//	{{-0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
+	m_vb = device.createVertexBuffer({ vertexList.data(), static_cast<ui32>(vertexList.size()), sizeof(Vertex) });
 
-	//	// Rainbow Triangle
-	//	{ { 0.5 -0.125f, -0.125f, 0.0f }, {1, 0, 0, 1} },
-	//	{{0.5 -0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{0.5 + 0.125f, 0.125f, 0.0f}, {0, 0, 1, 1} },
-
-	//	// Green Rectangle
-	//	{ { -0.5 -0.125f, -0.125f, 0.0f }, {0, 1, 0, 1} },
-	//	{{-0.5 -0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{-0.5 + 0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{-0.5 + 0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{-0.5 + 0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} },
-	//	{{-0.5 -0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} }
-	//};
-	
-	//m_vb = device.createVertexBuffer({vertexList, std::size(vertexList), sizeof(Vertex)});
-	
-
+	m_cb = device.createConstantBuffer({ {}, sizeof(ConstantData) });
 }
 
 jazzy::GraphicsEngine::~GraphicsEngine()
@@ -147,6 +121,27 @@ void GraphicsEngine::render(SwapChain& swapChain)
 
 	auto& vb = *m_vb;
 	context.setVertexBuffer(vb);
+
+	// Constant Buffer
+	time_curr = ::GetTickCount();
+	delta_time = time_curr - time_prev;
+	if (delta_time < 100)
+	{
+		time += delta_time;
+	}
+	time_prev = time_curr;
+
+	ConstantData data{};
+	data.time = time;
+	std::string str = std::to_string(data.time);
+	const char* time = str.c_str();
+	DX3DLogInfo(time);
+	auto& cb = *m_cb;
+	context.updateConstantBuffer(cb, &data);
+	context.setConstantBuffer(cb);
+	// Constant Buffer
+
+
 	context.drawTriangleList(vb.getVertexListSize(), 0u);
 
 	auto& device = *m_graphicsDevice;

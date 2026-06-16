@@ -81,7 +81,9 @@ namespace jazzy
 	struct ConstantBufferDesc
 	{
 		const void* buffer{};
-		ui32 bufferSize;
+		ui32 bufferSize{};
+
+		ui32 m_time{};
 	};
 
 	struct GameDesc

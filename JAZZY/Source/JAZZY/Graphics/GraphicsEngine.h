@@ -18,6 +18,23 @@ namespace jazzy
 		GraphicsDevice& getGraphicsDevice() noexcept;
 
 		void render(SwapChain& swapChain);
+
+	// Debug things
+	private:
+		ui32 time{};
+		ui32 time_prev{};
+		ui32 time_curr{};
+		ui32 delta_time{};
+	private:
+		struct alignas(16) ConstantData
+		{
+			/*
+			Mat4x4 world{};
+			Mat4x4 view{};
+			Mat4x4 projection{};
+			*/
+			ui32 time;
+		};
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		DeviceContextPtr m_deviceContext{};

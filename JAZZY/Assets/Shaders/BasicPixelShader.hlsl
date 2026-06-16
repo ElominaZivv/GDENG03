@@ -8,5 +8,4 @@ float4 main(PSInput input) : SV_Target
 {
     float4 newColor = input.color;
     return newColor;
-    //return input.color;
 }

@@ -2,6 +2,8 @@
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Graphics/GraphicsPipelineState.h>
 #include <JAZZY/Graphics/VertexBuffer.h>
+#include <JAZZY/Graphics/ConstantBuffer.h>
+
 jazzy::DeviceContext::DeviceContext(const GraphicsResourceDesc& gDesc): GraphicsResource(gDesc)
 {
 	DX3DGraphicsLogThrowOnFail
@@ -61,4 +63,42 @@ void jazzy::DeviceContext::drawTriangleList(ui32 vertexCount, ui32 startVertexLo
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);	// Tells the GPU how to interpret the vertex data
 	m_context->Draw(vertexCount, startVertexLocation);	// Executes Graphics Pipeline
 
+}
+
+void jazzy::DeviceContext::updateConstantBuffer(const ConstantBuffer& buffer, const void* data)
+{
+	if (!data)
+	{
+		DX3DLogError("Null data pointer passed to updateConstantBuffer");
+		return;
+	}
+
+	auto buf = buffer.m_buffer.Get();
+	D3D11_MAPPED_SUBRESOURCE mapped{};
+
+	auto hr = m_context->Map(buf, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
+	if (FAILED(hr))
+	{
+		DX3DLogError("ID3D11DeviceContext::Map failed.");
+		return;
+	}
+	std::memcpy(mapped.pData, data, buffer.m_size);
+	m_context->Unmap(buf, 0);
+}
+
+void jazzy::DeviceContext::setConstantBuffer(const ConstantBuffer& buffer)
+{
+	auto buf = buffer.m_buffer.Get();
+	m_context->VSSetConstantBuffers
+	(
+		0,	// Starting point of the buffer. There can be multiple buffers with different starting points
+		1,	// The number of buffers
+		&buf
+	);
+	m_context->PSSetConstantBuffers
+	(
+		0,	// Starting point of the buffer. There can be multiple buffers with different starting points
+		1,	// The number of buffers
+		&buf
+	);
 }
