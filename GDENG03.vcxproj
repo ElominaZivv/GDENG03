@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\Math\Quad.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Display.cpp" />
@@ -149,8 +150,11 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Quad.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Triangle.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec4.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.h" />
@@ -172,6 +176,20 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="JAZZY\Assets\Shaders\BasicVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
