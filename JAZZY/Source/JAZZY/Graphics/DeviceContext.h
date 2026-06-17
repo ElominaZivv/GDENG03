@@ -11,8 +11,10 @@ namespace jazzy
 		void clearAndSetBackBuffer(const SwapChain& swapChain, const Vec4& color);
 		void setGraphicsPipelineState(const GraphicsPipelineState& pipeline);
 		void setVertexBuffer(const VertexBuffer& buffer);
+		void setIndexBuffer(const IndexBuffer& buffer);
 		void setViewportSize(const Rect& size);
 		void drawTriangleList(ui32 vertexCount, ui32 startVertexLocation);
+		void drawIndexedTriangleList(ui32 indexCount, ui32 startVertexIndex, ui32 startIndexLocation);
 		void updateConstantBuffer(const ConstantBuffer& buffer, const void* data);
 		void setConstantBuffer(const ConstantBuffer& buffer);
 

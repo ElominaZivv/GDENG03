@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+#include <cmath>
 #include <JAZZY/Core/Core.h>
 #include <JAZZY/Math/Vec3.h>
 
@@ -36,6 +37,42 @@ namespace jazzy
 			res.m_data[0][0] = scale.x;
 			res.m_data[1][1] = scale.y;
 			res.m_data[2][2] = scale.z;
+			res.m_data[3][3] = 1;
+			return res;
+		}
+
+		static Mat4x4 rotateX(const f32 deg) noexcept
+		{
+			Mat4x4 res{};
+			res.m_data[0][0] = 1;
+			res.m_data[1][1] = std::cos(deg);
+			res.m_data[2][2] = std::cos(deg);
+			res.m_data[1][2] = std::sin(deg);
+			res.m_data[2][1] = -std::sin(deg);
+			res.m_data[3][3] = 1;
+			return res;
+		}
+
+		static Mat4x4 rotateY(const f32 deg) noexcept
+		{
+			Mat4x4 res{};
+			res.m_data[1][1] = 1;
+			res.m_data[0][0] = std::cos(deg);
+			res.m_data[2][2] = std::cos(deg);
+			res.m_data[2][0] = std::sin(deg);
+			res.m_data[0][2] = -std::sin(deg);
+			res.m_data[3][3] = 1;
+			return res;
+		}
+
+		static Mat4x4 rotateZ(const f32 deg) noexcept
+		{
+			Mat4x4 res{};
+			res.m_data[2][2] = 1;
+			res.m_data[0][0] = std::cos(deg);
+			res.m_data[1][1] = std::cos(deg);
+			res.m_data[0][1] = std::sin(deg);
+			res.m_data[1][0] = -std::sin(deg);
 			res.m_data[3][3] = 1;
 			return res;
 		}

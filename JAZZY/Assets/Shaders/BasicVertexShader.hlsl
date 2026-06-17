@@ -33,9 +33,7 @@ VSOutput main(VSInput input)
     // Screen Space 
     output.position = mul(output.position, m_projection);
 
-    output.position = lerp(float4(input.position, 1), float4(0.0f, 0.0f, 0.0f, 1.0f), (sin(m_time/1000.0f) + 1.0f) / 2.0f);
-    //float time = m_time/1000.0f;
-    //output.position = float4(input.position.x + time, input.position.y + time, input.position.z + time, 1);
+    //output.position = lerp(float4(input.position, 1), float4(0.0f, 0.0f, 0.0f, 1.0f), (sin(m_time/10.0f) + 1.0f) / 2.0f);
     output.color = input.color;
     return output;
 }

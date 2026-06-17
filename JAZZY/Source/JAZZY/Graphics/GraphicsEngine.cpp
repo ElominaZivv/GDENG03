@@ -3,6 +3,7 @@
 #include <JAZZY/Graphics/DeviceContext.h>
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Graphics/VertexBuffer.h>	
+#include <JAZZY/Graphics/IndexBuffer.h>	
 #include <JAZZY/Math/Vec3.h>
 #include <fstream>
 #include <string>
@@ -58,47 +59,60 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	auto ps = device.compileShader({ pShaderFilePath, pShaderSourceCode, pShaderSourceCodeSize, "main", ShaderType::PixelShader });
 	auto vsSig = device.createVertexShaderSignature({ vs });
 
+	// Graphics Pipeline
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
-	float myOffset = 0.3;
+	/*
+	Vertex vertexList[] =
+	{
+	{ {0, 0.5f, 0.0f }, {1, 0, 0, 1} },
+	{{0.35f, -0.5f, 0.0f}, {0, 1, 0, 1} },
+	{{-0.35, -0.5f, 0.0f}, {0, 0, 1, 1} }
+	};
+	*/
 
-	Quad rainbowRectangle
-	(
-		{{-0.125f - myOffset, 0.125f, 0.0f}, {0, 1, 0, 1} },
-		{{0.125f - myOffset, 0.125f, 0.0f}, {0, 0, 1, 1} },
-		{{0.125f - myOffset, -0.125f, 0.0f}, {1, 0, 1, 1} },
-		{ {-0.125f - myOffset, -0.125f, 0.0f}, {1, 0, 0, 1} }
-	);
-	addQuadIntoVertexList(rainbowRectangle);
+	// Vertex Buffer
+	Vertex vertexList[] =
+	{
+		// Front Face
+		Vertex{ {-0.5f,-0.5f,-0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
+		Vertex{ {-0.5f,0.5f,-0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} },
+		Vertex{ {0.5f,0.5f,-0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
+		Vertex{ {0.5f,-0.5f,-0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
+		// Back Face
+		Vertex{ {0.5f,-0.5f,0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
+		Vertex{ {0.5f,0.5f,0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
+		Vertex{ {-0.5f,0.5f,0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
+		Vertex{ {-0.5f,-0.5f,0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} }
+	};
 
-	/*Triangle rainbowTriangle
-	(
-		{ {0, 0.125f, 0.0f }, {1, 0, 0, 1} },
-		{{0.1f, -0.125f, 0.0f}, {0, 1, 0, 1} },
-		{{-0.1, -0.125f, 0.0f}, {0, 0, 1, 1} }
-	);
-	addTriangleIntoVertexList(rainbowTriangle);*/
+	m_vb = device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(Vertex) });
 
-	Quad middleRectangle
-	(
-		{ {-0.125f, 0.125f, 0.0f}, {1, 0, 0, 1} },
-		{ {+0.125f, 0.125f, 0.0f}, {0, 1, 0, 1} },
-		{ {+0.125f, -0.125f, 0.0f}, {1, 0, 0, 1} },
-		{ {-0.125f, -0.125f, 0.0f}, {0, 1, 0, 1} }
-	);
-	addQuadIntoVertexList(middleRectangle);
+	// Index Buffer
+	ui32 indexList[] =
+	{
+		// Front Side
+		0,1,2,
+		2,3,0,
+		// Back Side
+		4,5,6,
+		6,7,4,
+		// Top Side
+		1,6,5,
+		5,2,1,
+		// Bottom Side
+		7,0,3,
+		3,4,7,
+		// Left Side
+		3,2,5,
+		5,4,3,
+		// Right Side
+		7,6,1,
+		1,0,7
+	};
+	m_ib = device.createIndexBuffer({indexList, std::size(indexList)});
 
-	Quad greenRectangle
-	(
-		{ {-0.125f + myOffset, 0.125f, 0.0f}, {0, 1, 0, 1} },
-		{ {+0.125f + myOffset, 0.125f, 0.0f}, {0, 1, 0, 1} },
-		{ {+0.125f + myOffset, -0.125f, 0.0f}, {0, 1, 0, 1} },
-		{ {-0.125f + myOffset, -0.125f, 0.0f}, {0, 1, 0, 1} }
-	);
-	addQuadIntoVertexList(greenRectangle);
-
-	m_vb = device.createVertexBuffer({ vertexList.data(), static_cast<ui32>(vertexList.size()), sizeof(Vertex) });
-
+	// Constant Buffer
 	m_cb = device.createConstantBuffer({ {}, sizeof(ConstantData) });
 }
 
@@ -122,9 +136,28 @@ void GraphicsEngine::render(SwapChain& swapChain)
 	auto& vb = *m_vb;
 	context.setVertexBuffer(vb);
 
-	updateConstantBuffer(context);
+	auto& ib = *m_ib;
+	context.setIndexBuffer(ib);
 
-	context.drawTriangleList(vb.getVertexListSize(), 0u);
+	// Constant Buffer
+	// Get the ConstantBuffer,
+	auto& cb = *m_cb;
+
+	// Declare Constant Data
+	ConstantData data{};
+
+	// Feed Constant data with updated values
+	updateConstantData(data);
+	//DX3DLogInfo((std::to_string(data.m_time)).c_str());
+
+	// Update it with the data, 
+	context.updateConstantBuffer(cb, &data);
+
+	// then send it to the vertex and pixel shader
+	context.setConstantBuffer(cb);
+
+	context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
+	//context.drawTriangleList(vb.getVertexListSize(), 0u);
 
 	auto& device = *m_graphicsDevice;
 	device.executeCommandList(context);
@@ -132,7 +165,7 @@ void GraphicsEngine::render(SwapChain& swapChain)
 
 }
 
-void GraphicsEngine::updateConstantBuffer(DeviceContext& context)
+void GraphicsEngine::updateConstantData(ConstantData& data)
 {
 	// Compute for delta time
 	time_curr = ::GetTickCount();
@@ -143,22 +176,22 @@ void GraphicsEngine::updateConstantBuffer(DeviceContext& context)
 	}
 	time_prev = time_curr;
 
-	// Declare ConstantData data
-	ConstantData data{};
-
-	// Manipulate the constant data here
 	// Time
 	data.m_time = time;
+
 	// World
-	data.m_world = Mat4x4::scale(Vec3{1.0f, 1.0f, 1.0f });
-
 	Mat4x4 temp{};
-	temp = Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
-
-	data.m_world = data.m_world * temp;
+	temp = Mat4x4::identity();
+	temp = temp * Mat4x4::scale(Vec3{ 0.5f, 0.5f, 0.5f });
+	temp = temp * Mat4x4::rotateX(time/1000.0f);
+	temp = temp * Mat4x4::rotateY(time / 1000.0f);
+	temp = temp * Mat4x4::rotateZ(time / 1000.0f);
+	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
+	data.m_world = temp;
 
 	// View
 	data.m_view = Mat4x4::identity();
+
 	// Orthographic View
 	int zzWindowDisplayHeight = 400;	// Originally 720
 	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
@@ -171,24 +204,4 @@ void GraphicsEngine::updateConstantBuffer(DeviceContext& context)
 		-4.0f,
 		4.0f
 	);
-
-	// Get the ConstantBuffer,
-	auto& cb = *m_cb;
-	// Update it with the data, 
-	context.updateConstantBuffer(cb, &data);
-	// then send it to the vertex and pixel shader
-	context.setConstantBuffer(cb);
-}
-
-void GraphicsEngine::addTriangleIntoVertexList(Triangle triangle)
-{
-	vertexList.push_back(triangle.p1);
-	vertexList.push_back(triangle.p2);
-	vertexList.push_back(triangle.p3);
-}
-
-void GraphicsEngine::addQuadIntoVertexList(Quad quad)
-{
-	addTriangleIntoVertexList(quad.leftTriangle);
-	addTriangleIntoVertexList(quad.rightTriangle);
 }

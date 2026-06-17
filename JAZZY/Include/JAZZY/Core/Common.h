@@ -78,6 +78,12 @@ namespace jazzy
 		ui32 vertexSize{};
 	};
 
+	struct IndexBufferDesc
+	{
+		const void* indexList{};
+		ui32 indexListSize{};
+	};
+
 	struct ConstantBufferDesc
 	{
 		const void* buffer{};

@@ -42,11 +42,8 @@ namespace jazzy
 		GraphicsPipelineStatePtr m_pipeline{};
 		VertexBufferPtr m_vb{};
 		ConstantBufferPtr m_cb{};
+		IndexBufferPtr m_ib{};
 
-		void updateConstantBuffer(DeviceContext& context);
-		// Experimentation
-		std::vector<Vertex> vertexList;
-		void addTriangleIntoVertexList(Triangle triangle);
-		void addQuadIntoVertexList(Quad quad);
+		void updateConstantData(ConstantData& data);
 	};
 }

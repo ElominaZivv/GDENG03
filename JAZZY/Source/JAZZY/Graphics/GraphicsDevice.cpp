@@ -7,6 +7,7 @@
 #include <JAZZY/Graphics/VertexBuffer.h>
 #include <JAZZY/Graphics/VertexShaderSignature.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
+#include <JAZZY/Graphics/IndexBuffer.h>
 
 using namespace jazzy;
 
@@ -95,6 +96,11 @@ VertexShaderSignaturePtr GraphicsDevice::createVertexShaderSignature(const Verte
 ConstantBufferPtr GraphicsDevice::createConstantBuffer(const ConstantBufferDesc& desc)
 {
 	return std::make_shared<ConstantBuffer>(desc, getGraphicsResourceDesc());
+}
+
+IndexBufferPtr GraphicsDevice::createIndexBuffer(const IndexBufferDesc& desc)
+{
+	return std::make_shared<IndexBuffer>(desc, getGraphicsResourceDesc());
 }
 
 void GraphicsDevice::executeCommandList(DeviceContext& context)

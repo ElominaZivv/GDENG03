@@ -3,6 +3,7 @@
 #include <JAZZY/Graphics/GraphicsPipelineState.h>
 #include <JAZZY/Graphics/VertexBuffer.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
+#include <JAZZY/Graphics/IndexBuffer.h>
 
 jazzy::DeviceContext::DeviceContext(const GraphicsResourceDesc& gDesc): GraphicsResource(gDesc)
 {
@@ -43,6 +44,16 @@ void jazzy::DeviceContext::setVertexBuffer(const VertexBuffer& buffer)
 	);
 }
 
+void jazzy::DeviceContext::setIndexBuffer(const IndexBuffer& buffer)
+{
+	m_context->IASetIndexBuffer
+	(
+		buffer.m_buffer.Get(),
+		DXGI_FORMAT_R32_UINT,
+		0
+	);
+}
+
 void jazzy::DeviceContext::setViewportSize(const Rect& size)
 {
 	D3D11_VIEWPORT vp{};
@@ -62,7 +73,12 @@ void jazzy::DeviceContext::drawTriangleList(ui32 vertexCount, ui32 startVertexLo
 {
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);	// Tells the GPU how to interpret the vertex data
 	m_context->Draw(vertexCount, startVertexLocation);	// Executes Graphics Pipeline
+}
 
+void jazzy::DeviceContext::drawIndexedTriangleList(ui32 indexCount, ui32 startVertexIndex, ui32 startIndexLocation)
+{
+	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);	// Tells the GPU how to interpret the vertex data
+	m_context->DrawIndexed(indexCount, startVertexIndex, startIndexLocation);	// Executes Graphics Pipeline
 }
 
 void jazzy::DeviceContext::updateConstantBuffer(const ConstantBuffer& buffer, const void* data)
