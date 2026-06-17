@@ -122,7 +122,19 @@ void GraphicsEngine::render(SwapChain& swapChain)
 	auto& vb = *m_vb;
 	context.setVertexBuffer(vb);
 
-	// Constant Buffer
+	updateConstantBuffer(context);
+
+	context.drawTriangleList(vb.getVertexListSize(), 0u);
+
+	auto& device = *m_graphicsDevice;
+	device.executeCommandList(context);
+	swapChain.present();
+
+}
+
+void GraphicsEngine::updateConstantBuffer(DeviceContext& context)
+{
+	// Compute for delta time
 	time_curr = ::GetTickCount();
 	delta_time = time_curr - time_prev;
 	if (delta_time < 100)
@@ -131,23 +143,41 @@ void GraphicsEngine::render(SwapChain& swapChain)
 	}
 	time_prev = time_curr;
 
+	// Declare ConstantData data
 	ConstantData data{};
-	data.time = time;
-	std::string str = std::to_string(data.time);
-	const char* time = str.c_str();
-	DX3DLogInfo(time);
+
+	// Manipulate the constant data here
+	// Time
+	data.m_time = time;
+	// World
+	data.m_world = Mat4x4::scale(Vec3{1.0f, 1.0f, 1.0f });
+
+	Mat4x4 temp{};
+	temp = Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
+
+	data.m_world = data.m_world * temp;
+
+	// View
+	data.m_view = Mat4x4::identity();
+	// Orthographic View
+	int zzWindowDisplayHeight = 400;	// Originally 720
+	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
+	data.m_projection = Mat4x4::orthoLH
+	(	
+		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window
+		// Moreover, you can also update the Rect size{} by using the Window msg to check whenever the size is changed and update the Rect size accordingly
+		zzWindowDisplayWidth / 400.0f,
+		zzWindowDisplayHeight / 400.0f,
+		-4.0f,
+		4.0f
+	);
+
+	// Get the ConstantBuffer,
 	auto& cb = *m_cb;
+	// Update it with the data, 
 	context.updateConstantBuffer(cb, &data);
+	// then send it to the vertex and pixel shader
 	context.setConstantBuffer(cb);
-	// Constant Buffer
-
-
-	context.drawTriangleList(vb.getVertexListSize(), 0u);
-
-	auto& device = *m_graphicsDevice;
-	device.executeCommandList(context);
-	swapChain.present();
-
 }
 
 void GraphicsEngine::addTriangleIntoVertexList(Triangle triangle)

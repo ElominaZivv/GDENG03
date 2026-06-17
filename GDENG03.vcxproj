@@ -150,6 +150,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Mat4x4.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Quad.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Triangle.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h" />

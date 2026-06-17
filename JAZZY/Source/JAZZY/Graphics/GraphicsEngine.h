@@ -6,6 +6,9 @@
 #include <JAZZY/Math/Triangle.h>
 #include <JAZZY/Math/Quad.h>
 #include <vector>
+
+#include "JAZZY/Math/Mat4x4.h"
+
 namespace jazzy
 {
 	// Final means no class can derive from GraphicsEngine class
@@ -28,12 +31,10 @@ namespace jazzy
 	private:
 		struct alignas(16) ConstantData
 		{
-			/*
-			Mat4x4 world{};
-			Mat4x4 view{};
-			Mat4x4 projection{};
-			*/
-			ui32 time;
+			Mat4x4 m_world{};
+			Mat4x4 m_view{};
+			Mat4x4 m_projection{};
+			ui32 m_time;
 		};
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
@@ -42,6 +43,7 @@ namespace jazzy
 		VertexBufferPtr m_vb{};
 		ConstantBufferPtr m_cb{};
 
+		void updateConstantBuffer(DeviceContext& context);
 		// Experimentation
 		std::vector<Vertex> vertexList;
 		void addTriangleIntoVertexList(Triangle triangle);
