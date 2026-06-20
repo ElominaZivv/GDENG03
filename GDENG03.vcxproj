@@ -142,6 +142,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Base.cpp" />
     <ClCompile Include="Game\main.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Win32\Win32Game.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Input\InputSystem.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Window\Win32\Win32Window.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Logger.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Mat4x4.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Quad.h" />

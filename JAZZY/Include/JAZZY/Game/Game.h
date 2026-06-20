@@ -20,6 +20,7 @@ namespace jazzy
 		std::unique_ptr<Logger> m_LoggerPtr{};
 		std::unique_ptr<GraphicsEngine> m_graphicsEngine{};
 		std::unique_ptr<Display> m_display{};
+		InputSystemPtr m_inputSystem{};
 		bool m_isRunning{ true };
 	};
 }

@@ -20,6 +20,7 @@ namespace jazzy
 	class VertexShaderSignature;
 	class ConstantBuffer;
 	class IndexBuffer;
+	class InputSystem;
 
 	using i32 = int;
 	using ui32 = unsigned int;
@@ -34,4 +35,5 @@ namespace jazzy
 	using VertexShaderSignaturePtr = std::shared_ptr< VertexShaderSignature>;
 	using ConstantBufferPtr = std::shared_ptr<ConstantBuffer>;
 	using IndexBufferPtr = std::shared_ptr<IndexBuffer>;
+	using InputSystemPtr = std::shared_ptr<InputSystem>;
 }

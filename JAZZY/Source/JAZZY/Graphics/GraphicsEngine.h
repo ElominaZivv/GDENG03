@@ -43,6 +43,11 @@ namespace jazzy
 		VertexBufferPtr m_vb{};
 		ConstantBufferPtr m_cb{};
 		IndexBufferPtr m_ib{};
+		// TEMPORARY DEPENDENCY FOR DEBUGGING
+		InputSystemPtr m_inputSystem{};
+		f32 rotx{};
+		f32 roty{};
+		f32 rotz{};
 
 		void updateConstantData(ConstantData& data);
 	};

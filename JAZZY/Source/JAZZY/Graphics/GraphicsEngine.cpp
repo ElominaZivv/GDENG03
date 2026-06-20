@@ -7,6 +7,8 @@
 #include <JAZZY/Math/Vec3.h>
 #include <fstream>
 #include <string>
+
+#include "JAZZY/Input/InputSystem.h"
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -114,6 +116,9 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 
 	// Constant Buffer
 	m_cb = device.createConstantBuffer({ {}, sizeof(ConstantData) });
+
+	// TEMPORARY DEPENDECY FOR DEBUGGING
+	m_inputSystem = desc.inputSystem;
 }
 
 jazzy::GraphicsEngine::~GraphicsEngine()
@@ -183,9 +188,23 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	Mat4x4 temp{};
 	temp = Mat4x4::identity();
 	temp = temp * Mat4x4::scale(Vec3{ 0.5f, 0.5f, 0.5f });
-	temp = temp * Mat4x4::rotateX(time/1000.0f);
-	temp = temp * Mat4x4::rotateY(time / 1000.0f);
-	temp = temp * Mat4x4::rotateZ(time / 1000.0f);
+
+	// TEMPORARY INPUT SYSTEM DEBUGGING
+	if (m_inputSystem->isKeyDown(KeyCode::W)) rotx += 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::S)) rotx -= 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::A)) roty += 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::D)) roty -= 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
+	temp = temp * Mat4x4::rotateX(rotx/10.0f);
+	temp = temp * Mat4x4::rotateY(roty / 10.0f);
+	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
+
+	// TEMPORARY INPUT SYSTEM DEBUGGING
+	if (m_inputSystem->isKeyDown(KeyCode::Space))DX3DLogInfo("Space Down");
+	if (m_inputSystem->isKeyPressed(KeyCode::Space))DX3DLogInfo("Space Pressed");
+	if (m_inputSystem->isKeyReleased(KeyCode::Space))DX3DLogInfo("Space Released");
+
 	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
 	data.m_world = temp;
 
