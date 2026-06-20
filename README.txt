@@ -1,6 +1,6 @@
 GDENG03, X21, Zivv Zachery V. Elomina
 
-Entry point: GDENG03/Game/main.cpp
+Entry Class File: GDENG03/Game/main.cpp
 
 How to run this program:
 1. Open this project in Visual Studio 2022
