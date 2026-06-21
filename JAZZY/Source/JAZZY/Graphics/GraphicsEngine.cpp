@@ -5,6 +5,7 @@
 #include <JAZZY/Graphics/VertexBuffer.h>	
 #include <JAZZY/Graphics/IndexBuffer.h>	
 #include <JAZZY/Math/Vec3.h>
+#include <JAZZY/Math/Vertex.h>
 #include <fstream>
 #include <string>
 
@@ -201,9 +202,9 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
 
 	// TEMPORARY INPUT SYSTEM DEBUGGING
-	if (m_inputSystem->isKeyDown(KeyCode::Space))DX3DLogInfo("Space Down");
-	if (m_inputSystem->isKeyPressed(KeyCode::Space))DX3DLogInfo("Space Pressed");
-	if (m_inputSystem->isKeyReleased(KeyCode::Space))DX3DLogInfo("Space Released");
+	if (m_inputSystem->isKeyDown(KeyCode::MouseLeft))DX3DLogInfo("Mouse Left Down");
+	if (m_inputSystem->isKeyDown(KeyCode::MouseMiddle))DX3DLogInfo("Mouse Middle Down");
+	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))DX3DLogInfo("Mouse Right Down");
 
 	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
 	data.m_world = temp;

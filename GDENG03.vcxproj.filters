@@ -63,9 +63,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JAZZY\Include\JAZZY\Math\Quad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -140,16 +137,7 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Quad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Mat4x4.h">
@@ -159,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

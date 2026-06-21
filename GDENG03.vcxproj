@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
-    <ClCompile Include="JAZZY\Include\JAZZY\Math\Quad.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Display.cpp" />
@@ -153,13 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Mat4x4.h" />
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Quad.h" />
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Triangle.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec3.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.h" />
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec4.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.h" />

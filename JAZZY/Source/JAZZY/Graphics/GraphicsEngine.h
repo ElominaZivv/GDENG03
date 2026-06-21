@@ -3,8 +3,6 @@
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vec4.h>
-#include <JAZZY/Math/Triangle.h>
-#include <JAZZY/Math/Quad.h>
 #include <vector>
 
 #include "JAZZY/Math/Mat4x4.h"

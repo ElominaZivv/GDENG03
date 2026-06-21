@@ -12,6 +12,7 @@ jazzy::InputSystem::~InputSystem()
 
 void jazzy::InputSystem::update()
 {
+	// Keyboard
 	m_previousKeys = m_currentKeys;
 
 	for (auto i : std::views::iota(0u, static_cast<std::size_t>(KeyCode::Count)))
@@ -22,6 +23,12 @@ void jazzy::InputSystem::update()
 		// GetAsyncKeyState returns the 16bit integer of the key where the 15th bit determines if the key is 1 pressed or 0 unpressed
 		m_currentKeys[i] = (GetAsyncKeyState(vk) & 0x8000) != 0;
 	}
+
+	// Mouse
+	POINT point{};
+	GetCursorPos(&point);
+
+
 }
 
 bool jazzy::InputSystem::isKeyDown(KeyCode key) const
