@@ -46,6 +46,8 @@ namespace jazzy
 		f32 rotx{};
 		f32 roty{};
 		f32 rotz{};
+		bool cursorVisibleToggle{ true };
+		bool cursorLockToggle{ true };
 
 		void updateConstantData(ConstantData& data);
 	};

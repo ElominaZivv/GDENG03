@@ -10,6 +10,7 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_LoggerPtr(&m_logger)
 {
 	m_inputSystem = std::make_shared<InputSystem>(InputSystemDesc{ m_logger });
+	m_inputSystem->setCursorLockArea(desc.windowSize);
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_inputSystem});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
 

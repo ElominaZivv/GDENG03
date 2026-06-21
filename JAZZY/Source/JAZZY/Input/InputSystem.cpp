@@ -25,10 +25,15 @@ void jazzy::InputSystem::update()
 	}
 
 	// Mouse
+	m_previousMousePos = m_mousePos;
+
 	POINT point{};
 	GetCursorPos(&point);
 
-
+	m_mousePos.x = static_cast<f32>(point.x);
+	m_mousePos.y = static_cast<f32>(point.y);
+	m_mouseDelta.x = m_mousePos.x - m_previousMousePos.x;
+	m_mouseDelta.y = m_mousePos.y - m_previousMousePos.y;
 }
 
 bool jazzy::InputSystem::isKeyDown(KeyCode key) const
@@ -44,6 +49,45 @@ bool jazzy::InputSystem::isKeyPressed(KeyCode key) const
 bool jazzy::InputSystem::isKeyReleased(KeyCode key) const
 {
 	return !m_currentKeys[static_cast<std::size_t>(key)] && m_previousKeys[static_cast<std::size_t>(key)];
+}
+
+jazzy::Vec2 jazzy::InputSystem::getMousePos() const noexcept
+{
+	return m_mousePos;
+}
+
+jazzy::Vec2 jazzy::InputSystem::getMouseDelta() const noexcept
+{
+	return m_mouseDelta;
+}
+
+void jazzy::InputSystem::setCursorVisible(bool visible)
+{
+	m_cursorVisible = visible;
+
+	ShowCursor(visible);
+}
+
+void jazzy::InputSystem::setCursorLockArea(const Rect& rect)
+{
+	m_lockArea = rect;
+}
+
+void jazzy::InputSystem::setCursorLocked(bool locked)
+{
+	m_cursorLocked = locked;
+	if (locked) centerCursor();
+}
+
+void jazzy::InputSystem::centerCursor()
+{
+	const auto centerX = m_lockArea.left + (m_lockArea.width / 2);
+	const auto centerY = m_lockArea.top + (m_lockArea.height / 2);
+
+	SetCursorPos(centerX, centerY);
+
+	m_mousePos.x = static_cast<f32>(centerX);
+	m_mousePos.y = static_cast<f32>(centerY);
 }
 
 short jazzy::InputSystem::getInternalKeyCode(const KeyCode& key)
