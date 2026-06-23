@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Core/Core.h>
 
@@ -22,6 +23,9 @@ namespace jazzy
 		std::unique_ptr<Display> m_display{};
 		InputSystemPtr m_inputSystem{};
 		bool m_isRunning{ true };
+
+		// Time
+		std::chrono::steady_clock::time_point m_previousTime{};
 	};
 }
 

@@ -24,6 +24,11 @@ jazzy::Game::~Game()
 
 void jazzy::Game::onInternalUpdate()
 {
+	auto currentTime = std::chrono::steady_clock::now();
+	std::chrono::duration<f32> delta = currentTime - m_previousTime;
+	m_previousTime = currentTime;
+	auto deltaTime = delta.count();
+
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyDown(KeyCode::Escape))m_isRunning = false;
 
