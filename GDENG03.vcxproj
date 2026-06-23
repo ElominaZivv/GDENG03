@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Ball.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Source\JAZZY\Ball.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec2.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h" />

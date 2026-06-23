@@ -7,6 +7,7 @@
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vertex.h>
 #include <fstream>
+#include <ranges>
 #include <string>
 
 #include "JAZZY/Input/InputSystem.h"
@@ -140,31 +141,42 @@ void GraphicsEngine::render(SwapChain& swapChain)
 
 	context.setViewportSize(swapChain.getSize());
 
-	auto& vb = *m_vb;
-	context.setVertexBuffer(vb);
+	if (m_inputSystem->isKeyPressed(KeyCode::Space))
+	{
 
-	auto& ib = *m_ib;
-	context.setIndexBuffer(ib);
+		Ball newBall({0.0f, 0.0f, 0.0f},  { 1.0f, 1.0f }, 0.25f);
+		balls.push_back(newBall);
+	}
 
-	// Constant Buffer
-	// Get the ConstantBuffer,
-	auto& cb = *m_cb;
+	for (auto i : std::views::iota(0u, balls.size()))
+	{
+		auto& vb = *m_vb;
+		context.setVertexBuffer(vb);
 
-	// Declare Constant Data
-	ConstantData data{};
+		auto& ib = *m_ib;
+		context.setIndexBuffer(ib);
 
-	// Feed Constant data with updated values
-	updateConstantData(data);
-	//DX3DLogInfo((std::to_string(data.m_time)).c_str());
+		// Constant Buffer
+		// Get the ConstantBuffer,
+		auto& cb = *m_cb;
 
-	// Update it with the data, 
-	context.updateConstantBuffer(cb, &data);
+		// Declare Constant Data
+		ConstantData data{};
 
-	// then send it to the vertex and pixel shader
-	context.setConstantBuffer(cb);
+		Ball ball = balls[i];
+		// Feed Constant data with updated values
+		updateConstantData(data, ball);
+		//DX3DLogInfo((std::to_string(data.m_time)).c_str());
 
-	context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
-	//context.drawTriangleList(vb.getVertexListSize(), 0u);
+		// Update it with the data, 
+		context.updateConstantBuffer(cb, &data);
+
+		// then send it to the vertex and pixel shader
+		context.setConstantBuffer(cb);
+
+		context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
+		//context.drawTriangleList(vb.getVertexListSize(), 0u);
+	}
 
 	auto& device = *m_graphicsDevice;
 	device.executeCommandList(context);
@@ -172,7 +184,7 @@ void GraphicsEngine::render(SwapChain& swapChain)
 
 }
 
-void GraphicsEngine::updateConstantData(ConstantData& data)
+void GraphicsEngine::updateConstantData(ConstantData& data, Ball ball)
 {
 	// Compute for delta time
 	time_curr = ::GetTickCount();
@@ -189,40 +201,22 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	// World
 	Mat4x4 temp{};
 	temp = Mat4x4::identity();
-
-<<<<<<< Updated upstream
-	// TEMPORARY INPUT SYSTEM DEBUGGING
-	/*
-	if (m_inputSystem->isKeyDown(KeyCode::W)) rotx += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) rotx -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) roty += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) roty -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
-	*/
-	temp = temp * Mat4x4::rotateX(rotx/10.0f);
-	temp = temp * Mat4x4::rotateY(roty / 10.0f);
-	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
-
-	// TEMPORARY INPUT SYSTEM DEBUGGING
-	f32 scale = 0.25f;
-=======
+	
 	temp = temp * Mat4x4::rotateX(rotx / 10.0f);
 	temp = temp * Mat4x4::rotateY(roty / 10.0f);
 	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
 
 	f32 scale = 0.5f;
->>>>>>> Stashed changes
 	temp = temp * Mat4x4::scale(Vec3{ scale, scale, scale});
-	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
+	temp = temp * Mat4x4::translation(ball.position);
 	data.m_world = temp;
 
 	// View
 	data.m_view = Mat4x4::identity();
 
 	// Orthographic View
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
+	int zzWindowDisplayHeight = 768;	// Originally 720
+	int zzWindowDisplayWidth = 1024;	// Originally 1280
 	data.m_projection = Mat4x4::orthoLH
 	(	
 		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window

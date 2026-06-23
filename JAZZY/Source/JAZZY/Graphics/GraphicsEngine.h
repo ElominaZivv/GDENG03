@@ -5,6 +5,7 @@
 #include <JAZZY/Math/Vec4.h>
 #include <vector>
 
+#include <JAZZY/Ball.h>
 #include "JAZZY/Math/Mat4x4.h"
 
 namespace jazzy
@@ -35,6 +36,8 @@ namespace jazzy
 			ui32 m_time;
 		};
 	private:
+		void updateConstantData(ConstantData& data, Ball ball);
+	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		DeviceContextPtr m_deviceContext{};
 		GraphicsPipelineStatePtr m_pipeline{};
@@ -49,6 +52,7 @@ namespace jazzy
 		bool cursorVisibleToggle{ true };
 		bool cursorLockToggle{ true };
 
-		void updateConstantData(ConstantData& data);
+		std::vector<Ball> balls;
+
 	};
 }

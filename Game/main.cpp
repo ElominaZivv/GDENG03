@@ -6,8 +6,8 @@
 
 int main()
 {
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
+	int zzWindowDisplayHeight = 768;	// Originally 720
+	int zzWindowDisplayWidth = 1024;	// Originally 1280
 
 	try
 	{
