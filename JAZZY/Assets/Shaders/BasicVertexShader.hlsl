@@ -18,13 +18,13 @@ cbuffer constant: register(b0)
     row_major float4x4 m_world;
     row_major float4x4 m_view;
     row_major float4x4 m_projection;
-    unsigned int m_time;
+    float m_time;
 }
 
 VSOutput main(VSInput input)
 {
     VSOutput output;
-    output.position = float4(input.position, 1);
+    output.position = float4(input.position.x, input.position.y, input.position.z, 1);
 
 	// World Space
     output.position = mul(output.position, m_world);
@@ -32,8 +32,7 @@ VSOutput main(VSInput input)
     output.position = mul(output.position, m_view);
     // Screen Space 
     output.position = mul(output.position, m_projection);
-
-    //output.position = lerp(float4(input.position, 1), float4(0.0f, 0.0f, 0.0f, 1.0f), (sin(m_time/10.0f) + 1.0f) / 2.0f);
+    
     output.color = input.color;
     return output;
 }

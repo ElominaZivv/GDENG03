@@ -14,6 +14,8 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_inputSystem});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
 
+	m_previousTime = std::chrono::steady_clock::now();
+
 	DX3DLogInfo("Game initialized.");
 }
 
@@ -24,8 +26,13 @@ jazzy::Game::~Game()
 
 void jazzy::Game::onInternalUpdate()
 {
-	m_inputSystem->update();
-	if (m_inputSystem->isKeyDown(KeyCode::Escape))m_isRunning = false;
+	auto currentTime = std::chrono::steady_clock::now();
+	std::chrono::duration<f32> delta = currentTime - m_previousTime;
+	m_previousTime = currentTime;
+	auto deltaTime = delta.count();
 
-	m_graphicsEngine->render(m_display->getSwapChain());
+	m_inputSystem->update();
+	if (m_inputSystem->isKeyDown(KeyCode::Escape)) m_isRunning = false;
+
+	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }
