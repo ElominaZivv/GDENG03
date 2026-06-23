@@ -134,7 +134,8 @@ jazzy::GraphicsDevice& jazzy::GraphicsEngine::getGraphicsDevice() noexcept
 void GraphicsEngine::render(SwapChain& swapChain)
 {
 	auto& context = *m_deviceContext;
-	context.clearAndSetBackBuffer(swapChain, { 0.0549, 0.07, 0.109, 1 });
+	//context.clearAndSetBackBuffer(swapChain, { 0.0549, 0.07, 0.109, 1 });
+	context.clearAndSetBackBuffer(swapChain, { 0.0f, 0.0f, 0.0f, 1 });
 	context.setGraphicsPipelineState(*m_pipeline);
 
 	context.setViewportSize(swapChain.getSize());
@@ -189,6 +190,7 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	Mat4x4 temp{};
 	temp = Mat4x4::identity();
 
+<<<<<<< Updated upstream
 	// TEMPORARY INPUT SYSTEM DEBUGGING
 	/*
 	if (m_inputSystem->isKeyDown(KeyCode::W)) rotx += 1.0f;
@@ -204,6 +206,13 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 
 	// TEMPORARY INPUT SYSTEM DEBUGGING
 	f32 scale = 0.25f;
+=======
+	temp = temp * Mat4x4::rotateX(rotx / 10.0f);
+	temp = temp * Mat4x4::rotateY(roty / 10.0f);
+	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
+
+	f32 scale = 0.5f;
+>>>>>>> Stashed changes
 	temp = temp * Mat4x4::scale(Vec3{ scale, scale, scale});
 	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
 	data.m_world = temp;
