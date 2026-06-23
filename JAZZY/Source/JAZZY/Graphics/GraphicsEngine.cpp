@@ -131,7 +131,7 @@ jazzy::GraphicsDevice& jazzy::GraphicsEngine::getGraphicsDevice() noexcept
 	return *m_graphicsDevice;
 }
 
-void GraphicsEngine::render(SwapChain& swapChain)
+void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 {
 	auto& context = *m_deviceContext;
 	context.clearAndSetBackBuffer(swapChain, { 0.0549, 0.07, 0.109, 1 });
@@ -153,8 +153,8 @@ void GraphicsEngine::render(SwapChain& swapChain)
 	ConstantData data{};
 
 	// Feed Constant data with updated values
-	updateConstantData(data);
-	//DX3DLogInfo((std::to_string(data.m_time)).c_str());
+	updateConstantData(deltaTime, data);
+	//DX3DLogInfo((std::to_string(deltaTime)).c_str());
 
 	// Update it with the data, 
 	context.updateConstantBuffer(cb, &data);
@@ -171,19 +171,11 @@ void GraphicsEngine::render(SwapChain& swapChain)
 
 }
 
-void GraphicsEngine::updateConstantData(ConstantData& data)
+void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 {
-	// Compute for delta time
-	time_curr = ::GetTickCount();
-	delta_time = time_curr - time_prev;
-	if (delta_time < 100)
-	{
-		time += delta_time;
-	}
-	time_prev = time_curr;
-
 	// Time
-	data.m_time = time;
+	m_time += deltaTime;
+	data.m_time = m_time;
 
 	// World
 	Mat4x4 temp{};
@@ -198,9 +190,11 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
 	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
 	*/
-	rotx -= m_inputSystem->getMouseDelta().y;
-	roty -= m_inputSystem->getMouseDelta().x;
-	temp = temp * Mat4x4::rotateX(rotx/10.0f);
+	
+	roty = m_time /1000.0f;
+	//rotx -= m_inputSystem->getMouseDelta().y;
+	//roty -= m_inputSystem->getMouseDelta().x;
+	temp = temp * Mat4x4::rotateX(rotx / 10.0f);
 	temp = temp * Mat4x4::rotateY(roty / 10.0f);
 	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
 

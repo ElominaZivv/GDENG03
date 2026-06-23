@@ -18,21 +18,16 @@ namespace jazzy
 
 		GraphicsDevice& getGraphicsDevice() noexcept;
 
-		void render(SwapChain& swapChain);
+		void render(f32 deltaTime, SwapChain& swapChain);
 
 	// Debug things
-	private:
-		ui32 time{};
-		ui32 time_prev{};
-		ui32 time_curr{};
-		ui32 delta_time{};
 	private:
 		struct alignas(16) ConstantData
 		{
 			Mat4x4 m_world{};
 			Mat4x4 m_view{};
 			Mat4x4 m_projection{};
-			ui32 m_time;
+			f32 m_time;
 		};
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
@@ -42,6 +37,7 @@ namespace jazzy
 		ConstantBufferPtr m_cb{};
 		IndexBufferPtr m_ib{};
 		// TEMPORARY DEPENDENCY FOR DEBUGGING
+		f32 m_time{0.0f};
 		InputSystemPtr m_inputSystem{};
 		f32 rotx{};
 		f32 roty{};
@@ -49,6 +45,6 @@ namespace jazzy
 		bool cursorVisibleToggle{ true };
 		bool cursorLockToggle{ true };
 
-		void updateConstantData(ConstantData& data);
+		void updateConstantData(f32 deltaTime, ConstantData& data);
 	};
 }
