@@ -198,28 +198,13 @@ void GraphicsEngine::updateConstantData(ConstantData& data)
 	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
 	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
 	*/
-	rotx -= m_inputSystem->getMouseDelta().y;
-	roty -= m_inputSystem->getMouseDelta().x;
 	temp = temp * Mat4x4::rotateX(rotx/10.0f);
 	temp = temp * Mat4x4::rotateY(roty / 10.0f);
 	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
 
 	// TEMPORARY INPUT SYSTEM DEBUGGING
 	f32 scale = 0.25f;
-	if (m_inputSystem->isKeyReleased(KeyCode::MouseMiddle))
-	{
-		cursorVisibleToggle = !cursorVisibleToggle;
-		m_inputSystem->setCursorVisible(cursorVisibleToggle);
-	}
-	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))
-	{
-		cursorLockToggle = !cursorLockToggle;
-		m_inputSystem->setCursorLocked(cursorLockToggle);
-	}
-
-	if (m_inputSystem->isKeyDown(KeyCode::MouseLeft)) scale = 0.5f;
 	temp = temp * Mat4x4::scale(Vec3{ scale, scale, scale});
-
 	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
 	data.m_world = temp;
 
