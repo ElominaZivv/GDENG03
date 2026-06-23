@@ -125,6 +125,8 @@ namespace jazzy
 		Shift,
 		Space,
 		Enter,
+		Backspace,
+		Delete,
 
 		// Mouse buttons (optional inclusion)
 		MouseLeft,

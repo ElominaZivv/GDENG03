@@ -3,6 +3,7 @@
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vec4.h>
+#include <JAZZY/Math/Vertex.h>
 #include <vector>
 
 #include <JAZZY/Ball.h>
@@ -32,6 +33,9 @@ namespace jazzy
 		};
 	private:
 		void updateConstantData(ConstantData& data, Ball ball);
+		void generatePolygonVerticesAndIndexLists(f32 radius, ui32 num_vertices);
+		std::vector<Vertex> polygonVertexList;
+		std::vector<ui32> polygonIndexList;
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		DeviceContextPtr m_deviceContext{};
@@ -49,7 +53,5 @@ namespace jazzy
 		bool cursorLockToggle{ true };
 
 		std::vector<Ball> balls;
-
-		void updateConstantData(f32 deltaTime, ConstantData& data);
 	};
 }

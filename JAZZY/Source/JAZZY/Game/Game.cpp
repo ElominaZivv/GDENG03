@@ -32,7 +32,11 @@ void jazzy::Game::onInternalUpdate()
 	auto deltaTime = delta.count();
 
 	m_inputSystem->update();
-	if (m_inputSystem->isKeyDown(KeyCode::Escape)) m_isRunning = false;
+	if (m_inputSystem->isKeyDown(KeyCode::Escape))
+	{
+		DX3DLogInfo("Escape Pressed");
+		m_isRunning = false;
+	}
 
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }

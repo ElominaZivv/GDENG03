@@ -6,11 +6,14 @@
 #include <JAZZY/Graphics/IndexBuffer.h>	
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vertex.h>
+#include "JAZZY/Input/InputSystem.h"
 #include <fstream>
+#include <numbers>
 #include <ranges>
 #include <string>
+#include <random>
 
-#include "JAZZY/Input/InputSystem.h"
+
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -66,55 +69,11 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	// Graphics Pipeline
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
-	/*
-	Vertex vertexList[] =
-	{
-	{ {0, 0.5f, 0.0f }, {1, 0, 0, 1} },
-	{{0.35f, -0.5f, 0.0f}, {0, 1, 0, 1} },
-	{{-0.35, -0.5f, 0.0f}, {0, 0, 1, 1} }
-	};
-	*/
+	generatePolygonVerticesAndIndexLists(0.45, 16);
 
-	// Vertex Buffer
-	Vertex vertexList[] =
-	{
-		// Front Face
-		Vertex{ {-0.5f,-0.5f,-0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-0.5f,0.5f,-0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} },
-		Vertex{ {0.5f,0.5f,-0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {0.5f,-0.5f,-0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
-		// Back Face
-		Vertex{ {0.5f,-0.5f,0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {0.5f,0.5f,0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
-		Vertex{ {-0.5f,0.5f,0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-0.5f,-0.5f,0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} }
-	};
+	m_vb = device.createVertexBuffer({ polygonVertexList.data(), static_cast<ui32>(polygonVertexList.size()), sizeof(Vertex) });
 
-	m_vb = device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(Vertex) });
-
-	// Index Buffer
-	ui32 indexList[] =
-	{
-		// Front Side
-		0,1,2,
-		2,3,0,
-		// Back Side
-		4,5,6,
-		6,7,4,
-		// Top Side
-		1,6,5,
-		5,2,1,
-		// Bottom Side
-		7,0,3,
-		3,4,7,
-		// Left Side
-		3,2,5,
-		5,4,3,
-		// Right Side
-		7,6,1,
-		1,0,7
-	};
-	m_ib = device.createIndexBuffer({indexList, std::size(indexList)});
+	m_ib = device.createIndexBuffer({ polygonIndexList.data(), static_cast<ui32>(polygonIndexList.size()) });
 
 	// Constant Buffer
 	m_cb = device.createConstantBuffer({ {}, sizeof(ConstantData) });
@@ -141,11 +100,27 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 
 	context.setViewportSize(swapChain.getSize());
 
+	// User input handling
 	if (m_inputSystem->isKeyPressed(KeyCode::Space))
 	{
+		DX3DLogInfo("Space Pressed");
+		// Randomizer
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<f32>dis(-1.0f, 1.0f);
 
-		Ball newBall({0.0f, 0.0f, 0.0f},  { 1.0f, 1.0f }, 0.25f);
+		Ball newBall({0.0f, 0.0f, 0.0f},  { dis(gen), dis(gen), 0.0f}, 0.25f);
 		balls.push_back(newBall);
+	}
+	if (m_inputSystem->isKeyPressed(KeyCode::Backspace))
+	{
+		DX3DLogInfo("Backspace Pressed");
+		if (balls.size()>0) balls.pop_back();
+	}
+	if (m_inputSystem->isKeyPressed(KeyCode::Delete))
+	{
+		DX3DLogInfo("Delete Pressed");
+		if (balls.size() > 0) balls.clear();
 	}
 
 	for (auto i : std::views::iota(0u, balls.size()))
@@ -159,16 +134,40 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 		// Constant Buffer
 		// Get the ConstantBuffer,
 		auto& cb = *m_cb;
-	// Feed Constant data with updated values
-	updateConstantData(deltaTime, data);
-	//DX3DLogInfo((std::to_string(deltaTime)).c_str());
 
 		// Declare Constant Data
 		ConstantData data{};
 
-		Ball ball = balls[i];
+		// Update Ball Position
+		balls[i].position = Vec3
+		( 
+			balls[i].position.x + (balls[i].velocity.x * deltaTime), 
+			balls[i].position.y + (balls[i].velocity.y * deltaTime), 
+			0.0f
+		);
+		// Collision Detection and Resolution
+		if (balls[i].position.x > 1.175f)
+		{
+			balls[i].position.x = 1.175f;
+			balls[i].velocity.x = -balls[i].velocity.x;
+		}
+		if (balls[i].position.y > 0.85f)
+		{
+			balls[i].position.y = 0.85f;
+			balls[i].velocity.y = -balls[i].velocity.y;
+		}
+		if (balls[i].position.x < -1.175f)
+		{
+			balls[i].position.x = -1.175f;
+			balls[i].velocity.x = -balls[i].velocity.x;
+		}
+		if (balls[i].position.y < -0.85f)
+		{
+			balls[i].position.y = -0.85f;
+			balls[i].velocity.y = -balls[i].velocity.y;
+		}
 		// Feed Constant data with updated values
-		updateConstantData(data, ball);
+		updateConstantData(data, balls[i]);
 		//DX3DLogInfo((std::to_string(data.m_time)).c_str());
 
 		// Update it with the data, 
@@ -187,34 +186,18 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 
 }
 
-void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
+void GraphicsEngine::updateConstantData(ConstantData& data, Ball ball)
 {
-	// Time
-	m_time += deltaTime;
-	data.m_time = m_time;
-
 	// World
 	Mat4x4 temp{};
 	temp = Mat4x4::identity();
 
-	// TEMPORARY INPUT SYSTEM DEBUGGING
-	/*
-	if (m_inputSystem->isKeyDown(KeyCode::W)) rotx += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) rotx -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) roty += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) roty -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
-	*/
-	
 	roty = m_time /1000.0f;
-	//rotx -= m_inputSystem->getMouseDelta().y;
-	//roty -= m_inputSystem->getMouseDelta().x;
 	temp = temp * Mat4x4::rotateX(rotx / 10.0f);
 	temp = temp * Mat4x4::rotateY(roty / 10.0f);
 	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
 
-	f32 scale = 0.5f;
+	f32 scale = ball.radius;
 	temp = temp * Mat4x4::scale(Vec3{ scale, scale, scale});
 	temp = temp * Mat4x4::translation(ball.position);
 	data.m_world = temp;
@@ -229,9 +212,40 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 	(	
 		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window
 		// Moreover, you can also update the Rect size{} by using the Window msg to check whenever the size is changed and update the Rect size accordingly
-		zzWindowDisplayWidth / 400.0f,
-		zzWindowDisplayHeight / 400.0f,
+		zzWindowDisplayWidth/400.0f,
+		zzWindowDisplayHeight/400.0f,
 		-4.0f,
 		4.0f
 	);
+}
+
+void GraphicsEngine::generatePolygonVerticesAndIndexLists(f32 radius, ui32 num_vertices)
+{
+	// Formula taken from https://faun.pub/draw-circle-in-opengl-c-2da8d9c2c103
+
+	f32 angle = 360.f / num_vertices;
+
+	polygonVertexList.push_back(Vertex({ 0.0f, 0.0f, 0.0f }, { 1.0f, 0.15f, 0.0f, 1.0f }));
+	for (int i = 0; i < num_vertices; i++)
+	{
+		f32 currentAngle = angle * i;
+		f32 x = radius * sin(currentAngle * std::numbers::pi / 180.0);
+		f32 y = radius * cos(currentAngle * std::numbers::pi / 180.0);
+		f32 z = 0.0f;
+
+		polygonVertexList.push_back(Vertex({x,y,z},{ 0.1f, 0.3f, 0.2f, 1.0f }));
+	}
+	for (auto i : std::views::iota(0u, num_vertices))
+	{
+		polygonIndexList.push_back(0);
+		polygonIndexList.push_back(1+i);
+		if (i == num_vertices-1)
+		{
+			polygonIndexList.push_back(1);
+		}
+		else
+		{
+			polygonIndexList.push_back(2+i);
+		}
+	}
 }

@@ -7,10 +7,10 @@ namespace jazzy
 	class Ball
 	{
 	public:
-		Ball(Vec3 position, Vec2 velocity, f32 radius);
+		Ball(Vec3 position, Vec3 velocity, f32 radius);
 		f32 radius{1.0f};
 		Vec3 position{};
-		Vec2 velocity{};
+		Vec3 velocity{};
 	};
 }
 
