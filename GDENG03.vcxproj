@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Math\MathUtils.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec2.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.h" />

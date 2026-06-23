@@ -5,7 +5,7 @@
 #include <JAZZY/Math/Vec4.h>
 #include <vector>
 
-#include "JAZZY/Math/Mat4x4.h"
+#include <JAZZY/Math/Mat4x4.h>
 
 namespace jazzy
 {
@@ -30,6 +30,8 @@ namespace jazzy
 			f32 m_time;
 		};
 	private:
+		void updateConstantData(f32 deltaTime, ConstantData& data);
+	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		DeviceContextPtr m_deviceContext{};
 		GraphicsPipelineStatePtr m_pipeline{};
@@ -42,9 +44,10 @@ namespace jazzy
 		f32 rotx{};
 		f32 roty{};
 		f32 rotz{};
-		bool cursorVisibleToggle{ true };
-		bool cursorLockToggle{ true };
 
-		void updateConstantData(f32 deltaTime, ConstantData& data);
+		// Temporary Camera Object
+		Mat4x4 m_TempWorldCam{};
+		f32 forward{-2.0f};
+		f32 right{};
 	};
 }

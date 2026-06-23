@@ -75,18 +75,19 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	*/
 
 	// Vertex Buffer
+	f32 cubeSize = 0.5f;
 	Vertex vertexList[] =
 	{
 		// Front Face
-		Vertex{ {-0.5f,-0.5f,-0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-0.5f,0.5f,-0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} },
-		Vertex{ {0.5f,0.5f,-0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {0.5f,-0.5f,-0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
+		Vertex{ {-cubeSize,-cubeSize,-cubeSize}, {0.99f, 0.16f, 0.01f, 1.0f} },
+		Vertex{ {-cubeSize,cubeSize,-cubeSize}, {0.03f, 0.74f, 0.68f, 1.0f} },
+		Vertex{ {cubeSize,cubeSize,-cubeSize}, {0.0f, 0.0f, 0.0f, 1.0f} },
+		Vertex{ {cubeSize,-cubeSize,-cubeSize}, {0.34f, 0.0f, 0.94f, 1.0f} },
 		// Back Face
-		Vertex{ {0.5f,-0.5f,0.5f}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {0.5f,0.5f,0.5f}, {0.34f, 0.0f, 0.94f, 1.0f} },
-		Vertex{ {-0.5f,0.5f,0.5f}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-0.5f,-0.5f,0.5f}, {0.03f, 0.74f, 0.68f, 1.0f} }
+		Vertex{ {cubeSize,-cubeSize,cubeSize}, {0.0f, 0.0f, 0.0f, 1.0f} },
+		Vertex{ {cubeSize,cubeSize,cubeSize}, {0.34f, 0.0f, 0.94f, 1.0f} },
+		Vertex{ {-cubeSize,cubeSize,cubeSize}, {0.99f, 0.16f, 0.01f, 1.0f} },
+		Vertex{ {-cubeSize,-cubeSize,cubeSize}, {0.03f, 0.74f, 0.68f, 1.0f} }
 	};
 
 	m_vb = device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(Vertex) });
@@ -120,6 +121,7 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 
 	// TEMPORARY DEPENDECY FOR DEBUGGING
 	m_inputSystem = desc.inputSystem;
+	m_TempWorldCam = Mat4x4::translation(Vec3(0.0f, 0.0f, -2.0f));
 }
 
 jazzy::GraphicsEngine::~GraphicsEngine()
@@ -178,49 +180,47 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 	data.m_time = m_time;
 
 	// World
-	Mat4x4 temp{};
-	temp = Mat4x4::identity();
-
-	// TEMPORARY INPUT SYSTEM DEBUGGING
-	/*
-	if (m_inputSystem->isKeyDown(KeyCode::W)) rotx += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) rotx -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) roty += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) roty -= 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::Q)) rotz += 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::E)) rotz -= 1.0f;
-	*/
-	
-	roty = m_time /1000.0f;
-	//rotx -= m_inputSystem->getMouseDelta().y;
-	//roty -= m_inputSystem->getMouseDelta().x;
-	temp = temp * Mat4x4::rotateX(rotx / 10.0f);
-	temp = temp * Mat4x4::rotateY(roty / 10.0f);
-	temp = temp * Mat4x4::rotateZ(rotz / 10.0f);
-
-	// TEMPORARY INPUT SYSTEM DEBUGGING
-	f32 scale = 0.25f;
-	if (m_inputSystem->isKeyReleased(KeyCode::MouseMiddle))
-	{
-		cursorVisibleToggle = !cursorVisibleToggle;
-		m_inputSystem->setCursorVisible(cursorVisibleToggle);
-	}
-	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))
-	{
-		cursorLockToggle = !cursorLockToggle;
-		m_inputSystem->setCursorLocked(cursorLockToggle);
-	}
-
-	if (m_inputSystem->isKeyDown(KeyCode::MouseLeft)) scale = 0.5f;
-	temp = temp * Mat4x4::scale(Vec3{ scale, scale, scale});
-
-	temp = temp * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
-	data.m_world = temp;
+	Mat4x4 worldMat{};
+	worldMat = Mat4x4::identity();
+	worldMat = worldMat * Mat4x4::scale(Vec3{1.0f, 1.0f, 1.0f});
+	worldMat = worldMat * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
+	data.m_world = worldMat;
 
 	// View
-	data.m_view = Mat4x4::identity();
+	Mat4x4 worldCam{};
+	worldCam = Mat4x4::identity();
+
+	m_inputSystem->setCursorLocked(true);
+	rotx += m_inputSystem->getMouseDelta().y;
+	roty += m_inputSystem->getMouseDelta().x;
+
+	worldCam = worldCam * Mat4x4::rotateX(rotx / 100.0f);
+	worldCam = worldCam * Mat4x4::rotateY(roty / 100.0f);
+	worldCam = worldCam * Mat4x4::rotateZ(rotz / 100.0f);
+
+	f32 speed = 2.5f;
+	if (m_inputSystem->isKeyDown(KeyCode::W)) forward += deltaTime * speed;
+	if (m_inputSystem->isKeyDown(KeyCode::S)) forward -= deltaTime * speed;
+	if (m_inputSystem->isKeyDown(KeyCode::D)) right += deltaTime * speed;
+	if (m_inputSystem->isKeyDown(KeyCode::A)) right -= deltaTime * speed;
+
+	Vec3 tempWorldCamPos({ m_TempWorldCam.row(3).x, m_TempWorldCam.row(3).y, m_TempWorldCam.row(3).z });
+	Vec3 camForward({ worldCam.row(2).x, worldCam.row(2).y, worldCam.row(2).z });
+	Vec3 camRight({ worldCam.row(0).x, worldCam.row(0).y, worldCam.row(0).z });
+	camRight *= right;
+
+	Vec3 newPos = tempWorldCamPos + camForward * forward;
+	newPos += camRight;
+	worldCam = worldCam * Mat4x4::translation(newPos);
+
+	//worldCam = worldCam * Mat4x4::translation(Vec3{ 0.0f, 0.0f, -2.0f });
+
+	worldCam = Mat4x4::inverse(worldCam);
+
+	data.m_view = worldCam;
 
 	// Orthographic View
+	/*
 	int zzWindowDisplayHeight = 400;	// Originally 720
 	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
 	data.m_projection = Mat4x4::orthoLH
@@ -231,5 +231,17 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 		zzWindowDisplayHeight / 400.0f,
 		-4.0f,
 		4.0f
+	);
+	*/
+
+	// Perspective View
+	int zzWindowDisplayHeight = 400;	// Originally 720
+	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
+	data.m_projection = Mat4x4::perspectiveFovLH
+	(
+		1.57f,
+		(f32)zzWindowDisplayWidth / (f32)zzWindowDisplayHeight,
+		0.1f,
+		100.0f
 	);
 }
