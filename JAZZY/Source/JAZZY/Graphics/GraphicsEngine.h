@@ -22,7 +22,7 @@ namespace jazzy
 
 		void render(f32 deltaTime, SwapChain& swapChain);
 
-	// Debug things
+		std::vector<Ball>* getBallObjects();
 	private:
 		struct alignas(16) ConstantData
 		{
@@ -32,6 +32,8 @@ namespace jazzy
 			f32 m_time;
 		};
 	private:
+		std::vector<Ball> balls;
+
 		void updateConstantData(ConstantData& data, Ball ball);
 		void generatePolygonVerticesAndIndexLists(f32 radius, ui32 num_vertices);
 		std::vector<Vertex> polygonVertexList;
@@ -52,6 +54,5 @@ namespace jazzy
 		bool cursorVisibleToggle{ true };
 		bool cursorLockToggle{ true };
 
-		std::vector<Ball> balls;
 	};
 }

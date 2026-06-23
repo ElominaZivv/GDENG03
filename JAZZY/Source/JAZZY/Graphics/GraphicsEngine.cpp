@@ -69,6 +69,7 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	// Graphics Pipeline
 	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
+	// Generate the polygon vertex list and index list
 	generatePolygonVerticesAndIndexLists(0.45, 16);
 
 	m_vb = device.createVertexBuffer({ polygonVertexList.data(), static_cast<ui32>(polygonVertexList.size()), sizeof(Vertex) });
@@ -99,29 +100,6 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 	context.setGraphicsPipelineState(*m_pipeline);
 
 	context.setViewportSize(swapChain.getSize());
-
-	// User input handling
-	if (m_inputSystem->isKeyPressed(KeyCode::Space))
-	{
-		DX3DLogInfo("Space Pressed");
-		// Randomizer
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<f32>dis(-1.0f, 1.0f);
-
-		Ball newBall({0.0f, 0.0f, 0.0f},  { dis(gen), dis(gen), 0.0f}, 0.25f);
-		balls.push_back(newBall);
-	}
-	if (m_inputSystem->isKeyPressed(KeyCode::Backspace))
-	{
-		DX3DLogInfo("Backspace Pressed");
-		if (balls.size()>0) balls.pop_back();
-	}
-	if (m_inputSystem->isKeyPressed(KeyCode::Delete))
-	{
-		DX3DLogInfo("Delete Pressed");
-		if (balls.size() > 0) balls.clear();
-	}
 
 	for (auto i : std::views::iota(0u, balls.size()))
 	{
@@ -184,6 +162,11 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 	device.executeCommandList(context);
 	swapChain.present();
 
+}
+
+std::vector<Ball>* GraphicsEngine::getBallObjects()
+{
+	return &balls;
 }
 
 void GraphicsEngine::updateConstantData(ConstantData& data, Ball ball)

@@ -26,6 +26,9 @@ namespace jazzy
 
 		// Time
 		std::chrono::steady_clock::time_point m_previousTime{};
+		std::chrono::nanoseconds m_timestep;
+		std::chrono::nanoseconds m_currNanoSeconds;
+		f32 m_fixedDeltaTime;
 	};
 }
 
