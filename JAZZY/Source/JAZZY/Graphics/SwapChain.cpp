@@ -52,4 +52,18 @@ void jazzy::SwapChain::reloadBuffers()
 		m_device.CreateRenderTargetView(buffer.Get(), nullptr, &m_rtv),
 		"CreateRenderTargetView failed."
 	);
+
+	D3D11_TEXTURE2D_DESC depthTexDesc = {};
+	depthTexDesc.Width = std::max(1, m_size.width);
+	depthTexDesc.Height = std::max(1, m_size.height);
+	depthTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthTexDesc.MipLevels = 1;
+	depthTexDesc.SampleDesc.Count = 1;
+	depthTexDesc.ArraySize = 1;
+
+	DX3DGraphicsLogThrowOnFail(m_device.CreateTexture2D(&depthTexDesc, nullptr, &buffer),
+		"CreateTexture2D failed.");
+	DX3DGraphicsLogThrowOnFail(m_device.CreateDepthStencilView(buffer.Get(), NULL, &m_dsv),
+		"CreateDepthStencilView failed.");
 }

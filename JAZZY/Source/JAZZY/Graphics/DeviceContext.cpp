@@ -18,8 +18,12 @@ void jazzy::DeviceContext::clearAndSetBackBuffer(const SwapChain& swapChain, con
 {
 	f32 fColor[] = { color.x, color.y, color.z, color.w };
 	auto rtv = swapChain.m_rtv.Get();
+	auto dsv = swapChain.m_dsv.Get();
+
 	m_context->ClearRenderTargetView(rtv, fColor);
 	m_context->OMSetRenderTargets(1, &rtv, nullptr);
+	m_context->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	m_context->OMSetRenderTargets(1, &rtv, dsv);
 }
 
 void jazzy::DeviceContext::setGraphicsPipelineState(const GraphicsPipelineState& pipeline)

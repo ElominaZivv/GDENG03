@@ -76,19 +76,23 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	*/
 
 	// Vertex Buffer
-	f32 cubeSize = 0.5f;
+	f32 cubeSize = 0.25f;
+	Vec4 orange(0.99f, 0.16f, 0.01f, 1.0f);
+	Vec4 mikublue(0.03f, 0.74f, 0.68f, 1.0f);
+	Vec4 ourple(0.34f, 0.0f, 0.94f, 1.0f);
+	Vec4 black(0.0f, 0.0f, 0.0f, 1.0f);
 	Vertex vertexList[] =
 	{
 		// Front Face
-		Vertex{ {-cubeSize,-cubeSize,-cubeSize}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-cubeSize,cubeSize,-cubeSize}, {0.03f, 0.74f, 0.68f, 1.0f} },
-		Vertex{ {cubeSize,cubeSize,-cubeSize}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {cubeSize,-cubeSize,-cubeSize}, {0.34f, 0.0f, 0.94f, 1.0f} },
+		Vertex{ {-cubeSize,-cubeSize,-cubeSize}, orange},
+		Vertex{ {-cubeSize,cubeSize,-cubeSize}, mikublue},
+		Vertex{ {cubeSize,cubeSize,-cubeSize}, ourple},
+		Vertex{ {cubeSize,-cubeSize,-cubeSize}, black},
 		// Back Face
-		Vertex{ {cubeSize,-cubeSize,cubeSize}, {0.0f, 0.0f, 0.0f, 1.0f} },
-		Vertex{ {cubeSize,cubeSize,cubeSize}, {0.34f, 0.0f, 0.94f, 1.0f} },
-		Vertex{ {-cubeSize,cubeSize,cubeSize}, {0.99f, 0.16f, 0.01f, 1.0f} },
-		Vertex{ {-cubeSize,-cubeSize,cubeSize}, {0.03f, 0.74f, 0.68f, 1.0f} }
+		Vertex{ {cubeSize,-cubeSize,cubeSize}, orange},
+		Vertex{ {cubeSize,cubeSize,cubeSize}, mikublue},
+		Vertex{ {-cubeSize,cubeSize,cubeSize}, ourple},
+		Vertex{ {-cubeSize,-cubeSize,cubeSize}, black}
 	};
 
 	m_vb = device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(Vertex) });
