@@ -4,6 +4,7 @@
 #include <JAZZY/Core/Logger.h>
 #include<JAZZY/Game/Display.h>
 #include <JAZZY/Input/InputSystem.h>
+#include <JAZZY/Cube.h>
 
 jazzy::Game::Game(const GameDesc& desc):
 	Base({*std::make_unique<Logger>(desc.logLevel).release()}),
@@ -33,6 +34,21 @@ void jazzy::Game::onInternalUpdate()
 
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
+
+	// DepthTest
+	// Spawns Cubes
+	if (m_inputSystem->isKeyPressed(KeyCode::Q))
+	{
+		f32 cube_num = m_graphicsEngine->getCubes()->size();
+		Cube newCube({ 0.0f, 0.0f, -4.0f + cube_num }, { 0.75f, 0.75f, 0.75f});
+		m_graphicsEngine->getCubes()->push_back(newCube);
+	}
+	// Spawns Plane
+	if (m_inputSystem->isKeyPressed(KeyCode::E))
+	{
+		Cube newCube({ 0.0f, 0.0f, 0.0f }, { 10.0f, 0.01f, 10.0f });
+		m_graphicsEngine->getCubes()->push_back(newCube);
+	}
 
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }

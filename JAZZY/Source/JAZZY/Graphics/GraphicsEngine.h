@@ -3,9 +3,10 @@
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vec4.h>
+#include <JAZZY/Math/Mat4x4.h>
 #include <vector>
 
-#include <JAZZY/Math/Mat4x4.h>
+#include <JAZZY/Cube.h>
 
 namespace jazzy
 {
@@ -20,6 +21,8 @@ namespace jazzy
 
 		void render(f32 deltaTime, SwapChain& swapChain);
 
+		// DepthTest Method
+		std::vector<Cube>* getCubes();
 	// Debug things
 	private:
 		struct alignas(16) ConstantData
@@ -30,7 +33,7 @@ namespace jazzy
 			f32 m_time;
 		};
 	private:
-		void updateConstantData(f32 deltaTime, ConstantData& data);
+		void updateConstantData(f32 deltaTime, ConstantData& data, ui32 index);
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		DeviceContextPtr m_deviceContext{};
@@ -44,6 +47,9 @@ namespace jazzy
 		f32 rotx{};
 		f32 roty{};
 		f32 rotz{};
+
+		// DepthTest Members
+		std::vector<Cube> cubes;
 
 		// Temporary Camera Object
 		Mat4x4 m_TempWorldCam{};

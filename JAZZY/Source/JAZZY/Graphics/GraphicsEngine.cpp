@@ -4,12 +4,13 @@
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Graphics/VertexBuffer.h>	
 #include <JAZZY/Graphics/IndexBuffer.h>	
+#include "JAZZY/Input/InputSystem.h"
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vertex.h>
 #include <fstream>
 #include <string>
+#include <ranges>
 
-#include "JAZZY/Input/InputSystem.h"
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -141,31 +142,34 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 
 	context.setViewportSize(swapChain.getSize());
 
-	auto& vb = *m_vb;
-	context.setVertexBuffer(vb);
+	for (auto i : std::views::iota(0u, cubes.size()))
+	{
+		auto& vb = *m_vb;
+		context.setVertexBuffer(vb);
 
-	auto& ib = *m_ib;
-	context.setIndexBuffer(ib);
+		auto& ib = *m_ib;
+		context.setIndexBuffer(ib);
 
-	// Constant Buffer
-	// Get the ConstantBuffer,
-	auto& cb = *m_cb;
+		// Constant Buffer
+		// Get the ConstantBuffer,
+		auto& cb = *m_cb;
 
-	// Declare Constant Data
-	ConstantData data{};
+		// Declare Constant Data
+		ConstantData data{};
 
-	// Feed Constant data with updated values
-	updateConstantData(deltaTime, data);
-	//DX3DLogInfo((std::to_string(deltaTime)).c_str());
+		// Feed Constant data with updated values
+		updateConstantData(deltaTime, data, i);
+		//DX3DLogInfo((std::to_string(deltaTime)).c_str());
 
-	// Update it with the data, 
-	context.updateConstantBuffer(cb, &data);
+		// Update it with the data, 
+		context.updateConstantBuffer(cb, &data);
 
-	// then send it to the vertex and pixel shader
-	context.setConstantBuffer(cb);
+		// then send it to the vertex and pixel shader
+		context.setConstantBuffer(cb);
 
-	context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
-	//context.drawTriangleList(vb.getVertexListSize(), 0u);
+		context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
+		//context.drawTriangleList(vb.getVertexListSize(), 0u);
+	}
 
 	auto& device = *m_graphicsDevice;
 	device.executeCommandList(context);
@@ -173,7 +177,7 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 
 }
 
-void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
+void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 index)
 {
 	// Time
 	m_time += deltaTime;
@@ -182,8 +186,8 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 	// World
 	Mat4x4 worldMat{};
 	worldMat = Mat4x4::identity();
-	worldMat = worldMat * Mat4x4::scale(Vec3{1.0f, 1.0f, 1.0f});
-	worldMat = worldMat * Mat4x4::translation(Vec3{ 0.0f, 0.0f, 0.0f });
+	worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
+	worldMat = worldMat * Mat4x4::translation(cubes[index].position);
 	data.m_world = worldMat;
 
 	// View
@@ -201,20 +205,19 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 	f32 speed = 2.5f;
 	if (m_inputSystem->isKeyDown(KeyCode::W)) forward += deltaTime * speed;
 	if (m_inputSystem->isKeyDown(KeyCode::S)) forward -= deltaTime * speed;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) right += deltaTime * speed;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) right -= deltaTime * speed;
+	//if (m_inputSystem->isKeyDown(KeyCode::D)) right += deltaTime * speed;
+	//if (m_inputSystem->isKeyDown(KeyCode::A)) right -= deltaTime * speed;
+
 
 	Vec3 tempWorldCamPos({ m_TempWorldCam.row(3).x, m_TempWorldCam.row(3).y, m_TempWorldCam.row(3).z });
 	Vec3 camForward({ worldCam.row(2).x, worldCam.row(2).y, worldCam.row(2).z });
-	Vec3 camRight({ worldCam.row(0).x, worldCam.row(0).y, worldCam.row(0).z });
-	camRight *= right;
+	//Vec3 camRight({ worldCam.row(0).x, worldCam.row(0).y, worldCam.row(0).z });
+	//camRight *= right;
 
 	Vec3 newPos = tempWorldCamPos + camForward * forward;
-	newPos += camRight;
+	//newPos += camRight;
 	worldCam = worldCam * Mat4x4::translation(newPos);
-
 	//worldCam = worldCam * Mat4x4::translation(Vec3{ 0.0f, 0.0f, -2.0f });
-
 	worldCam = Mat4x4::inverse(worldCam);
 
 	data.m_view = worldCam;
@@ -244,4 +247,9 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data)
 		0.1f,
 		100.0f
 	);
+}
+
+std::vector<Cube>* GraphicsEngine::getCubes()
+{
+	return &cubes;
 }
