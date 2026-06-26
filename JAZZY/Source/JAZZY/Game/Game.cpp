@@ -20,16 +20,6 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<f32> distrib(-15, 15);
-	for (auto i : std::views::iota(0u, 50u))
-	{
-		Cube newCube({ (f32)distrib(gen), (f32)distrib(gen), -2.0f }, { 0.75f, 0.75f, 0.75f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
-
-
 	DX3DLogInfo("Game initialized.");
 }
 
