@@ -194,6 +194,9 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 
 	Mat4x4 worldMat{};
 	worldMat = Mat4x4::identity();
 	worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
+	worldMat = worldMat * Mat4x4::rotateX(cubes[index].rotation.x);
+	worldMat = worldMat * Mat4x4::rotateY(cubes[index].rotation.y);
+	worldMat = worldMat * Mat4x4::rotateZ(cubes[index].rotation.z);
 	worldMat = worldMat * Mat4x4::translation(cubes[index].position);
 	data.m_world = worldMat;
 

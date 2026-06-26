@@ -21,15 +21,43 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_previousTime = std::chrono::steady_clock::now();
 
 	// Plane
-	f32 scale = 0.80;
-	Cube plane({ 0.0f, 0.0f, 0.0f }, { 5.0f, 0.01f, 5.0f });
-	Cube cube1({ 0.0f, 1.0f, 0.0f }, { scale, scale, scale });
-	Cube cube2({ 2.0f, 2.0f, 0.0f }, { scale, scale, scale });
-	Cube cube3({ 2.0f, 3.0f, 2.0f }, { scale, scale, scale });
-	m_graphicsEngine->getCubes()->push_back(plane);
-	m_graphicsEngine->getCubes()->push_back(cube1);
-	m_graphicsEngine->getCubes()->push_back(cube2);
-	m_graphicsEngine->getCubes()->push_back(cube3);
+	Vec3 scale(2.5, 3.5, 0.001);
+	Vec3 scale2(2.5, 0.001, 3.5);
+	Vec3 rotation(0.0f, 0.0f, 0.0f);
+	f32 angle = 0.44f;
+	Vec3 rotation1(angle, 0.0f, 0.0f);
+	Vec3 rotation2(-angle, 0.0f, 0.0f);
+	Cube plane1	({ 0.0f, 0.0f, -6.0f }, scale, rotation1);
+	Cube plane2	({ 0.0f, 0.0f, -3.0f }, scale, rotation2);
+	Cube plane3({ 0.0f, 0.0f, 0.0f }, scale, rotation1);
+	Cube plane4({ 0.0f, 0.0f, 3.0f }, scale, rotation2);
+	Cube plane5({ 0.0f, 0.0f, 6.0f }, scale, rotation1);
+	Cube plane6({ 0.0f, 0.0f, 9.0f }, scale, rotation2);
+	Cube plane7({ 0.0f, 4*3.16f, 0.0f }, scale, rotation1);
+	Cube plane8({ 0.0f, 4*3.16f, 3.0f }, scale, rotation2);
+	Cube plane9({ 0.0f, 2*3.16f, -3.0f }, scale, rotation1);
+	Cube plane10({ 0.0f, 2*3.16f, 0.0f }, scale, rotation2);
+	Cube plane11({ 0.0f, 2*3.16f, 3.0f }, scale, rotation1);
+	Cube plane12({ 0.0f, 2*3.16f, 6.0f }, scale, rotation2);
+	Cube plane13({ 0.0f, 3.16f, -1.5f }, scale2, rotation);
+	Cube plane14({ 0.0f, 3.16f, 4.5f }, scale2, rotation);
+	Cube plane15({ 0.0f, 3*3.16f, 1.5f }, scale2, rotation);
+
+	m_graphicsEngine->getCubes()->push_back(plane1);
+	m_graphicsEngine->getCubes()->push_back(plane2);
+	m_graphicsEngine->getCubes()->push_back(plane3);
+	m_graphicsEngine->getCubes()->push_back(plane4);
+	m_graphicsEngine->getCubes()->push_back(plane5);
+	m_graphicsEngine->getCubes()->push_back(plane6);
+	m_graphicsEngine->getCubes()->push_back(plane7);
+	m_graphicsEngine->getCubes()->push_back(plane8);
+	m_graphicsEngine->getCubes()->push_back(plane9);
+	m_graphicsEngine->getCubes()->push_back(plane10);
+	m_graphicsEngine->getCubes()->push_back(plane11);
+	m_graphicsEngine->getCubes()->push_back(plane12);
+	m_graphicsEngine->getCubes()->push_back(plane13);
+	m_graphicsEngine->getCubes()->push_back(plane14);
+	m_graphicsEngine->getCubes()->push_back(plane15);
 
 	DX3DLogInfo("Game initialized.");
 }
@@ -48,21 +76,6 @@ void jazzy::Game::onInternalUpdate()
 
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
-
-	// DepthTest
-	// Spawns Cubes
-	if (m_inputSystem->isKeyPressed(KeyCode::Q))
-	{
-		f32 cube_num = m_graphicsEngine->getCubes()->size();
-		Cube newCube({ 0.0f, 0.0f, -2.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
-	// Spawns Plane
-	if (m_inputSystem->isKeyPressed(KeyCode::E))
-	{
-		Cube newCube({ 0.0f, 0.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
 
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }
