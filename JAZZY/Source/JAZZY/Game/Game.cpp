@@ -20,6 +20,17 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
+	// Plane
+	f32 scale = 0.80;
+	Cube plane({ 0.0f, 0.0f, 0.0f }, { 5.0f, 0.01f, 5.0f });
+	Cube cube1({ 0.0f, 1.0f, 0.0f }, { scale, scale, scale });
+	Cube cube2({ 2.0f, 2.0f, 0.0f }, { scale, scale, scale });
+	Cube cube3({ 2.0f, 3.0f, 2.0f }, { scale, scale, scale });
+	m_graphicsEngine->getCubes()->push_back(plane);
+	m_graphicsEngine->getCubes()->push_back(cube1);
+	m_graphicsEngine->getCubes()->push_back(cube2);
+	m_graphicsEngine->getCubes()->push_back(cube3);
+
 	DX3DLogInfo("Game initialized.");
 }
 
