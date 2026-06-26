@@ -76,8 +76,8 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	*/
 
 	// Vertex Buffer
-	f32 cubeSize = 0.25f;
-	Vec4 orange(0.99f, 0.20f, 0.0f, 1.0f);
+	f32 cubeSize = 1.0f;
+	Vec4 orange(0.99f, 0.16f, 0.01f, 1.0f);
 	Vec4 mikublue(0.03f, 0.74f, 0.68f, 1.0f);
 	Vec4 ourple(0.34f, 0.0f, 0.94f, 1.0f);
 	Vec4 black(0.0f, 0.0f, 0.0f, 1.0f);
@@ -193,6 +193,9 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 
 	// World
 	Mat4x4 worldMat{};
 	worldMat = Mat4x4::identity();
+	worldMat = worldMat * Mat4x4::rotateX(data.m_time);
+	worldMat = worldMat * Mat4x4::rotateY(data.m_time);
+	worldMat = worldMat * Mat4x4::rotateZ(data.m_time);
 	worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
 	worldMat = worldMat * Mat4x4::translation(cubes[index].position);
 	data.m_world = worldMat;
