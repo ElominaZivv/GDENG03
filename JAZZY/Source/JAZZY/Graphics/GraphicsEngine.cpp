@@ -193,11 +193,12 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 
 	// World
 	Mat4x4 worldMat{};
 	worldMat = Mat4x4::identity();
-	worldMat = worldMat * Mat4x4::rotateX(data.m_time);
-	worldMat = worldMat * Mat4x4::rotateY(data.m_time);
-	worldMat = worldMat * Mat4x4::rotateZ(data.m_time);
-	worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
-	worldMat = worldMat * Mat4x4::translation(cubes[index].position);
+	f32 scale = std::lerp(1.0f, 0.25f, (sin(m_time) + 1.0f) / 2.0f);
+	worldMat = worldMat * Mat4x4::scale(Vec3(scale, scale, scale));
+	//worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
+	f32 position = std::lerp(0.0f, 1.0f, (sin(m_time) + 1.0f) / 2.0f);
+	worldMat = worldMat * Mat4x4::translation(Vec3(position, position, 0.0f));
+	//worldMat = worldMat * Mat4x4::translation(cubes[index].position);
 	data.m_world = worldMat;
 
 	// View
