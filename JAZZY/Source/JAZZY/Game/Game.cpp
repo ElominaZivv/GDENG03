@@ -40,7 +40,7 @@ void jazzy::Game::onInternalUpdate()
 	if (m_inputSystem->isKeyPressed(KeyCode::Q))
 	{
 		f32 cube_num = m_graphicsEngine->getCubes()->size();
-		Cube newCube({ 0.0f, 0.0f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
+		Cube newCube({ 0.0f, 0.0f, -2.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
 		m_graphicsEngine->getCubes()->push_back(newCube);
 	}
 	// Spawns Plane
