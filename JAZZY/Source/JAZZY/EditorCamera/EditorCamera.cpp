@@ -14,6 +14,11 @@ void EditorCamera::update()
 	if (m_inputSystem->isKeyDown(KeyCode::E)) m_projection = Projection::ORTHOGRAPHIC;
 }
 
+void EditorCamera::setDisplayRect(Rect _rect)
+{
+	m_displayRect = _rect;
+}
+
 Mat4x4 EditorCamera::getViewMat()
 {
 	return Mat4x4::inverse(m_viewMat) ;
@@ -21,17 +26,13 @@ Mat4x4 EditorCamera::getViewMat()
 
 Mat4x4 EditorCamera::getOrthographicViewMat()
 {
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
-
 	Mat4x4 out{};
-
 	out = Mat4x4::orthoLH
 	(
 		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window
 		// Moreover, you can also update the Rect size{} by using the Window msg to check whenever the size is changed and update the Rect size accordingly
-		zzWindowDisplayWidth / 400.0f,
-		zzWindowDisplayHeight / 400.0f,
+		m_displayRect.width / 400.0f,
+		m_displayRect.height / 400.0f,
 		-4.0f,
 		4.0f
 	);
@@ -40,14 +41,11 @@ Mat4x4 EditorCamera::getOrthographicViewMat()
 
 Mat4x4 EditorCamera::getPerspectiveViewMat()
 {
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
-
 	Mat4x4 out{};
 	out = Mat4x4::perspectiveFovLH
 	(
 		1.57f,
-		(f32)zzWindowDisplayWidth / (f32)zzWindowDisplayHeight,
+		m_displayRect.width / m_displayRect.height,
 		0.1f,
 		100.0f
 	);

@@ -17,6 +17,7 @@ namespace jazzy
 	public:
 		EditorCamera(const EditorCameraDesc& desc);
 		void update();
+		void setDisplayRect(Rect _rect);
 		Mat4x4 getViewMat();
 		Mat4x4 getProjectionViewMat();
 	public:
@@ -26,6 +27,7 @@ namespace jazzy
 		Mat4x4 getPerspectiveViewMat();
 	private:
 		Mat4x4 m_viewMat{};
+		Rect m_displayRect{};
 		InputSystemPtr m_inputSystem{};
 	};
 }

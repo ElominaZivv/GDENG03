@@ -42,14 +42,21 @@ jazzy::Game::~Game()
 
 void jazzy::Game::onInternalUpdate()
 {
+	// Time
 	auto currentTime = std::chrono::steady_clock::now();
 	std::chrono::duration<f32> delta = currentTime - m_previousTime;
 	m_previousTime = currentTime;
 	auto deltaTime = delta.count();
 
+	// Input System
+	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
+
+	// Editor Camera
+	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update();
 
+	// Graphics Engine
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }

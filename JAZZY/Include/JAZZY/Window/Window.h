@@ -10,6 +10,8 @@ namespace jazzy
 		explicit Window(const WindowDesc& desc);
 		virtual ~Window() override;
 
+		Rect getClientAreaInScreenSpace();
+
 	protected:
 		void* m_handle{};
 		Rect m_size{};
