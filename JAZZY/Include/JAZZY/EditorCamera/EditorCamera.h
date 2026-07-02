@@ -36,8 +36,11 @@ namespace jazzy
 		// Controls
 		Mat4x4 m_worldCam{};
 		f32 m_forward = 0.0f;
+		f32 m_right = 0.0f;
+		f32 m_up = 0.0f;
 
 		f32 m_moveSpeed = 5.0f;
+		f32 m_fasterMoveSpeed = m_moveSpeed * 2.0f;
 		f32 m_sensitivity = 1.0f;
 		f32 m_rotX = 0.0f;
 		f32 m_rotY = 0.0f;
