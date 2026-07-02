@@ -49,6 +49,7 @@ void jazzy::Game::onInternalUpdate()
 
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
+	m_editorCamera->update();
 
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }

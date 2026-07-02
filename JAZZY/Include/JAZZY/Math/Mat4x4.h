@@ -3,6 +3,7 @@
 #include <cmath>
 #include <JAZZY/Core/Core.h>
 #include <JAZZY/Math/Vec3.h>
+#include <JAZZY/Math/Vec4.h>
 #include <JAZZY/Math/MathUtils.h>
 
 namespace jazzy

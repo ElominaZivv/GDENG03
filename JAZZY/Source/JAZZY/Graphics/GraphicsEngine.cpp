@@ -11,6 +11,8 @@
 #include <string>
 #include <ranges>
 
+#include "JAZZY/EditorCamera/EditorCamera.h"
+
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -195,34 +197,13 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 
 
 	// View
 	Mat4x4 worldCam{};
-	worldCam = Mat4x4::identity(); // Get the editorCamera Matrix for this
+	worldCam = m_editorCamera->getViewMat(); // Get the editorCamera Matrix for this
 	data.m_view = worldCam;
 
-	// Orthographic View
-	/*
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
-	data.m_projection = Mat4x4::orthoLH
-	(	
-		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window
-		// Moreover, you can also update the Rect size{} by using the Window msg to check whenever the size is changed and update the Rect size accordingly
-		zzWindowDisplayWidth / 400.0f,
-		zzWindowDisplayHeight / 400.0f,
-		-4.0f,
-		4.0f
-	);
-	*/
-
-	// Perspective View
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
-	data.m_projection = Mat4x4::perspectiveFovLH
-	(
-		1.57f,
-		(f32)zzWindowDisplayWidth / (f32)zzWindowDisplayHeight,
-		0.1f,
-		100.0f
-	);
+	// Projection View
+	Mat4x4 projection{};
+	projection = m_editorCamera->getProjectionViewMat();
+	data.m_projection = projection;
 }
 
 std::vector<Cube>* GraphicsEngine::getCubes()
