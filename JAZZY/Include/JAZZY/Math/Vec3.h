@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <JAZZY/Core/Core.h>
 
 namespace jazzy
@@ -24,7 +25,22 @@ namespace jazzy
 			z *= scalar;
 			return *this;
 		}
-	public:
+
+		static Vec3 normalize(const Vec3& v)
+		{
+			float lenSq = v.x * v.x + v.y * v.y + v.z * v.z;
+
+			if (lenSq == 0.0f) return Vec3{ 0.0f, 0.0f, 0.0f };
+
+			float invLen = 1.0f / std::sqrt(lenSq);
+
+			return Vec3{
+				v.x * invLen,
+				v.y * invLen,
+				v.z * invLen
+			};
+		}
+	public:	
 		f32 x{}, y{}, z{};
 	};
 

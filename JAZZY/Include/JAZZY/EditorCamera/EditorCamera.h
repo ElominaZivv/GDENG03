@@ -16,7 +16,7 @@ namespace jazzy
 
 	public:
 		EditorCamera(const EditorCameraDesc& desc);
-		void update();
+		void update(f32 _deltaTime);
 		void setDisplayRect(Rect _rect);
 		Mat4x4 getViewMat();
 		Mat4x4 getProjectionViewMat();
@@ -25,6 +25,7 @@ namespace jazzy
 	private:
 		Mat4x4 getOrthographicViewMat();
 		Mat4x4 getPerspectiveViewMat();
+		void updatePosition(f32 _deltaTime);
 	private:
 		Mat4x4 m_viewMat{};
 		Rect m_viewportSize{};
@@ -32,6 +33,9 @@ namespace jazzy
 		f32 m_zNear = 0.01f;
 		f32 m_zFar = 100.0f;
 		InputSystemPtr m_inputSystem{};
+
+		f32 m_moveSpeed = 5.0f;
+		Vec3 m_velocity{};
 	};
 }
 

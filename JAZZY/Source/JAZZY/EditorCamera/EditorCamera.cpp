@@ -8,10 +8,16 @@ EditorCamera::EditorCamera(const EditorCameraDesc& desc): Base(desc.base), m_inp
 	m_viewMat = Mat4x4::identity();
 }
 
-void EditorCamera::update()
+void EditorCamera::update(f32 _deltaTime)
 {
 	if (m_inputSystem->isKeyPressed(KeyCode::Q)) m_projection = Projection::PERSPECTIVE;
 	if (m_inputSystem->isKeyPressed(KeyCode::E)) m_projection = Projection::ORTHOGRAPHIC;
+
+	if (m_inputSystem->isKeyDown(KeyCode::W)) m_velocity.z = 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::S)) m_velocity.z = -1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::D)) m_velocity.x = 1.0f;
+	if (m_inputSystem->isKeyDown(KeyCode::A)) m_velocity.x = -1.0f;
+	updatePosition(_deltaTime);
 }
 
 void EditorCamera::setDisplayRect(Rect _rect)
@@ -51,6 +57,12 @@ Mat4x4 EditorCamera::getPerspectiveViewMat()
 		m_zFar
 	);
 	return out;
+}
+
+void EditorCamera::updatePosition(f32 _deltaTime)
+{
+	m_viewMat = m_viewMat * Mat4x4::translation(Vec3::normalize(m_velocity) * m_moveSpeed * _deltaTime);
+	m_velocity = {0.0f, 0.0f, 0.0f};
 }
 
 

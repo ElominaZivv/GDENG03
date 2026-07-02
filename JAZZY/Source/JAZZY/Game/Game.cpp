@@ -55,7 +55,7 @@ void jazzy::Game::onInternalUpdate()
 
 	// Editor Camera
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
-	m_editorCamera->update();
+	m_editorCamera->update(deltaTime);
 
 	// Graphics Engine
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
