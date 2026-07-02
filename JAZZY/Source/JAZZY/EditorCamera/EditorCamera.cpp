@@ -13,11 +13,19 @@ void EditorCamera::update(f32 _deltaTime)
 	if (m_inputSystem->isKeyPressed(KeyCode::Q)) m_projection = Projection::PERSPECTIVE;
 	if (m_inputSystem->isKeyPressed(KeyCode::E)) m_projection = Projection::ORTHOGRAPHIC;
 
-	if (m_inputSystem->isKeyDown(KeyCode::W)) m_velocity.z = 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) m_velocity.z = -1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) m_velocity.x = 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) m_velocity.x = -1.0f;
-	updatePosition(_deltaTime);
+	if (m_inputSystem->isKeyDown(KeyCode::W)) m_forward += m_moveSpeed * _deltaTime;
+	if (m_inputSystem->isKeyDown(KeyCode::S)) m_forward -= m_moveSpeed * _deltaTime;
+
+	Mat4x4 world_cam{};
+	world_cam = Mat4x4::identity();
+
+	m_rotX += m_inputSystem->getMouseDelta().y * m_sensitivity * _deltaTime;
+	world_cam = world_cam * Mat4x4::rotateX(m_rotX);
+
+	m_rotY += m_inputSystem->getMouseDelta().x * m_sensitivity * _deltaTime;
+	world_cam = world_cam * Mat4x4::rotateY(m_rotY);
+
+	m_viewMat = world_cam;
 }
 
 void EditorCamera::setDisplayRect(Rect _rect)
@@ -58,13 +66,6 @@ Mat4x4 EditorCamera::getPerspectiveViewMat()
 	);
 	return out;
 }
-
-void EditorCamera::updatePosition(f32 _deltaTime)
-{
-	m_viewMat = m_viewMat * Mat4x4::translation(Vec3::normalize(m_velocity) * m_moveSpeed * _deltaTime);
-	m_velocity = {0.0f, 0.0f, 0.0f};
-}
-
 
 Mat4x4 EditorCamera::getProjectionViewMat()
 {

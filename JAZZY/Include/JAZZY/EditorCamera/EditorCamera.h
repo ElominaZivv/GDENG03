@@ -25,7 +25,6 @@ namespace jazzy
 	private:
 		Mat4x4 getOrthographicViewMat();
 		Mat4x4 getPerspectiveViewMat();
-		void updatePosition(f32 _deltaTime);
 	private:
 		Mat4x4 m_viewMat{};
 		Rect m_viewportSize{};
@@ -34,8 +33,14 @@ namespace jazzy
 		f32 m_zFar = 100.0f;
 		InputSystemPtr m_inputSystem{};
 
+		// Controls
+		Mat4x4 m_worldCam{};
+		f32 m_forward = 0.0f;
+
 		f32 m_moveSpeed = 5.0f;
-		Vec3 m_velocity{};
+		f32 m_sensitivity = 1.0f;
+		f32 m_rotX = 0.0f;
+		f32 m_rotY = 0.0f;
 	};
 }
 

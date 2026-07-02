@@ -54,6 +54,8 @@ void jazzy::Game::onInternalUpdate()
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
 
 	// Editor Camera
+	m_inputSystem->setCursorLocked(true);
+	m_inputSystem->setCursorVisible(true);
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 
