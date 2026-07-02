@@ -13,4 +13,9 @@ namespace jazzy
 	public:
 		i32 left{}, top{}, width{}, height{};
 	};
+
+	inline bool operator == (Rect lhs, Rect& rhs)
+	{
+		return lhs.left == rhs.left && lhs.top == rhs.top && lhs.width == rhs.width && lhs.height == rhs.height;
+	}
 }

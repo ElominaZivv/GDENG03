@@ -10,13 +10,14 @@ EditorCamera::EditorCamera(const EditorCameraDesc& desc): Base(desc.base), m_inp
 
 void EditorCamera::update()
 {
-	if (m_inputSystem->isKeyDown(KeyCode::Q)) m_projection = Projection::PERSPECTIVE;
-	if (m_inputSystem->isKeyDown(KeyCode::E)) m_projection = Projection::ORTHOGRAPHIC;
+	if (m_inputSystem->isKeyPressed(KeyCode::Q)) m_projection = Projection::PERSPECTIVE;
+	if (m_inputSystem->isKeyPressed(KeyCode::E)) m_projection = Projection::ORTHOGRAPHIC;
 }
 
 void EditorCamera::setDisplayRect(Rect _rect)
 {
-	m_displayRect = _rect;
+	if (m_viewportSize == _rect) return;
+	m_viewportSize = _rect;
 }
 
 Mat4x4 EditorCamera::getViewMat()
@@ -31,8 +32,8 @@ Mat4x4 EditorCamera::getOrthographicViewMat()
 	(
 		// Instead of hardcoding the resolution, find a way to access the Rect size{} of the window
 		// Moreover, you can also update the Rect size{} by using the Window msg to check whenever the size is changed and update the Rect size accordingly
-		m_displayRect.width / 400.0f,
-		m_displayRect.height / 400.0f,
+		(f32)m_viewportSize.width / 400.0f,
+		(f32)m_viewportSize.height / 400.0f,
 		-4.0f,
 		4.0f
 	);
@@ -44,10 +45,10 @@ Mat4x4 EditorCamera::getPerspectiveViewMat()
 	Mat4x4 out{};
 	out = Mat4x4::perspectiveFovLH
 	(
-		1.57f,
-		m_displayRect.width / m_displayRect.height,
-		0.1f,
-		100.0f
+		m_fov,
+		(f32)m_viewportSize.width / (f32)m_viewportSize.height,
+		m_zNear,
+		m_zFar
 	);
 	return out;
 }
@@ -67,6 +68,8 @@ Mat4x4 EditorCamera::getProjectionViewMat()
 	case Projection::PERSPECTIVE:
 		out = getPerspectiveViewMat();
 		break;
+	default:
+		out = Mat4x4::identity();
 	}
 	return out;
 }
