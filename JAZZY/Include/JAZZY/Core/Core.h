@@ -21,6 +21,7 @@ namespace jazzy
 	class ConstantBuffer;
 	class IndexBuffer;
 	class InputSystem;
+	class EditorCamera;
 
 	using i32 = int;
 	using ui32 = unsigned int;
@@ -36,4 +37,5 @@ namespace jazzy
 	using ConstantBufferPtr = std::shared_ptr<ConstantBuffer>;
 	using IndexBufferPtr = std::shared_ptr<IndexBuffer>;
 	using InputSystemPtr = std::shared_ptr<InputSystem>;
+	using EditorCameraPtr = std::shared_ptr<EditorCamera>;
 }

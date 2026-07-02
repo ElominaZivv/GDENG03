@@ -43,17 +43,11 @@ namespace jazzy
 		IndexBufferPtr m_ib{};
 		// TEMPORARY DEPENDENCY FOR DEBUGGING
 		f32 m_time{0.0f};
-		InputSystemPtr m_inputSystem{};
-		f32 rotx{};
-		f32 roty{};
-		f32 rotz{};
+
+		// EditorCamera
+		EditorCameraPtr m_editorCamera{};
 
 		// DepthTest Members
 		std::vector<Cube> cubes;
-
-		// Temporary Camera Object
-		Mat4x4 m_TempWorldCam{};
-		f32 forward{-2.0f};
-		f32 right{};
 	};
 }

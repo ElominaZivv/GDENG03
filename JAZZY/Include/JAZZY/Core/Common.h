@@ -25,8 +25,7 @@ namespace jazzy
 	struct GraphicsEngineDesc
 	{
 		BaseDesc base;
-		// TEMPORARY DEPENDENCY FOR DEBUGGING
-		InputSystemPtr& inputSystem;
+		EditorCameraPtr& editorCamera;
 	};
 
 	struct GraphicsDeviceDesc
@@ -143,5 +142,11 @@ namespace jazzy
 	struct InputSystemDesc
 	{
 		BaseDesc base;
+	};
+
+	struct EditorCameraDesc
+	{
+		BaseDesc base;
+		InputSystemPtr& inputSystem;
 	};
 }

@@ -150,6 +150,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Cube.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderBinary.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexBuffer.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\EditorCamera\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">

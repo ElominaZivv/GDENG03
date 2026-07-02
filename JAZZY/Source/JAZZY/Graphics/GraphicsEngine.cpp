@@ -124,9 +124,8 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	// Constant Buffer
 	m_cb = device.createConstantBuffer({ {}, sizeof(ConstantData) });
 
-	// TEMPORARY DEPENDECY FOR DEBUGGING
-	m_inputSystem = desc.inputSystem;
-	m_TempWorldCam = Mat4x4::translation(Vec3(0.0f, 0.0f, -2.0f));
+	// Editor Camera
+	m_editorCamera = desc.editorCamera;
 }
 
 jazzy::GraphicsEngine::~GraphicsEngine()
@@ -196,34 +195,7 @@ void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 
 
 	// View
 	Mat4x4 worldCam{};
-	worldCam = Mat4x4::identity();
-
-	m_inputSystem->setCursorLocked(true);
-	rotx += m_inputSystem->getMouseDelta().y;
-	roty += m_inputSystem->getMouseDelta().x;
-
-	worldCam = worldCam * Mat4x4::rotateX(rotx / 100.0f);
-	worldCam = worldCam * Mat4x4::rotateY(roty / 100.0f);
-	worldCam = worldCam * Mat4x4::rotateZ(rotz / 100.0f);
-
-	f32 speed = 2.5f;
-	if (m_inputSystem->isKeyDown(KeyCode::W)) forward += deltaTime * speed;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) forward -= deltaTime * speed;
-	//if (m_inputSystem->isKeyDown(KeyCode::D)) right += deltaTime * speed;
-	//if (m_inputSystem->isKeyDown(KeyCode::A)) right -= deltaTime * speed;
-
-
-	Vec3 tempWorldCamPos({ m_TempWorldCam.row(3).x, m_TempWorldCam.row(3).y, m_TempWorldCam.row(3).z });
-	Vec3 camForward({ worldCam.row(2).x, worldCam.row(2).y, worldCam.row(2).z });
-	//Vec3 camRight({ worldCam.row(0).x, worldCam.row(0).y, worldCam.row(0).z });
-	//camRight *= right;
-
-	Vec3 newPos = tempWorldCamPos + camForward * forward;
-	//newPos += camRight;
-	worldCam = worldCam * Mat4x4::translation(newPos);
-	//worldCam = worldCam * Mat4x4::translation(Vec3{ 0.0f, 0.0f, -2.0f });
-	worldCam = Mat4x4::inverse(worldCam);
-
+	worldCam = Mat4x4::identity(); // Get the editorCamera Matrix for this
 	data.m_view = worldCam;
 
 	// Orthographic View

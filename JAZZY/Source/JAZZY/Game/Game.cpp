@@ -1,3 +1,4 @@
+#include <ranges>
 #include <JAZZY/Game/Game.h>
 #include <JAZZY/Window/Window.h>
 #include <JAZZY/Graphics/GraphicsEngine.h>
@@ -6,16 +7,30 @@
 #include <JAZZY/Input/InputSystem.h>
 #include <JAZZY/Cube.h>
 
+#include "JAZZY/EditorCamera/EditorCamera.h"
+
 jazzy::Game::Game(const GameDesc& desc):
 	Base({*std::make_unique<Logger>(desc.logLevel).release()}),
 	m_LoggerPtr(&m_logger)
 {
 	m_inputSystem = std::make_shared<InputSystem>(InputSystemDesc{ m_logger });
 	m_inputSystem->setCursorLockArea(desc.windowSize);
-	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_inputSystem});
+	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ m_logger , m_inputSystem });
+	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_editorCamera});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
 
 	m_previousTime = std::chrono::steady_clock::now();
+
+	// Spawn plane
+	Cube newPlane({ 0.0f, -1.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
+	m_graphicsEngine->getCubes()->push_back(newPlane);
+	// Spawn a few cubes into the scene
+	for (auto i : std::views::iota(0u, 10u))
+	{
+		f32 cube_num = m_graphicsEngine->getCubes()->size();
+		Cube newCube({ 1.0f, -0.25f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
+		m_graphicsEngine->getCubes()->push_back(newCube);
+	}
 
 	DX3DLogInfo("Game initialized.");
 }
@@ -34,21 +49,6 @@ void jazzy::Game::onInternalUpdate()
 
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
-
-	// DepthTest
-	// Spawns Cubes
-	if (m_inputSystem->isKeyPressed(KeyCode::Q))
-	{
-		f32 cube_num = m_graphicsEngine->getCubes()->size();
-		Cube newCube({ 0.0f, 0.0f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
-	// Spawns Plane
-	if (m_inputSystem->isKeyPressed(KeyCode::E))
-	{
-		Cube newCube({ 0.0f, 0.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
 
 	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
 }

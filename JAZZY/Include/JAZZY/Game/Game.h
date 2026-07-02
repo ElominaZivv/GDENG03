@@ -19,6 +19,7 @@ namespace jazzy
 		// The order is important. What gets initialized and deallocated is based on a stack
 		// GraphicsEngine is initialized first and the window last. When deallocated, the window is first, graphics engine last
 		std::unique_ptr<Logger> m_LoggerPtr{};
+		EditorCameraPtr m_editorCamera{};
 		std::unique_ptr<GraphicsEngine> m_graphicsEngine{};
 		std::unique_ptr<Display> m_display{};
 		InputSystemPtr m_inputSystem{};
