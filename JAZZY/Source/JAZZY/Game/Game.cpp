@@ -50,6 +50,7 @@ void jazzy::Game::onInternalUpdate()
 
 	// Input System
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
+	m_inputSystem->setCursorVisible(false);
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
 

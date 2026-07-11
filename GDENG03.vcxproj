@@ -153,6 +153,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Core\Identifiable.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Cube.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\MathUtils.h" />

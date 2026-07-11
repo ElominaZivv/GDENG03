@@ -170,6 +170,9 @@
     <ClInclude Include="JAZZY\Include\JAZZY\EditorCamera\EditorCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Core\Identifiable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl" />
