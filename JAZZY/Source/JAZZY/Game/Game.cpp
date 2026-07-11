@@ -8,6 +8,7 @@
 #include <JAZZY/Cube.h>
 
 #include "JAZZY/EditorCamera/EditorCamera.h"
+#include "JAZZY/Game/GameObject.h"
 
 jazzy::Game::Game(const GameDesc& desc):
 	Base({*std::make_unique<Logger>(desc.logLevel).release()}),
@@ -31,6 +32,8 @@ jazzy::Game::Game(const GameDesc& desc):
 		Cube newCube({ 1.0f, -0.25f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
 		m_graphicsEngine->getCubes()->push_back(newCube);
 	}
+
+	GameObject test(GameObjectDesc{ m_logger, GameContext(*m_inputSystem) });
 
 	DX3DLogInfo("Game initialized.");
 }

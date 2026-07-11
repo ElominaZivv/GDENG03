@@ -144,9 +144,21 @@ namespace jazzy
 		BaseDesc base;
 	};
 
+
 	struct EditorCameraDesc
 	{
 		BaseDesc base;
 		InputSystemPtr& inputSystem;
+	};
+
+	struct GameContext
+	{
+		InputSystem& input;
+	};
+
+	struct GameObjectDesc
+	{
+		BaseDesc base;
+		GameContext gameContext;
 	};
 }

@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\GameObject.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Cube.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Game\GameObject.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Identifiable.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Cube.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
