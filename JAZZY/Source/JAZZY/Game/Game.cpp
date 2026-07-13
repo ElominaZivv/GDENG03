@@ -5,6 +5,7 @@
 #include <JAZZY/Core/Logger.h>
 #include<JAZZY/Game/Display.h>
 #include <JAZZY/Input/InputSystem.h>
+#include <JAZZY/Game/World.h>
 #include <JAZZY/Cube.h>
 
 #include "JAZZY/EditorCamera/EditorCamera.h"
@@ -19,6 +20,7 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ m_logger , m_inputSystem });
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_editorCamera});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{m_logger}, GameContext{*m_inputSystem} });
 
 	m_previousTime = std::chrono::steady_clock::now();
 
@@ -54,6 +56,9 @@ void jazzy::Game::onInternalUpdate()
 	m_inputSystem->setCursorVisible(false);
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
+
+	// World
+	m_world->update(deltaTime);
 
 	// Editor Camera
 	m_inputSystem->setCursorLocked(true);

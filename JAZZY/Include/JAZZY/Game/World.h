@@ -23,7 +23,6 @@ namespace jazzy
 		}
 
 		void update(f32 deltaTime);
-
 	private:
 		enum class EventType
 		{

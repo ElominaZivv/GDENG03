@@ -4,6 +4,10 @@ jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc
 {
 }
 
+void jazzy::World::update(f32 deltaTime)
+{
+}
+
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)
 {
 	if (!object) return{};
