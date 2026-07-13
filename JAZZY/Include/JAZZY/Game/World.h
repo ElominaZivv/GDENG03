@@ -1,12 +1,13 @@
 #pragma once
-#include <JAZZY/Core/Base.h>
 #include <JAZZY/Core/Common.h>
-#include <JAZZY/Core/Core.h>
-#include <JAZZY/Game/GameObject.h>
+#include <JAZZY/Core/Base.h>
+#include <JAZZY/Core/Identifiable.h>
+#include <unordered_map>
+#include <vector>
 
 namespace jazzy
 {
-	class World final : public jazzy::Base
+	class World final : public Base
 	{
 	public:
 		explicit World(const WorldDesc& desc);
@@ -38,11 +39,16 @@ namespace jazzy
 	private:
 		GameObject* createGameObjectInternal(UniquePtr<GameObject>& object);
 
-
 	private:
 		GameContext m_gameContext;
 
+		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};
+
 		std::vector<UniquePtr<GameObject>> m_pendingObjects;
+		std::vector<UniquePtr<GameObject>> m_pendingObjectSwapBuffer;
 		std::vector<GameObjectEvents> m_events{};
+		std::vector<GameObjectEvents> m_eventsSwapBuffer{};
+	
+		friend class GameObject;
 	};
 }

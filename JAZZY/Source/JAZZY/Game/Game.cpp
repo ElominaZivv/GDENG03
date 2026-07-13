@@ -24,6 +24,8 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
+	m_world->createGameObject<jazzy::GameObject>();
+
 	// Spawn plane
 	Cube newPlane({ 0.0f, -1.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
 	m_graphicsEngine->getCubes()->push_back(newPlane);
@@ -52,17 +54,16 @@ void jazzy::Game::onInternalUpdate()
 	auto deltaTime = delta.count();
 
 	// Input System
-	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
-	m_inputSystem->setCursorVisible(false);
 	m_inputSystem->update();
-	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;
+	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;	// Close the program
 
 	// World
 	m_world->update(deltaTime);
 
 	// Editor Camera
+	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
 	m_inputSystem->setCursorLocked(true);
-	m_inputSystem->setCursorVisible(true);
+	m_inputSystem->setCursorVisible(false);
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 

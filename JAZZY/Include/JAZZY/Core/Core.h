@@ -29,6 +29,7 @@ namespace jazzy
 	class IndexBuffer;
 	class InputSystem;
 	class EditorCamera;
+	class GameObject;
 	class World;
 
 	using i32 = int;

@@ -22,6 +22,8 @@ namespace jazzy
 
 	private:
 		GameContext m_gameContext;
+
+		friend class World;
 	};
 }
 
