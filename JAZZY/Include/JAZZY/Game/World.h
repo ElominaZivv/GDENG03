@@ -2,6 +2,7 @@
 #include <JAZZY/Core/Common.h>
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Core/Identifiable.h>
+#include <JAZZY/Game/Component.h>
 #include <unordered_map>
 #include <vector>
 
@@ -38,12 +39,14 @@ namespace jazzy
 
 	private:
 		GameObject* createGameObjectInternal(UniquePtr<GameObject>& object);
+		void addComponentInternal(Component& component);
 
 	private:
 		GameContext m_gameContext;
 
 		// size_t is the typeId of the GameObject which maps to a list of GameObjects of the same typeId?
 		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};
+		std::unordered_map<size_t, std::vector<Component*>> m_components{};
 
 		std::vector<UniquePtr<GameObject>> m_pendingObjects;
 		std::vector<UniquePtr<GameObject>> m_pendingObjectSwapBuffer;

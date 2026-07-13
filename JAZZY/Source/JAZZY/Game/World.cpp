@@ -43,3 +43,9 @@ jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>&
 
 	return ptr;
 }
+
+void jazzy::World::addComponentInternal(Component& component)
+{
+	auto typeId = component.getTypeId();
+	m_components[typeId].push_back(&component);
+}
