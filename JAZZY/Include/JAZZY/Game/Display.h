@@ -10,7 +10,7 @@ namespace jazzy
 
 		SwapChain& getSwapChain() noexcept;
 	private:
-		SwapChainPtr m_swapChain{};
+		RefPtr<SwapChain> m_swapChain{};
 
 	};
 }

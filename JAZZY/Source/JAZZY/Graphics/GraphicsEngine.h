@@ -36,16 +36,16 @@ namespace jazzy
 		void updateConstantData(f32 deltaTime, ConstantData& data, ui32 index);
 	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
-		DeviceContextPtr m_deviceContext{};
-		GraphicsPipelineStatePtr m_pipeline{};
-		VertexBufferPtr m_vb{};
-		ConstantBufferPtr m_cb{};
-		IndexBufferPtr m_ib{};
+		RefPtr<DeviceContext> m_deviceContext{};
+		RefPtr<GraphicsPipelineState> m_pipeline{};
+		RefPtr<VertexBuffer> m_vb{};
+		RefPtr<ConstantBuffer> m_cb{};
+		RefPtr<IndexBuffer> m_ib{};
 		// TEMPORARY DEPENDENCY FOR DEBUGGING
 		f32 m_time{0.0f};
 
 		// EditorCamera
-		EditorCameraPtr m_editorCamera{};
+		RefPtr<EditorCamera> m_editorCamera{};
 
 		// DepthTest Members
 		std::vector<Cube> cubes;

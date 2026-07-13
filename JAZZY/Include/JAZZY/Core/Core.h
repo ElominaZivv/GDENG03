@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <memory>
 
+
 // Forward Declaration to declare a class without defining it
 namespace jazzy
 {
@@ -28,6 +29,7 @@ namespace jazzy
 	using f32 = float;
 	using d64 = double;
 
+	/*
 	using SwapChainPtr = std::shared_ptr<SwapChain>;
 	using DeviceContextPtr = std::shared_ptr<DeviceContext>;
 	using ShaderBinaryPtr = std::shared_ptr<ShaderBinary>;
@@ -38,4 +40,8 @@ namespace jazzy
 	using IndexBufferPtr = std::shared_ptr<IndexBuffer>;
 	using InputSystemPtr = std::shared_ptr<InputSystem>;
 	using EditorCameraPtr = std::shared_ptr<EditorCamera>;
+	*/
+
+	template <typename T> using RefPtr = std::shared_ptr<T>;
+	template <typename T> using UniquePtr = std::unique_ptr<T>;
 }

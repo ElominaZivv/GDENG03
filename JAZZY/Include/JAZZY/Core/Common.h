@@ -25,7 +25,7 @@ namespace jazzy
 	struct GraphicsEngineDesc
 	{
 		BaseDesc base;
-		EditorCameraPtr& editorCamera;
+		RefPtr<EditorCamera>& editorCamera;
 	};
 
 	struct GraphicsDeviceDesc
@@ -57,7 +57,7 @@ namespace jazzy
 
 	struct VertexShaderSignatureDesc
 	{
-		const ShaderBinaryPtr& vsBinary;
+		const RefPtr<ShaderBinary>& vsBinary;
 	};
 
 	struct BinaryData
@@ -148,7 +148,7 @@ namespace jazzy
 	struct EditorCameraDesc
 	{
 		BaseDesc base;
-		InputSystemPtr& inputSystem;
+		RefPtr<InputSystem>& inputSystem;
 	};
 
 	struct GameContext

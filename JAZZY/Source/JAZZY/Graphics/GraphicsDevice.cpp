@@ -63,42 +63,42 @@ jazzy::GraphicsDevice::~GraphicsDevice()
 {
 }
 
-jazzy::SwapChainPtr jazzy::GraphicsDevice::createSwapChain(const SwapChainDesc& desc) const
+jazzy::RefPtr<SwapChain> jazzy::GraphicsDevice::createSwapChain(const SwapChainDesc& desc) const
 {
 	return std::make_shared<SwapChain>(desc, getGraphicsResourceDesc());
 }
 
-DeviceContextPtr GraphicsDevice::createDeviceContext()
+RefPtr<DeviceContext> GraphicsDevice::createDeviceContext()
 {
 	return std::make_shared<DeviceContext>(getGraphicsResourceDesc());
 }
 
-ShaderBinaryPtr GraphicsDevice::compileShader(const ShaderCompileDesc& desc)
+RefPtr<ShaderBinary> GraphicsDevice::compileShader(const ShaderCompileDesc& desc)
 {
 	return std::make_shared<ShaderBinary>(desc, getGraphicsResourceDesc());
 }
 
-GraphicsPipelineStatePtr GraphicsDevice::createGraphicsPipelineState(const GraphicsPipelineStateDesc& desc)
+RefPtr<GraphicsPipelineState> GraphicsDevice::createGraphicsPipelineState(const GraphicsPipelineStateDesc& desc)
 {
 	return std::make_shared<GraphicsPipelineState>(desc, getGraphicsResourceDesc());
 }
 
-VertexBufferPtr jazzy::GraphicsDevice::createVertexBuffer(const VertexBufferDesc& desc)
+RefPtr<VertexBuffer> jazzy::GraphicsDevice::createVertexBuffer(const VertexBufferDesc& desc)
 {
 	return std::make_shared<VertexBuffer>(desc, getGraphicsResourceDesc());
 }
 
-VertexShaderSignaturePtr GraphicsDevice::createVertexShaderSignature(const VertexShaderSignatureDesc& desc)
+RefPtr<VertexShaderSignature> GraphicsDevice::createVertexShaderSignature(const VertexShaderSignatureDesc& desc)
 {
 	return std::make_shared<VertexShaderSignature>(desc, getGraphicsResourceDesc());
 }
 
-ConstantBufferPtr GraphicsDevice::createConstantBuffer(const ConstantBufferDesc& desc)
+RefPtr<ConstantBuffer> GraphicsDevice::createConstantBuffer(const ConstantBufferDesc& desc)
 {
 	return std::make_shared<ConstantBuffer>(desc, getGraphicsResourceDesc());
 }
 
-IndexBufferPtr GraphicsDevice::createIndexBuffer(const IndexBufferDesc& desc)
+RefPtr<IndexBuffer> GraphicsDevice::createIndexBuffer(const IndexBufferDesc& desc)
 {
 	return std::make_shared<IndexBuffer>(desc, getGraphicsResourceDesc());
 }
