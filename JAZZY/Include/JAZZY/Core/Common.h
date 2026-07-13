@@ -168,4 +168,12 @@ namespace jazzy
 		BaseDesc base;
 		GameContext gameContext;
 	};
+
+	struct ComponentDesc
+	{
+		BaseDesc base;
+		GameObject& object;
+		World& world;
+		GameContext& context;
+	};
 }

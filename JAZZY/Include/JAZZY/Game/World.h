@@ -42,6 +42,7 @@ namespace jazzy
 	private:
 		GameContext m_gameContext;
 
+		// size_t is the typeId of the GameObject which maps to a list of GameObjects of the same typeId?
 		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};
 
 		std::vector<UniquePtr<GameObject>> m_pendingObjects;
