@@ -1,0 +1,49 @@
+#pragma once
+#include <JAZZY/Core/Base.h>
+#include <JAZZY/Core/Common.h>
+#include <JAZZY/Core/Core.h>
+#include <JAZZY/Game/GameObject.h>
+
+namespace jazzy
+{
+	class World final : public jazzy::Base
+	{
+	public:
+		explicit World(const WorldDesc& desc);
+
+		template<typename T>
+		T* createGameObject() requires isRegistered<GameObject, T>
+		{
+			UniquePtr<GameObject> e = std::make_unique<T>(GameObjectDesc{
+				{m_logger},
+				m_gameContext,
+				*this
+				});
+			return static_cast<T*>(createGameObjectInternal(e));
+		}
+
+		void update(f32 deltaTime);
+
+	private:
+		enum class EventType
+		{
+			Create = 0
+		};
+		struct GameObjectEvents
+		{
+			GameObject* object{};
+			size_t pendingObjectIndex{};
+			EventType eventType{};
+		};
+
+	private:
+		GameObject* createGameObjectInternal(UniquePtr<GameObject>& object);
+
+
+	private:
+		GameContext m_gameContext;
+
+		std::vector<UniquePtr<GameObject>> m_pendingObjects;
+		std::vector<GameObjectEvents> m_events{};
+	};
+}

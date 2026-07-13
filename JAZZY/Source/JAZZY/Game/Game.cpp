@@ -33,8 +33,6 @@ jazzy::Game::Game(const GameDesc& desc):
 		m_graphicsEngine->getCubes()->push_back(newCube);
 	}
 
-	GameObject test(GameObjectDesc{ m_logger, GameContext(*m_inputSystem) });
-
 	DX3DLogInfo("Game initialized.");
 }
 

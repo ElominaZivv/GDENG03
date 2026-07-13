@@ -3,6 +3,7 @@
 #include <memory>
 
 
+
 // Forward Declaration to declare a class without defining it
 namespace jazzy
 {
@@ -23,6 +24,7 @@ namespace jazzy
 	class IndexBuffer;
 	class InputSystem;
 	class EditorCamera;
+	class World;
 
 	using i32 = int;
 	using ui32 = unsigned int;
