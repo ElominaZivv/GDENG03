@@ -1,4 +1,9 @@
 #include <JAZZY/Components/TransformComponent.h>
+#include <JAZZY/Game/World.h>
+
+jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Component(data)
+{
+}
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
@@ -47,11 +52,23 @@ jazzy::Mat4x4 jazzy::TransformComponent::getRigidWorldMatrix() noexcept
 void jazzy::TransformComponent::updateWorldMatrix() noexcept
 {
 	if (!m_dirty) return;
+
+	m_dirty = false;
+
+	m_rigidWorldMatrix =
+		Mat4x4::rotateX(m_rotation.x) *
+		Mat4x4::rotateX(m_rotation.x) *
+		Mat4x4::rotateX(m_rotation.x) *
+		Mat4x4::translation(m_position);
+
+	m_affineWorldMatrix =
+		Mat4x4::scale(m_scale) *
+		m_rigidWorldMatrix;
 }
 
 void jazzy::TransformComponent::markAsDirty()
 {
 	if (m_dirty) return;
 	m_dirty = true;
-	//m_world.addDirtyTransformInternal(*this);
+	m_world.addDirtyTransformInternal(*this);
 }

@@ -3,6 +3,12 @@
 
 jazzy::GameObject::GameObject(const GameObjectDesc& desc): Identifiable(desc.base), m_world(desc.world), m_gameContext(desc.gameContext)
 {
+	m_transform = createOrGetComponent<TransformComponent>();
+}
+
+jazzy::TransformComponent& jazzy::GameObject::getTransform() noexcept
+{
+	return *m_transform;
 }
 
 jazzy::InputSystem& jazzy::GameObject::getInputSystem() noexcept

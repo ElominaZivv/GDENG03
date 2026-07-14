@@ -5,6 +5,8 @@
 
 #include <unordered_map>
 
+#include "JAZZY/Components/TransformComponent.h"
+
 namespace jazzy
 {
 	class GameObject : public Identifiable
@@ -35,8 +37,8 @@ namespace jazzy
 			return static_cast<T*>(getComponentInternal(T::GetTypeId()));
 		}
 
+		TransformComponent& getTransform() noexcept;
 		InputSystem& getInputSystem() noexcept;
-
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}
@@ -47,7 +49,7 @@ namespace jazzy
 
 	private:
 		std::unordered_map<size_t, UniquePtr<Component>> m_components{};
-
+		TransformComponent* m_transform{};
 		GameContext m_gameContext;
 		World& m_world;
 

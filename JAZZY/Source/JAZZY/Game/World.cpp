@@ -30,6 +30,12 @@ void jazzy::World::update(f32 deltaTime)
 		m_pendingObjectSwapBuffer.clear();
 		m_eventsSwapBuffer.clear();
 	}
+
+	for (auto& comp : m_dirtyTransforms)
+	{
+		comp->updateWorldMatrix();
+	}
+	m_dirtyTransforms.clear();
 }
 
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)
@@ -48,6 +54,11 @@ void jazzy::World::addComponentInternal(Component& component)
 {
 	auto typeId = component.getTypeId();
 	m_components[typeId].push_back(&component);
+}
+
+void jazzy::World::addDirtyTransformInternal(TransformComponent& component)
+{
+	m_dirtyTransforms.push_back(&component);
 }
 
 jazzy::Component* const* jazzy::World::getComponentsInternal(size_t typeId, ui32* numComponents) const noexcept

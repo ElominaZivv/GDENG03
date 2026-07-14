@@ -13,6 +13,7 @@
 
 #include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
+#include "JAZZY/Game/GameObject.h"
 #include "JAZZY/Game/World.h"
 
 using namespace jazzy;
@@ -152,6 +153,22 @@ void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 	// Time
 	m_time += deltaTime;
 
+	// Constant Data
+	ConstantData data{};
+
+	// Time
+	data.m_time = m_time;
+
+	// View
+	Mat4x4 worldCam{};
+	worldCam = m_editorCamera->getViewMat();
+	data.m_view = worldCam;
+
+	// Projection View
+	Mat4x4 projection{};
+	projection = m_editorCamera->getProjectionViewMat();
+	data.m_projection = projection;
+
 	auto numComponents = 0u;
 	{
 		auto components = world.getComponents<CubeComponent>(numComponents);
@@ -159,33 +176,8 @@ void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 		{
 			auto component = components[i];
 
-			// Constant Data
-			ConstantData data{};
-
-			// Time
-			data.m_time = m_time;
-
-			// World
-			Mat4x4 worldMat{};
-			worldMat = Mat4x4::identity();
-			worldMat = worldMat * Mat4x4::scale({ 1.0f, 1.0f, 1.0f});
-			/* ROTATION IS APPLIED HERE
-			worldMat = worldMat * Mat4x4::rotateX(0.0f);
-			worldMat = worldMat * Mat4x4::rotateY(0.0f);
-			worldMat = worldMat * Mat4x4::rotateZ(0.0f);
-			*/
-			worldMat = worldMat * Mat4x4::translation( {0.0f, 0.0f, -3.0f });
-			data.m_world = worldMat;
-
-			// View
-			Mat4x4 worldCam{};
-			worldCam = m_editorCamera->getViewMat();
-			data.m_view = worldCam;
-
-			// Projection View
-			Mat4x4 projection{};
-			projection = m_editorCamera->getProjectionViewMat();
-			data.m_projection = projection;
+			auto& transform = component->getGameObject().getTransform();
+			data.m_world = transform.getAffineWorldMatrix();
 
 			auto& cb = *m_cb;
 			context.updateConstantBuffer(cb, &data);

@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "JAZZY/Components/TransformComponent.h"
+
 namespace jazzy
 {
 	class World final : public Base
@@ -46,6 +48,7 @@ namespace jazzy
 	private:
 		GameObject* createGameObjectInternal(UniquePtr<GameObject>& object);
 		void addComponentInternal(Component& component);
+		void addDirtyTransformInternal(TransformComponent& component);
 
 		Component* const* getComponentsInternal(size_t typeId, ui32* numComponents) const noexcept;
 
@@ -56,11 +59,14 @@ namespace jazzy
 		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};
 		std::unordered_map<size_t, std::vector<Component*>> m_components{};
 
+		std::vector<TransformComponent*> m_dirtyTransforms{};
+
 		std::vector<UniquePtr<GameObject>> m_pendingObjects;
 		std::vector<UniquePtr<GameObject>> m_pendingObjectSwapBuffer;
 		std::vector<GameObjectEvents> m_events{};
 		std::vector<GameObjectEvents> m_eventsSwapBuffer{};
 	
 		friend class GameObject;
+		friend class TransformComponent;
 	};
 }

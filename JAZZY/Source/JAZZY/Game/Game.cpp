@@ -25,21 +25,17 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
-	auto testCube = m_world->createGameObject<jazzy::GameObject>();
-	testCube->createOrGetComponent<jazzy::CubeComponent>();
+	auto plane = m_world->createGameObject<jazzy::GameObject>();
+	plane->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
+	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
+	plane_transform->setScale({ 15.0f, 0.05f, 15.0f });
 
-	/*
-	// Spawn plane
-	Cube newPlane({ 0.0f, -1.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
-	m_graphicsEngine->getCubes()->push_back(newPlane);
-	// Spawn a few cubes into the scene
-	for (auto i : std::views::iota(0u, 10u))
-	{
-		f32 cube_num = m_graphicsEngine->getCubes()->size();
-		Cube newCube({ 1.0f, -0.25f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
-		m_graphicsEngine->getCubes()->push_back(newCube);
-	}
-	*/
+	auto cube = m_world->createGameObject<jazzy::GameObject>();
+	cube->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
+	cube_transform->setPosition({ 0.0f, -1.0f, 0.0f });
+	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
 
 	DX3DLogInfo("Game initialized.");
 }

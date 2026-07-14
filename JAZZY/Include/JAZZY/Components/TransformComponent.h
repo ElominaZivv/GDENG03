@@ -33,7 +33,7 @@ namespace jazzy
 	private:
 		Vec3 m_position{ 0.0f, 0.0f, 0.0f };
 		Vec3 m_rotation{ 0.0f, 0.0f, 0.0f };
-		Vec3 m_scale{ 0.0f, 0.0f, 0.0f };
+		Vec3 m_scale{ 1.0f, 1.0f, 1.0f };
 
 		Mat4x4 m_rigidWorldMatrix{};	// rotation + translation only
 		Mat4x4 m_affineWorldMatrix{};	// rotation + translation + scale
