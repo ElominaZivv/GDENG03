@@ -19,11 +19,7 @@ namespace jazzy
 
 		GraphicsDevice& getGraphicsDevice() noexcept;
 
-		void render(f32 deltaTime, SwapChain& swapChain);
-
-		// DepthTest Method
-		std::vector<Cube>* getCubes();
-	// Debug things
+		void render(World& world, SwapChain& swapChain, f32 deltaTime);
 	private:
 		struct alignas(16) ConstantData
 		{
@@ -33,21 +29,18 @@ namespace jazzy
 			f32 m_time;
 		};
 	private:
-		void updateConstantData(f32 deltaTime, ConstantData& data, ui32 index);
-	private:
 		std::shared_ptr<GraphicsDevice> m_graphicsDevice{};
 		RefPtr<DeviceContext> m_deviceContext{};
 		RefPtr<GraphicsPipelineState> m_pipeline{};
 		RefPtr<VertexBuffer> m_vb{};
 		RefPtr<ConstantBuffer> m_cb{};
 		RefPtr<IndexBuffer> m_ib{};
+
 		// TEMPORARY DEPENDENCY FOR DEBUGGING
 		f32 m_time{0.0f};
 
 		// EditorCamera
 		RefPtr<EditorCamera> m_editorCamera{};
 
-		// DepthTest Members
-		std::vector<Cube> cubes;
 	};
 }

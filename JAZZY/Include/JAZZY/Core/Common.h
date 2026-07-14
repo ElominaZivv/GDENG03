@@ -154,6 +154,7 @@ namespace jazzy
 	struct GameContext
 	{
 		InputSystem& input;
+		GraphicsDevice& device;
 	};
 
 	struct GameObjectDesc

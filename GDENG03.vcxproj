@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\CubeComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Component.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\GameObject.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Cube.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Game\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\CubeComponent.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Component.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\GameObject.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Identifiable.h" />

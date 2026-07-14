@@ -11,7 +11,9 @@
 #include <string>
 #include <ranges>
 
+#include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
+#include "JAZZY/Game/World.h"
 
 using namespace jazzy;
 
@@ -139,7 +141,7 @@ jazzy::GraphicsDevice& jazzy::GraphicsEngine::getGraphicsDevice() noexcept
 	return *m_graphicsDevice;
 }
 
-void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
+void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 {
 	auto& context = *m_deviceContext;
 	context.clearAndSetBackBuffer(swapChain, { 0.0549, 0.07, 0.109, 1 });
@@ -147,66 +149,48 @@ void GraphicsEngine::render(f32 deltaTime, SwapChain& swapChain)
 
 	context.setViewportSize(swapChain.getSize());
 
-	for (auto i : std::views::iota(0u, cubes.size()))
+	auto numComponents = 0u;
 	{
-		auto& vb = *m_vb;
-		context.setVertexBuffer(vb);
+		auto components = world.getComponents<CubeComponent>(numComponents);
+		for (auto i : std::views::iota(0u, numComponents))
+		{
+			auto component = components[i];
 
-		auto& ib = *m_ib;
-		context.setIndexBuffer(ib);
+			// Constant Data
+			ConstantData data{};
 
-		// Constant Buffer
-		// Get the ConstantBuffer,
-		auto& cb = *m_cb;
+			// Time
+			m_time += deltaTime;
+			data.m_time = m_time;
 
-		// Declare Constant Data
-		ConstantData data{};
+			// World
+			Mat4x4 worldMat{};
+			worldMat = Mat4x4::identity();
+			worldMat = worldMat * Mat4x4::scale({ 1.0f, 1.0f, 1.0f});
+			worldMat = worldMat * Mat4x4::translation( {0.0f, 0.0f, -3.0f });
+			data.m_world = worldMat;
 
-		// Feed Constant data with updated values
-		updateConstantData(deltaTime, data, i);
-		//DX3DLogInfo((std::to_string(deltaTime)).c_str());
+			// View
+			Mat4x4 worldCam{};
+			worldCam = m_editorCamera->getViewMat();
+			data.m_view = worldCam;
 
-		// Update it with the data, 
-		context.updateConstantBuffer(cb, &data);
+			// Projection View
+			Mat4x4 projection{};
+			projection = m_editorCamera->getProjectionViewMat();
+			data.m_projection = projection;
 
-		// then send it to the vertex and pixel shader
-		context.setConstantBuffer(cb);
+			auto& cb = *m_cb;
+			context.updateConstantBuffer(cb, &data);
+			context.setConstantBuffer(cb);
 
-		context.drawIndexedTriangleList(ib.getIndexListSize(), 0u, 0u);
-		//context.drawTriangleList(vb.getVertexListSize(), 0u);
+			context.setVertexBuffer(component->getVertexBuffer());
+			context.setIndexBuffer(component->getIndexBuffer());
+			context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+		}
 	}
 
 	auto& device = *m_graphicsDevice;
 	device.executeCommandList(context);
 	swapChain.present();
-
-}
-
-void GraphicsEngine::updateConstantData(f32 deltaTime, ConstantData& data, ui32 index)
-{
-	// Time
-	m_time += deltaTime;
-	data.m_time = m_time;
-
-	// World
-	Mat4x4 worldMat{};
-	worldMat = Mat4x4::identity();
-	worldMat = worldMat * Mat4x4::scale(cubes[index].scale);
-	worldMat = worldMat * Mat4x4::translation(cubes[index].position);
-	data.m_world = worldMat;
-
-	// View
-	Mat4x4 worldCam{};
-	worldCam = m_editorCamera->getViewMat(); // Get the editorCamera Matrix for this
-	data.m_view = worldCam;
-
-	// Projection View
-	Mat4x4 projection{};
-	projection = m_editorCamera->getProjectionViewMat();
-	data.m_projection = projection;
-}
-
-std::vector<Cube>* GraphicsEngine::getCubes()
-{
-	return &cubes;
 }

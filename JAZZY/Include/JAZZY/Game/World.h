@@ -24,6 +24,12 @@ namespace jazzy
 			return static_cast<T*>(createGameObjectInternal(e));
 		}
 
+		template<typename T>
+		T* const* getComponents(ui32& numComponents) const noexcept
+		{
+			return reinterpret_cast<T* const*>(getComponentsInternal(T::GetTypeId(), &numComponents));
+		}
+
 		void update(f32 deltaTime);
 	private:
 		enum class EventType
@@ -40,6 +46,8 @@ namespace jazzy
 	private:
 		GameObject* createGameObjectInternal(UniquePtr<GameObject>& object);
 		void addComponentInternal(Component& component);
+
+		Component* const* getComponentsInternal(size_t typeId, ui32* numComponents) const noexcept;
 
 	private:
 		GameContext m_gameContext;

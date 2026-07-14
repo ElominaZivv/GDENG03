@@ -8,6 +8,7 @@
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Cube.h>
 
+#include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 
@@ -20,12 +21,14 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ m_logger , m_inputSystem });
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_editorCamera});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{m_logger}, GameContext{*m_inputSystem} });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{m_logger}, GameContext{*m_inputSystem, m_graphicsEngine->getGraphicsDevice()} });
 
 	m_previousTime = std::chrono::steady_clock::now();
 
-	m_world->createGameObject<jazzy::GameObject>();
+	auto testCube = m_world->createGameObject<jazzy::GameObject>();
+	testCube->createOrGetComponent<jazzy::CubeComponent>();
 
+	/*
 	// Spawn plane
 	Cube newPlane({ 0.0f, -1.0f, 0.0f }, { 20.0f, 0.01f, 20.0f });
 	m_graphicsEngine->getCubes()->push_back(newPlane);
@@ -36,6 +39,7 @@ jazzy::Game::Game(const GameDesc& desc):
 		Cube newCube({ 1.0f, -0.25f, -4.0f + cube_num }, { 1.0f, 1.0f, 1.0f });
 		m_graphicsEngine->getCubes()->push_back(newCube);
 	}
+	*/
 
 	DX3DLogInfo("Game initialized.");
 }
@@ -68,5 +72,5 @@ void jazzy::Game::onInternalUpdate()
 	m_editorCamera->update(deltaTime);
 
 	// Graphics Engine
-	m_graphicsEngine->render(deltaTime, m_display->getSwapChain());
+	m_graphicsEngine->render(*m_world, m_display->getSwapChain(), deltaTime);
 }

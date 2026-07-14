@@ -49,3 +49,16 @@ void jazzy::World::addComponentInternal(Component& component)
 	auto typeId = component.getTypeId();
 	m_components[typeId].push_back(&component);
 }
+
+jazzy::Component* const* jazzy::World::getComponentsInternal(size_t typeId, ui32* numComponents) const noexcept
+{
+	auto it = m_components.find(typeId);
+	if (it != m_components.end())
+	{
+		// This modifies the numComponents =0u in WorldRenderer/GraphicsEngine into the number of instances of components in the world
+		*numComponents = static_cast<ui32>(it->second.size());
+		return it->second.data();
+	}
+	*numComponents = 0u;
+	return {};
+}
