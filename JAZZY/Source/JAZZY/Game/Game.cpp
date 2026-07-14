@@ -6,7 +6,6 @@
 #include<JAZZY/Game/Display.h>
 #include <JAZZY/Input/InputSystem.h>
 #include <JAZZY/Game/World.h>
-#include <JAZZY/Cube.h>
 
 #include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"

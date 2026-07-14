@@ -6,8 +6,6 @@
 #include <JAZZY/Math/Mat4x4.h>
 #include <vector>
 
-#include <JAZZY/Cube.h>
-
 namespace jazzy
 {
 	// Final means no class can derive from GraphicsEngine class
