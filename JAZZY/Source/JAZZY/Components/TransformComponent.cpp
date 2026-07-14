@@ -33,6 +33,22 @@ jazzy::Vec3 jazzy::TransformComponent::getScale() const noexcept
 	return m_scale;
 }
 
+jazzy::Mat4x4 jazzy::TransformComponent::getAffineWorldMatrix() noexcept
+{
+	return m_affineWorldMatrix;
+}
+
+jazzy::Mat4x4 jazzy::TransformComponent::getRigidWorldMatrix() noexcept
+{
+
+	return m_rigidWorldMatrix;
+}
+
+void jazzy::TransformComponent::updateWorldMatrix() noexcept
+{
+	if (!m_dirty) return;
+}
+
 void jazzy::TransformComponent::markAsDirty()
 {
 	if (m_dirty) return;
