@@ -155,6 +155,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\World.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Components\CubeComponent.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\EditorCamera\EditorCamera.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\World.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">

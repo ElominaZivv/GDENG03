@@ -149,6 +149,9 @@ void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 
 	context.setViewportSize(swapChain.getSize());
 
+	// Time
+	m_time += deltaTime;
+
 	auto numComponents = 0u;
 	{
 		auto components = world.getComponents<CubeComponent>(numComponents);
@@ -160,13 +163,17 @@ void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 			ConstantData data{};
 
 			// Time
-			m_time += deltaTime;
 			data.m_time = m_time;
 
 			// World
 			Mat4x4 worldMat{};
 			worldMat = Mat4x4::identity();
 			worldMat = worldMat * Mat4x4::scale({ 1.0f, 1.0f, 1.0f});
+			/* ROTATION IS APPLIED HERE
+			worldMat = worldMat * Mat4x4::rotateX(0.0f);
+			worldMat = worldMat * Mat4x4::rotateY(0.0f);
+			worldMat = worldMat * Mat4x4::rotateZ(0.0f);
+			*/
 			worldMat = worldMat * Mat4x4::translation( {0.0f, 0.0f, -3.0f });
 			data.m_world = worldMat;
 
