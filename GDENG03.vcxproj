@@ -134,7 +134,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Components\CubeComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Component.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\GameObject.cpp" />
-    <ClCompile Include="JAZZY\Source\JAZZY\Cube.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\ConstantBuffer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
@@ -162,7 +161,6 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Component.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\GameObject.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Identifiable.h" />
-    <ClInclude Include="JAZZY\Source\JAZZY\Cube.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\MathUtils.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec2.h" />

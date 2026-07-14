@@ -69,9 +69,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Input\InputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JAZZY\Source\JAZZY\Cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\MathUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JAZZY\Source\JAZZY\Cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\EditorCamera\EditorCamera.h">

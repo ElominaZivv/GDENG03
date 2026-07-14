@@ -26,6 +26,8 @@ x86/
 [Ww][Ii][Nn]32/
 !Game/Win32/
 !Game/Win32/**
+!Window/Win32/
+!Window/Win32/**
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
