@@ -7,6 +7,7 @@ jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc
 
 void jazzy::World::update(f32 deltaTime)
 {
+	// GameObject Creation Event
 	if (m_events.size())
 	{
 		std::swap(m_events, m_eventsSwapBuffer);
@@ -31,6 +32,7 @@ void jazzy::World::update(f32 deltaTime)
 		m_eventsSwapBuffer.clear();
 	}
 
+	// Update of Transform Components
 	for (auto& comp : m_dirtyTransforms)
 	{
 		comp->updateWorldMatrix();
