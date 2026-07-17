@@ -34,7 +34,7 @@ jazzy::Game::Game(const GameDesc& desc):
 	auto cube = m_world->createGameObject<jazzy::GameObject>();
 	cube->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
-	cube_transform->setPosition({ 0.0f, -1.0f, 0.0f });
+	cube_transform->setPosition({ 0.0f, 1.0f, 0.0f });
 	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
 
 	cube->setParent(plane);

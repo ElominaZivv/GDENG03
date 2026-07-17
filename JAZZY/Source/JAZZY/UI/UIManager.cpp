@@ -3,6 +3,7 @@
 #include <JAZZY/Graphics/DeviceContext.h>
 #include <JAZZY/Graphics/GraphicsDevice.h>
 #include <JAZZY/UI/Screens/MenuScreen.h>
+#include <JAZZY/UI/Screens/InspectorScreen.h>
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Game/World.h>
 #include <iostream>
@@ -27,6 +28,7 @@ void jazzy::UIManager::initialize(HWND hwnd, GraphicsEngine& graphicsEngine, Wor
     );
 
     m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(world)));
+    m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(world)));
 }
 
 void jazzy::UIManager::draw()

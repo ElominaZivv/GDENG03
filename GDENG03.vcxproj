@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.cpp" />
     <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui.cpp" />
     <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_demo.cpp" />
     <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_draw.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imconfig.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui_impl_dx11.h" />

@@ -50,7 +50,7 @@ void jazzy::MenuScreen::draw()
 
                 float newPosition = m_cubeCount * 1.0f;
 
-                transform->setPosition({ 0.0f, 0.0f, newPosition });
+                transform->setPosition({ 0.0f, 1.0f, newPosition });
 
                 m_cubeCount++;
             }
