@@ -18,12 +18,22 @@ void jazzy::InspectorScreen::draw()
     ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoSavedSettings |
                                    ImGuiWindowFlags_NoNavFocus;
 
-    // scale temp || this should be a reference to the transform being changed
+    // transform temp || this should be a reference to the specific transform being changed
+    static float position[3] = { 0.0f, 1.0f, 0.0f };
     static float scale[3] = { 1.0f, 1.0f, 1.0f };
+    static float rotation[3] = { 0.0f, 0.0f, 0.0f };
 
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 
+        if (ImGui::InputFloat3("Position", position, "%.2f")) {
+
+        }
+
         if (ImGui::InputFloat3("Scale", scale, "%.2f")) {
+
+        }
+
+        if (ImGui::InputFloat3("Rotation", rotation, "%.2f")) {
 
         }
 
