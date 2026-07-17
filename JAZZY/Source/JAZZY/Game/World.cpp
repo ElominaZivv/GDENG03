@@ -32,12 +32,15 @@ void jazzy::World::update(f32 deltaTime)
 		m_eventsSwapBuffer.clear();
 	}
 
-	// Update of Transform Components
+	// Update of Individual Transform Components
 	for (auto& comp : m_dirtyTransforms)
 	{
 		comp->updateWorldMatrix();
 	}
 	m_dirtyTransforms.clear();
+
+	// Update of Transform Components Based on Hierarchy
+	// <For Loop Here>
 }
 
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)

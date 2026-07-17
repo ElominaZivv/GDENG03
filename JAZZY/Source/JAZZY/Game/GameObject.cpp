@@ -18,12 +18,28 @@ jazzy::InputSystem& jazzy::GameObject::getInputSystem() noexcept
 
 void jazzy::GameObject::setParent(GameObject* obj)
 {
+	if (!obj) return;
+	obj->addChild(this);
 	m_parent = obj;
 }
 
 jazzy::GameObject* jazzy::GameObject::getParent()
 {
+	if (!m_parent) return{};
 	return static_cast<GameObject*>(m_parent);
+}
+
+void jazzy::GameObject::addChild(GameObject* obj)
+{
+	if (!obj) return;
+	m_children.push_back(obj);
+}
+
+jazzy::GameObject* jazzy::GameObject::getChild(ui32 index)
+{
+	if (m_children.size() == 0u) return{};
+	if ((1+index) >= m_children.size()) return {};
+	return m_children[index];
 }
 
 jazzy::Component* jazzy::GameObject::createComponentInternal(UniquePtr<Component>& component)

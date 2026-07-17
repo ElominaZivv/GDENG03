@@ -42,9 +42,8 @@ namespace jazzy
 
 		void setParent(GameObject* obj);
 		GameObject* getParent();
-
-	public:
-		GameObject* m_parent;
+		void addChild(GameObject* obj);
+		GameObject* getChild(ui32 index);
 	
 	protected:
 		virtual void onCreate() {}
@@ -59,6 +58,9 @@ namespace jazzy
 		TransformComponent* m_transform{};
 		GameContext m_gameContext;
 		World& m_world;
+
+		GameObject* m_parent;
+		std::vector<GameObject*> m_children;
 
 		friend class World;
 	};
