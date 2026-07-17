@@ -16,6 +16,16 @@ jazzy::InputSystem& jazzy::GameObject::getInputSystem() noexcept
 	return m_gameContext.input;
 }
 
+void jazzy::GameObject::setParent(GameObject* obj)
+{
+	m_parent = obj;
+}
+
+jazzy::GameObject* jazzy::GameObject::getParent()
+{
+	return static_cast<GameObject*>(m_parent);
+}
+
 jazzy::Component* jazzy::GameObject::createComponentInternal(UniquePtr<Component>& component)
 {
 	if (!component) return{};

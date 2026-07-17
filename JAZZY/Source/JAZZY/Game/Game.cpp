@@ -36,6 +36,14 @@ jazzy::Game::Game(const GameDesc& desc):
 	cube_transform->setPosition({ 0.0f, -1.0f, 0.0f });
 	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
 
+	cube->setParent(plane);
+	auto parent = cube->getParent();
+	if (parent)
+	{
+		TransformComponent* parent_transform = parent->createOrGetComponent<jazzy::TransformComponent>();
+		parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
+	}
+
 	DX3DLogInfo("Game initialized.");
 }
 

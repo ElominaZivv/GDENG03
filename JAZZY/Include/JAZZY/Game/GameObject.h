@@ -39,6 +39,13 @@ namespace jazzy
 
 		TransformComponent& getTransform() noexcept;
 		InputSystem& getInputSystem() noexcept;
+
+		void setParent(GameObject* obj);
+		GameObject* getParent();
+
+	public:
+		GameObject* m_parent;
+	
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}
