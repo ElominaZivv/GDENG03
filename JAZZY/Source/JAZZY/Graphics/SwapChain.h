@@ -8,6 +8,7 @@ namespace jazzy
 	public:
 		SwapChain(const SwapChainDesc& desc,const GraphicsResourceDesc& gDesc);
 		Rect getSize() const noexcept;
+		ID3D11RenderTargetView* getRenderTargetView() const noexcept;
 
 		void present(bool vsync = false);
 	private:

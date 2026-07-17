@@ -103,6 +103,16 @@ RefPtr<IndexBuffer> GraphicsDevice::createIndexBuffer(const IndexBufferDesc& des
 	return std::make_shared<IndexBuffer>(desc, getGraphicsResourceDesc());
 }
 
+ID3D11Device* jazzy::GraphicsDevice::getDevice() const noexcept
+{
+	return m_d3dDevice.Get();
+}
+
+ID3D11DeviceContext* jazzy::GraphicsDevice::getContext() const noexcept
+{
+	return m_d3dContext.Get();
+}
+
 void GraphicsDevice::executeCommandList(DeviceContext& context)
 {
 	Microsoft::WRL::ComPtr<ID3D11CommandList> list{};

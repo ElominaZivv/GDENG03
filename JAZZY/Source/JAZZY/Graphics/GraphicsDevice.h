@@ -24,6 +24,9 @@ namespace jazzy
 		RefPtr<VertexShaderSignature> createVertexShaderSignature(const VertexShaderSignatureDesc& desc);
 		RefPtr<ConstantBuffer> createConstantBuffer(const ConstantBufferDesc& desc);
 		RefPtr<IndexBuffer> createIndexBuffer(const IndexBufferDesc& desc);
+		ID3D11Device* getDevice() const noexcept;
+		ID3D11DeviceContext* getContext() const noexcept;
+		void setBackBuffer(const SwapChain& swapChain);
 
 		void executeCommandList(DeviceContext& context);
 	private:

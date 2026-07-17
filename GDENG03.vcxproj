@@ -81,6 +81,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -95,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +111,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="JAZZY\Include\JAZZY\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\CubeComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Component.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\GameObject.cpp" />
@@ -155,8 +166,19 @@
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\World.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\TransformComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\UIManager.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\Screens.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imconfig.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imgui_internal.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imstb_truetype.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\CubeComponent.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Component.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\GameObject.h" />
@@ -193,6 +215,9 @@
     <ClInclude Include="JAZZY\Include\JAZZY\EditorCamera\EditorCamera.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\World.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\TransformComponent.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\UIManager.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\Screens.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">

@@ -5,6 +5,8 @@
 #include <JAZZY/Math/Vec4.h>
 #include <JAZZY/Math/Mat4x4.h>
 #include <vector>
+#include <Windows.h>
+#include <JAZZY/UI/UIManager.h>
 
 namespace jazzy
 {
@@ -16,8 +18,11 @@ namespace jazzy
 		virtual ~GraphicsEngine() override;
 
 		GraphicsDevice& getGraphicsDevice() noexcept;
+		DeviceContext& getDeviceContext() noexcept;
 
 		void render(World& world, SwapChain& swapChain, f32 deltaTime);
+		void initializeUI(HWND hwnd, World& world);
+
 	private:
 		struct alignas(16) ConstantData
 		{
@@ -39,6 +44,9 @@ namespace jazzy
 
 		// EditorCamera
 		RefPtr<EditorCamera> m_editorCamera{};
+
+		//UI 
+		UIManager m_uiManager{};
 
 	};
 }

@@ -31,6 +31,9 @@ namespace jazzy
 	class EditorCamera;
 	class GameObject;
 	class World;
+	class UIManager;
+	class Screens;
+	class MenuScreen;
 
 	using i32 = int;
 	using ui32 = unsigned int;

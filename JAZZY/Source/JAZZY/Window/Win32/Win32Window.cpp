@@ -1,12 +1,17 @@
 #include <JAZZY/Window/Window.h>
 #include <Windows.h>
 #include <stdexcept>
+#include <JAZZY/IMGUI/imgui.h>
 
 #include "JAZZY/Core/Logger.h"
-#include "JAZZY/Core/Logger.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+		return true;
+	}
 	// DefWindowProc Default Window Procedure does not assume that the programs ends just because the window is closed
 	// Which is why the program has to modify the windowprocedure to 
 	switch (msg)
@@ -111,4 +116,9 @@ jazzy::Rect jazzy::Window::getClientAreaInScreenSpace()
 
 	return { topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y };
 
+}
+
+HWND jazzy::Window::getHWND() const noexcept
+{
+	return static_cast<HWND>(m_handle);
 }

@@ -67,3 +67,8 @@ void jazzy::SwapChain::reloadBuffers()
 	DX3DGraphicsLogThrowOnFail(m_device.CreateDepthStencilView(buffer.Get(), NULL, &m_dsv),
 		"CreateDepthStencilView failed.");
 }
+
+ID3D11RenderTargetView* jazzy::SwapChain::getRenderTargetView() const noexcept
+{
+	return m_rtv.Get();
+}

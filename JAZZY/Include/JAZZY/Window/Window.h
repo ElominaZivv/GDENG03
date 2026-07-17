@@ -1,6 +1,7 @@
 #pragma once
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Core/Common.h>
+#include <Windows.h>
 
 namespace jazzy
 {
@@ -9,6 +10,8 @@ namespace jazzy
 	public:
 		explicit Window(const WindowDesc& desc);
 		virtual ~Window() override;
+
+		HWND getHWND() const noexcept;
 
 		Rect getClientAreaInScreenSpace();
 

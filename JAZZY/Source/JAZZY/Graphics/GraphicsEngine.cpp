@@ -16,6 +16,7 @@
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/Game/World.h"
 
+#include <JAZZY/UI/UIManager.h>
 using namespace jazzy;
 
 jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(desc.base)
@@ -142,6 +143,11 @@ jazzy::GraphicsDevice& jazzy::GraphicsEngine::getGraphicsDevice() noexcept
 	return *m_graphicsDevice;
 }
 
+DeviceContext& jazzy::GraphicsEngine::getDeviceContext() noexcept
+{
+	return *m_deviceContext;
+}
+
 void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 {
 	auto& context = *m_deviceContext;
@@ -191,5 +197,23 @@ void GraphicsEngine::render(World& world, SwapChain& swapChain, f32 deltaTime)
 
 	auto& device = *m_graphicsDevice;
 	device.executeCommandList(context);
+	device.setBackBuffer(swapChain);
+	m_uiManager.draw();
 	swapChain.present();
+}
+
+void jazzy::GraphicsEngine::initializeUI(HWND hwnd, World& world)
+{
+	m_uiManager.initialize(hwnd, *this, world);
+}
+
+void jazzy::GraphicsDevice::setBackBuffer(const SwapChain& swapChain)
+{
+	auto rtv = swapChain.getRenderTargetView();
+
+	m_d3dContext->OMSetRenderTargets(
+		1,
+		&rtv,
+		nullptr
+	);
 }

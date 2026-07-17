@@ -21,6 +21,7 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_editorCamera});
 	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
 	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{m_logger}, GameContext{*m_inputSystem, m_graphicsEngine->getGraphicsDevice()} });
+	m_graphicsEngine->initializeUI(m_display->getHWND(),*m_world);
 
 	m_previousTime = std::chrono::steady_clock::now();
 
