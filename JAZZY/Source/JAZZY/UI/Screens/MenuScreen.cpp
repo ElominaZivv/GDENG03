@@ -42,9 +42,9 @@ void jazzy::MenuScreen::draw()
 
                 auto transform = cube->createOrGetComponent<TransformComponent>();
 
-                float newPosition = m_cubeCount * 1.0f;
+                float newPosition = m_cubeCount * 1.5f; //1.5 is for spacing
 
-                transform->setPosition({ 0.0f, 1.0f, newPosition + 0.5f });
+                transform->setPosition({ 0.0f, 1.0f, newPosition});
 
                 m_cubeCount++;
             }
