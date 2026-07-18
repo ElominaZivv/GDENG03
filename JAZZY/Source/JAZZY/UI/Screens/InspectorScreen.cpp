@@ -32,6 +32,10 @@ void jazzy::InspectorScreen::draw()
 
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 
+        ImGui::Text(cube->getGameObject().m_name.c_str());
+        ImGui::Separator();
+        ImGui::Text("Transform");
+
         if (ImGui::InputFloat3("Position", position, "%.2f")) {
             transform.setPosition({ position[0], position[1], position[2] });
         }
