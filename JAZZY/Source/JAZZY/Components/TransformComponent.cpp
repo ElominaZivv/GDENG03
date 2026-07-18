@@ -6,6 +6,7 @@
 
 jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Component(data)
 {
+	markAsDirty();
 }
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
@@ -110,14 +111,5 @@ void jazzy::TransformComponent::markAsDirty()
 	if (m_dirty) return;
 	m_dirty = true;
 	m_world.addDirtyTransformInternal(*this);
-	markChildrenAsDirty();
 }
 
-void jazzy::TransformComponent::markChildrenAsDirty()
-{
-	GameObject& obj = getGameObject();
-	for (auto i : std::views::iota(0u, obj.getChildCount()))
-	{
-		obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>()->markAsDirty();
-	}
-}

@@ -29,7 +29,6 @@ namespace jazzy
 		void updateWorldMatrix() noexcept;
 	private:
 		void markAsDirty();
-		void markChildrenAsDirty();
 
 	private:
 		Vec3 m_position{ 0.0f, 0.0f, 0.0f };

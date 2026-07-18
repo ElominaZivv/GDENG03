@@ -25,17 +25,35 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
+	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>();
 	test_parent->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* plane_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
 	plane_transform->setScale({ 15.0f, 0.05f, 15.0f });
 
+	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>();
 	test_child->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* cube_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
 	cube_transform->setPosition({ 0.0f, -3.0f, 0.0f });
 	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
+
+	// Cube 2
+	auto cube2 = m_world->createGameObject<jazzy::GameObject>();
+	cube2->createOrGetComponent<jazzy::CubeComponent>();
+	cube2->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, -1.0f, 0.0f });
+
+	// Cube 3
+	auto cube3 = m_world->createGameObject<jazzy::GameObject>();
+	cube3->createOrGetComponent<jazzy::CubeComponent>();
+	cube3->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, 1.0f, 0.0f });
+
+	// Cube 4
+	auto cube4 = m_world->createGameObject<jazzy::GameObject>();
+	cube4->createOrGetComponent<jazzy::CubeComponent>();
+	cube4->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, 3.0f, 0.0f });
+
 
 	test_child->setParent(test_parent);
 
