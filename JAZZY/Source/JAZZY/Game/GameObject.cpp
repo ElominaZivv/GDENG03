@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ranges>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Game/World.h>
 
@@ -42,6 +43,20 @@ void jazzy::GameObject::removeChildByIndex(ui32 index)
 	if (index >= m_children.size()) return;
 	std::swap(m_children[index], m_children.back());
 	m_children.pop_back();
+}
+
+void jazzy::GameObject::removeChildByName(std::string name)
+{
+	if (m_children.empty()) return;
+
+	i32 indexToRemove = -1;
+	for (auto i : std::views::iota(0u, m_children.size()))
+	{
+		if (m_children[i]->m_name == name) indexToRemove = i;
+	}
+
+	if (indexToRemove < 0) return;
+	removeChildByIndex(indexToRemove);
 }
 
 jazzy::GameObject* jazzy::GameObject::getChildByIndex(ui32 index)
