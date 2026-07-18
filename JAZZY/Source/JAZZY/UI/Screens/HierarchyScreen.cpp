@@ -44,6 +44,8 @@ void jazzy::HierarchyScreen::draw()
 
 void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNodeFlags treeFlags)
 {
+    auto numComp = 0u;
+    auto cubes = m_world.getComponents<CubeComponent>(numComp);
 
     static int selectedNode = m_world.GetSelectedIndex();
     if (obj->getGameObject().isSelected) treeFlags |= ImGuiTreeNodeFlags_Selected;
@@ -53,9 +55,6 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
 
     if (ImGui::IsItemClicked())
     {
-        auto numComp = 0u;
-        auto cubes = m_world.getComponents<CubeComponent>(numComp);
-
         for (auto i : std::views::iota(0u, numComp)) {
             if (cubes[i]->getGameObject().isSelected) cubes[i]->getGameObject().isSelected = false;
         }
@@ -68,6 +67,32 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
                 std::cout << "selected: " << i << std::endl;
             }
         }
+    }
+
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+        ImGui::SetDragDropPayload("PARENTING_PAYLOAD", obj->getGameObject().m_name.c_str(), sizeof(CubeComponent*));
+
+        ImGui::Text("Assign Parent");
+        ImGui::EndDragDropSource();
+    }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        // Accept the specific payload type
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PARENTING_PAYLOAD"))
+        {
+            IM_ASSERT(payload->DataSize == sizeof(CubeComponent*));
+            
+            const char* selected = (const char*)payload->Data;
+
+            for (auto i : std::views::iota(0u, numComp)) {
+                if (cubes[i]->getGameObject().m_name == selected && selected != obj->getGameObject().m_name) {
+                    cubes[i]->getGameObject().setParent(&obj->getGameObject());
+                }
+            }
+            std::cout << "attempted to parent" << std::endl;
+        }
+        ImGui::EndDragDropTarget();
     }
 
     if (isOpen)
