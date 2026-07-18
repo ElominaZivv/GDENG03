@@ -2,7 +2,7 @@
 #include <iostream>
 jazzy::Logger::Logger(LogLevel loglevel): m_logLevel(loglevel)
 {
-	std::clog << " Logger | Zivv Elomina | JAZZY Engine | GDENG03 " << "\n";
+	std::clog << " Logger | Group 5 JAZZY Engine | Object Parenting | GDENG03 " << "\n";
 	std::clog << "------------------------------------------------" << "\n";
 }
 
