@@ -11,9 +11,9 @@ jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Compon
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
-	Vec3 oldPos = m_position;
-	Vec3 newPos = position;
-	Vec3 displacement = newPos - oldPos;
+	Vec3 currentPostition = m_position;
+	Vec3 newPosition = position;
+	Vec3 displacement = newPosition - currentPostition;
 	m_position = position;
 
 	markAsDirty();
@@ -22,8 +22,8 @@ void jazzy::TransformComponent::setPosition(const Vec3& position)
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
 	{
 		TransformComponent* childTransform = obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>();
-		Vec3 currPos = childTransform->getPosition();
-		childTransform->setPosition(currPos + displacement);
+		Vec3 currentChildPosition = childTransform->getPosition();
+		childTransform->setPosition(currentChildPosition + displacement);
 	}
 
 }
@@ -35,8 +35,31 @@ jazzy::Vec3 jazzy::TransformComponent::getPosition() const noexcept
 
 void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 {
+	Vec3 currentRotation = m_rotation;
+	Vec3 newRotation = rotation;
+	Vec3 difference = newRotation - currentRotation;
+
 	m_rotation = rotation;
 	markAsDirty();
+
+	GameObject& obj = getGameObject();
+	for (auto i : std::views::iota(0u, obj.getChildCount()))
+	{
+		TransformComponent* childTransform = obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>();
+		childTransform->markAsDirty();
+
+		/*
+		// Set Position
+		Vec3 currentChildPosition = childTransform->getPosition();
+		Vec3 newChildPosition = currentChildPosition;
+		childTransform->setPosition(newChildPosition);
+
+		// Set Rotation
+		Vec3 currentChildRotation = childTransform->getRotation();
+		childTransform->setRotation(currentChildRotation + difference);
+		*/
+	}
+
 }
 
 jazzy::Vec3 jazzy::TransformComponent::getRotation() const noexcept
@@ -117,28 +140,18 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 		Mat4x4::scale(m_scale) *
 		m_rigidWorldMatrix;
 
-	/*
 	auto& obj = getGameObject();
 	auto* parent = obj.getParent();
 
 	if (parent)
 	{
+		DX3DLogInfo("TESTING");
 		TransformComponent* parent_transform = parent->getComponent<jazzy::TransformComponent>();
 		Mat4x4 parentMat = parent_transform->getRigidWorldMatrix();
-	}
-	else
-	{
-		m_rigidWorldMatrix =
-			Mat4x4::rotateX(m_rotation.x) *
-			Mat4x4::rotateY(m_rotation.y) *
-			Mat4x4::rotateZ(m_rotation.z) *
-			Mat4x4::translation(m_position);
-
 		m_affineWorldMatrix =
-			Mat4x4::scale(m_scale) *
+			parentMat *
 			m_rigidWorldMatrix;
 	}
-	*/
 }
 
 void jazzy::TransformComponent::markAsDirty()
