@@ -1,5 +1,5 @@
 GDENG03, X21, Group JAZZY
- Github https://github.com/ElominaZivv/GDENG03
+Github https://github.com/ElominaZivv/GDENG03
 
 Members:
 	Chen, Vivian
