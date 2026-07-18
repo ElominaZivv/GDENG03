@@ -27,10 +27,13 @@ void EditorCamera::update(f32 _deltaTime)
 	world_cam = Mat4x4::identity();
 
 	// Rotation
-	m_rotX += m_inputSystem->getMouseDelta().y * m_sensitivity * _deltaTime;
-	world_cam = world_cam * Mat4x4::rotateX(m_rotX);
+	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))
+	{
+		m_rotX += m_inputSystem->getMouseDelta().y * m_sensitivity * _deltaTime;
 
-	m_rotY += m_inputSystem->getMouseDelta().x * m_sensitivity * _deltaTime;
+		m_rotY += m_inputSystem->getMouseDelta().x * m_sensitivity * _deltaTime;
+	}
+	world_cam = world_cam * Mat4x4::rotateX(m_rotX);
 	world_cam = world_cam * Mat4x4::rotateY(m_rotY);
 
 	// Translation
