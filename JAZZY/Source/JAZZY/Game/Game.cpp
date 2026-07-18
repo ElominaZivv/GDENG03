@@ -25,34 +25,24 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
+	// Plane
+	auto plane = m_world->createGameObject<jazzy::GameObject>();
+	plane->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
+	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
+	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
+
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>();
 	test_parent->createOrGetComponent<jazzy::CubeComponent>();
-	TransformComponent* plane_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
-	plane_transform->setPosition({ 0.0f, 0.0f, 0.0f });
-	//plane_transform->setScale({ 15.0f, 0.05f, 15.0f });
+	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
+	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
 
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>();
 	test_child->createOrGetComponent<jazzy::CubeComponent>();
-	TransformComponent* cube_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
-	cube_transform->setPosition({ 2.0f, 0.0f, 0.0f });
-	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
-
-	//// Cube 2
-	//auto cube2 = m_world->createGameObject<jazzy::GameObject>();
-	//cube2->createOrGetComponent<jazzy::CubeComponent>();
-	//cube2->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, -1.0f, 0.0f });
-
-	//// Cube 3
-	//auto cube3 = m_world->createGameObject<jazzy::GameObject>();
-	//cube3->createOrGetComponent<jazzy::CubeComponent>();
-	//cube3->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, 1.0f, 0.0f });
-
-	//// Cube 4
-	//auto cube4 = m_world->createGameObject<jazzy::GameObject>();
-	//cube4->createOrGetComponent<jazzy::CubeComponent>();
-	//cube4->createOrGetComponent<jazzy::TransformComponent>()->setPosition({ 0.0f, 3.0f, 0.0f });
+	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
+	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
 
 
 	test_child->setParent(test_parent);
@@ -86,9 +76,9 @@ void jazzy::Game::onInternalUpdate()
 	parentTransform->setScale(parentVec3);
 	*/
 
-	Vec3 parentVec3 = parentTransform->getScale();
-	parentVec3.x += deltaTime;
-	parentTransform->setScale(parentVec3);
+	Vec3 parentVec3 = parentTransform->getRotation();
+	parentVec3.z += deltaTime;
+	parentTransform->setRotation(parentVec3);
 
 	// Child Test
 	/*
