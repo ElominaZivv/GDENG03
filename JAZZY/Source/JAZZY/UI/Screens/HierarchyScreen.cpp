@@ -87,7 +87,7 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
 
             for (auto i : std::views::iota(0u, numComp)) {
                 if (cubes[i]->getGameObject().m_name == selected && selected != obj->getGameObject().m_name) {
-                    // REMOVE FROM CHILD HERE
+                    cubes[i]->getGameObject().getParent()->removeChildByName(cubes[i]->getGameObject().m_name);
                     cubes[i]->getGameObject().setParent(nullptr);
                     cubes[i]->getGameObject().setParent(&obj->getGameObject());
                 }
