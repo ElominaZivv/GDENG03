@@ -10,8 +10,21 @@ jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Compon
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
+	Vec3 oldPos = m_position;
+	Vec3 newPos = position;
+	Vec3 displacement = newPos - oldPos;
 	m_position = position;
+
 	markAsDirty();
+
+	GameObject& obj = getGameObject();
+	for (auto i : std::views::iota(0u, obj.getChildCount()))
+	{
+		TransformComponent* childTransform = obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>();
+		Vec3 currPos = childTransform->getPosition();
+		childTransform->setPosition(currPos + displacement);
+	}
+
 }
 
 jazzy::Vec3 jazzy::TransformComponent::getPosition() const noexcept

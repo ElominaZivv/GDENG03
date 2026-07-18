@@ -18,6 +18,14 @@ namespace jazzy
 			return *this;
 		}
 
+		Vec3& operator-=(const Vec3& rhs)
+		{
+			x -= rhs.x;
+			y -= rhs.y;
+			z -= rhs.z;
+			return *this;
+		}
+
 		Vec3& operator*=(float scalar)
 		{
 			x *= scalar;
@@ -47,6 +55,12 @@ namespace jazzy
 	inline Vec3 operator+(Vec3 lhs, const Vec3& rhs)
 	{
 		lhs += rhs;
+		return lhs;
+	}
+
+	inline Vec3 operator-(Vec3 lhs, const Vec3& rhs)
+	{
+		lhs -= rhs;
 		return lhs;
 	}
 

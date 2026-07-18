@@ -59,6 +59,18 @@ void jazzy::Game::onInternalUpdate()
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;	// Close the program
 
+	// Parent Test
+	TransformComponent* parentTransform = test_parent->getComponent<jazzy::TransformComponent>();
+	Vec3 parentVec3 = parentTransform->getPosition();
+	parentVec3.x += deltaTime;
+	parentTransform->setPosition(parentVec3);
+
+	// Child Test
+	TransformComponent* childTransform = test_child->getComponent<jazzy::TransformComponent>();
+	Vec3 childVec3 = childTransform->getPosition();
+	childVec3.x -= 2.0f * deltaTime;
+	childTransform->setPosition(childVec3);
+
 	// World
 	m_world->update(deltaTime);
 
