@@ -45,7 +45,8 @@ namespace jazzy
 		void addChild(GameObject* obj);
 		GameObject* getChildByIndex(ui32 index);
 		ui32 getChildCount();
-	
+		
+		bool isSelected = false;
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}

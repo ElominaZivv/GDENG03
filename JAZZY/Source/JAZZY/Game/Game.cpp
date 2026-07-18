@@ -94,8 +94,8 @@ void jazzy::Game::onInternalUpdate()
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
-	m_inputSystem->setCursorLocked(true);
-	m_inputSystem->setCursorVisible(false);
+	//m_inputSystem->setCursorLocked(true);
+	//m_inputSystem->setCursorVisible(false);
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 

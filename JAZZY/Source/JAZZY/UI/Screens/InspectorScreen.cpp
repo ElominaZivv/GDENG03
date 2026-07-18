@@ -23,7 +23,7 @@ void jazzy::InspectorScreen::draw()
     auto cubes = m_world.getComponents<CubeComponent>(numComp);
 
 
-    auto plane = cubes[0];
+    auto plane = cubes[m_world.GetSelectedIndex()];
     auto& transform = plane->getGameObject().getTransform();
 
     static float position[3] = {0.0f, 1.0f, 0.0f};
@@ -37,11 +37,11 @@ void jazzy::InspectorScreen::draw()
         }
 
         if (ImGui::InputFloat3("Scale", scale, "%.2f")) {
-
+            transform.setScale({ scale[0], scale[1], scale[2] });
         }
 
         if (ImGui::InputFloat3("Rotation", rotation, "%.2f")) {
-
+            transform.setRotation({ rotation[0], rotation[1], rotation[2] });
         }
 
         ImGui::End();

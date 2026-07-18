@@ -34,6 +34,9 @@ namespace jazzy
 
 		void update(f32 deltaTime);
 
+		void SetSelectedObject(ui32 index);
+		ui32 GetSelectedIndex();
+
 	private:
 		enum class EventType
 		{
@@ -69,5 +72,7 @@ namespace jazzy
 	
 		friend class GameObject;
 		friend class TransformComponent;
+
+		ui32 selectedObjIndex = 0;
 	};
 }

@@ -41,6 +41,16 @@ void jazzy::World::update(f32 deltaTime)
 	m_dirtyTransforms.clear();
 }
 
+void jazzy::World::SetSelectedObject(ui32 index)
+{
+	selectedObjIndex = index;
+}
+
+jazzy::ui32 jazzy::World::GetSelectedIndex()
+{
+	return selectedObjIndex;
+}
+
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)
 {
 	if (!object) return{};
