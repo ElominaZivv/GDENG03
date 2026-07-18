@@ -43,6 +43,11 @@ jazzy::GameObject* jazzy::GameObject::getChildByIndex(ui32 index)
 	return m_children[index];
 }
 
+jazzy::ui32 jazzy::GameObject::getChildCount()
+{
+	return m_children.size();
+}
+
 jazzy::Component* jazzy::GameObject::createComponentInternal(UniquePtr<Component>& component)
 {
 	if (!component) return{};

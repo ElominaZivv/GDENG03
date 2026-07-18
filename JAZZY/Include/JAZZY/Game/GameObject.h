@@ -44,6 +44,7 @@ namespace jazzy
 		GameObject* getParent();
 		void addChild(GameObject* obj);
 		GameObject* getChildByIndex(ui32 index);
+		ui32 getChildCount();
 	
 	protected:
 		virtual void onCreate() {}

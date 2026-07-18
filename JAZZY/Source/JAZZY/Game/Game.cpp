@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ranges>
 #include <JAZZY/Game/Game.h>
 #include <JAZZY/Window/Window.h>
@@ -24,17 +25,19 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
-	auto plane = m_world->createGameObject<jazzy::GameObject>();
-	plane->createOrGetComponent<jazzy::CubeComponent>();
-	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
+	test_parent = m_world->createGameObject<jazzy::GameObject>();
+	test_parent->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* plane_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
 	plane_transform->setScale({ 15.0f, 0.05f, 15.0f });
 
-	auto cube = m_world->createGameObject<jazzy::GameObject>();
-	cube->createOrGetComponent<jazzy::CubeComponent>();
-	TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
-	cube_transform->setPosition({ 0.0f, -1.0f, 0.0f });
+	test_child = m_world->createGameObject<jazzy::GameObject>();
+	test_child->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* cube_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
+	cube_transform->setPosition({ 0.0f, -3.0f, 0.0f });
 	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
+
+	test_child->setParent(test_parent);
 
 	DX3DLogInfo("Game initialized.");
 }

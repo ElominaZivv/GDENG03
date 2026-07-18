@@ -1,5 +1,8 @@
+#include <ranges>
 #include <JAZZY/Components/TransformComponent.h>
 #include <JAZZY/Game/World.h>
+
+#include "JAZZY/Game/GameObject.h"
 
 jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Component(data)
 {
@@ -57,13 +60,36 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 
 	m_rigidWorldMatrix =
 		Mat4x4::rotateX(m_rotation.x) *
-		Mat4x4::rotateX(m_rotation.x) *
-		Mat4x4::rotateX(m_rotation.x) *
+		Mat4x4::rotateY(m_rotation.y) *
+		Mat4x4::rotateZ(m_rotation.z) *
 		Mat4x4::translation(m_position);
 
 	m_affineWorldMatrix =
 		Mat4x4::scale(m_scale) *
 		m_rigidWorldMatrix;
+
+	/*
+	auto& obj = getGameObject();
+	auto* parent = obj.getParent();
+
+	if (parent)
+	{
+		TransformComponent* parent_transform = parent->getComponent<jazzy::TransformComponent>();
+		Mat4x4 parentMat = parent_transform->getRigidWorldMatrix();
+	}
+	else
+	{
+		m_rigidWorldMatrix =
+			Mat4x4::rotateX(m_rotation.x) *
+			Mat4x4::rotateY(m_rotation.y) *
+			Mat4x4::rotateZ(m_rotation.z) *
+			Mat4x4::translation(m_position);
+
+		m_affineWorldMatrix =
+			Mat4x4::scale(m_scale) *
+			m_rigidWorldMatrix;
+	}
+	*/
 }
 
 void jazzy::TransformComponent::markAsDirty()
@@ -71,4 +97,14 @@ void jazzy::TransformComponent::markAsDirty()
 	if (m_dirty) return;
 	m_dirty = true;
 	m_world.addDirtyTransformInternal(*this);
+	markChildrenAsDirty();
+}
+
+void jazzy::TransformComponent::markChildrenAsDirty()
+{
+	GameObject& obj = getGameObject();
+	for (auto i : std::views::iota(0u, obj.getChildCount()))
+	{
+		obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>()->markAsDirty();
+	}
 }

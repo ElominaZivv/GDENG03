@@ -28,6 +28,9 @@ namespace jazzy
 		UniquePtr<World> m_world{};
 		bool m_isRunning{ true };
 
+		GameObject* test_child{};
+		GameObject* test_parent{};
+
 		// Time
 		std::chrono::steady_clock::time_point m_previousTime{};
 	};

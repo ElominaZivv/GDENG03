@@ -1,3 +1,4 @@
+#include <ranges>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 
@@ -38,9 +39,6 @@ void jazzy::World::update(f32 deltaTime)
 		comp->updateWorldMatrix();
 	}
 	m_dirtyTransforms.clear();
-
-	// Update of Transform Components Based on Hierarchy
-	// <For Loop Here>
 }
 
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)
