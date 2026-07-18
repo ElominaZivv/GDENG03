@@ -3,6 +3,9 @@
 #include <JAZZY/Components/CubeComponent.h>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
+
+#include <format>
+#include <string>
 #include <iostream>
 
 jazzy::MenuScreen::MenuScreen(World& world)
@@ -36,7 +39,13 @@ void jazzy::MenuScreen::draw()
         {
             if (ImGui::MenuItem("Create Cube"))
             {
-                auto cube = m_world.createGameObject<GameObject>(("Cube " + std::to_string(m_cubeCount)).c_str());
+                auto numComp = 0u;
+                auto allCubes = m_world.getComponents<CubeComponent>(numComp);
+                auto worldPlane = allCubes[0];
+                auto& parent = worldPlane->getGameObject();
+
+                auto cube = m_world.createGameObject<GameObject>("New Cube");
+
                 cube->createOrGetComponent<CubeComponent>();
 
                 auto transform = cube->createOrGetComponent<TransformComponent>();
@@ -44,6 +53,8 @@ void jazzy::MenuScreen::draw()
                 float newPosition = m_cubeCount * 1.5f; //1.5 is for spacing
 
                 transform->setPosition({ 0.0f, 1.0f, newPosition});
+
+                cube->setParent(&parent);
 
                 m_cubeCount++;
             }
