@@ -26,9 +26,13 @@ void EditorCamera::update(f32 _deltaTime)
 	Mat4x4 world_cam{};
 	world_cam = Mat4x4::identity();
 
+	m_inputSystem->setCursorLocked(false);
+	m_inputSystem->setCursorVisible(true);
 	// Rotation
 	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))
 	{
+		m_inputSystem->setCursorLocked(true);
+		m_inputSystem->setCursorVisible(false);
 		m_rotX += m_inputSystem->getMouseDelta().y * m_sensitivity * _deltaTime;
 		m_rotY += m_inputSystem->getMouseDelta().x * m_sensitivity * _deltaTime;
 	}

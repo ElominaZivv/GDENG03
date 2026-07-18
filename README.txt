@@ -1,4 +1,11 @@
-GDENG03, X21, Zivv Zachery V. Elomina
+GDENG03, X21, Group JAZZY
+Github https://github.com/ElominaZivv/GDENG03
+
+Members:
+	Chen, Vivian
+	Elomina, Zivv
+	Montuerto, Yzabelle
+	Naranjo, Johann
 
 Entry Class File: GDENG03/Game/main.cpp
 

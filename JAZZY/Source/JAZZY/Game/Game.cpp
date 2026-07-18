@@ -69,35 +69,11 @@ void jazzy::Game::onInternalUpdate()
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;	// Close the program
 
-	// Parent Test
-	TransformComponent* parentTransform = test_parent->getComponent<jazzy::TransformComponent>();
-	/*
-	Vec3 parentVec3 = parentTransform->getScale();
-	f32 scaleSpeed = 0.2f;
-	parentVec3.x += deltaTime * scaleSpeed;
-	parentTransform->setScale(parentVec3);
-	*/
-
-	Vec3 parentVec3 = parentTransform->getRotation();
-	//parentVec3.z += deltaTime * 30.0f;
-	parentVec3.x += deltaTime * 30.0f;
-	parentTransform->setRotation(parentVec3);
-
-	// Child Test
-	/*
-	TransformComponent* childTransform = test_child->getComponent<jazzy::TransformComponent>();
-	Vec3 childVec3 = childTransform->getPosition();
-	childVec3.x -= 2.0f * deltaTime;
-	childTransform->setPosition(childVec3);
-	*/
-
 	// World
 	m_world->update(deltaTime);
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
-	//m_inputSystem->setCursorLocked(true);
-	//m_inputSystem->setCursorVisible(false);
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 
