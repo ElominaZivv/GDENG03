@@ -1,3 +1,4 @@
+#include <iostream>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Game/World.h>
 
@@ -32,14 +33,19 @@ jazzy::GameObject* jazzy::GameObject::getParent()
 void jazzy::GameObject::addChild(GameObject* obj)
 {
 	if (!obj) return;
-	m_children.push_back(obj);
+	m_children.push_back(static_cast<GameObject*>(obj));
 }
 
-jazzy::GameObject* jazzy::GameObject::getChild(ui32 index)
+jazzy::GameObject* jazzy::GameObject::getChildByIndex(ui32 index)
 {
-	if (m_children.size() == 0u) return{};
-	if ((1+index) >= m_children.size()) return {};
+	if (m_children.empty()) return{};
+	if (index >= m_children.size()) return {};
 	return m_children[index];
+}
+
+jazzy::ui32 jazzy::GameObject::getChildCount()
+{
+	return m_children.size();
 }
 
 jazzy::Component* jazzy::GameObject::createComponentInternal(UniquePtr<Component>& component)

@@ -19,14 +19,21 @@ void jazzy::InspectorScreen::draw()
                                    ImGuiWindowFlags_NoNavFocus;
 
     // transform temp || this should be a reference to the specific transform being changed
-    static float position[3] = { 0.0f, 1.0f, 0.0f };
+    auto numComp = 0u;
+    auto cubes = m_world.getComponents<CubeComponent>(numComp);
+
+
+    auto plane = cubes[0];
+    auto& transform = plane->getGameObject().getTransform();
+
+    static float position[3] = {0.0f, 1.0f, 0.0f};
     static float scale[3] = { 1.0f, 1.0f, 1.0f };
     static float rotation[3] = { 0.0f, 0.0f, 0.0f };
 
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 
         if (ImGui::InputFloat3("Position", position, "%.2f")) {
-
+            transform.setPosition({ position[0], position[1], position[2] });
         }
 
         if (ImGui::InputFloat3("Scale", scale, "%.2f")) {
