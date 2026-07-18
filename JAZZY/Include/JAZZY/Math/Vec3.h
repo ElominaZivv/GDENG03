@@ -34,6 +34,12 @@ namespace jazzy
 			return *this;
 		}
 
+		static f32 magnitude(const Vec3& v)
+		{
+			float lenSq = v.x * v.x + v.y * v.y + v.z * v.z;
+			return std::sqrt(lenSq);
+		}
+
 		static Vec3 normalize(const Vec3& v)
 		{
 			float lenSq = v.x * v.x + v.y * v.y + v.z * v.z;

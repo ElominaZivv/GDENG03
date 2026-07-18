@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ranges>
 #include <JAZZY/Components/TransformComponent.h>
 #include <JAZZY/Game/World.h>
@@ -45,15 +46,24 @@ void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
 	{
 		TransformComponent* childTransform = obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>();
-		childTransform->markAsDirty();
 
-		/*
 		// Set Position
+		// Using spherical coordinates, change the position of the child
+		// Distance
+		f32 distance = Vec3::magnitude(childTransform->getPosition() - m_position);
+
+		// Azimuth
+
+		// Polar Angle
+
+
+
 		Vec3 currentChildPosition = childTransform->getPosition();
 		Vec3 newChildPosition = currentChildPosition;
 		childTransform->setPosition(newChildPosition);
 
 		// Set Rotation
+		/*
 		Vec3 currentChildRotation = childTransform->getRotation();
 		childTransform->setRotation(currentChildRotation + difference);
 		*/
