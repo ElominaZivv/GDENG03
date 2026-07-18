@@ -46,7 +46,42 @@ jazzy::Vec3 jazzy::TransformComponent::getRotation() const noexcept
 
 void jazzy::TransformComponent::setScale(const Vec3& scale)
 {
+	Vec3 oldScale = m_scale;
+
+	Vec3 scaleRatio
+	{
+		scale.x / oldScale.x,
+		scale.y / oldScale.y,
+		scale.z / oldScale.z
+	};
+
 	m_scale = scale;
+
+	GameObject& obj = getGameObject();
+	for (auto i : std::views::iota(0u, obj.getChildCount()))
+	{
+		auto* childTransform =
+			obj.getChildByIndex(i)->getComponent<TransformComponent>();
+
+		// Current gap from parent
+		Vec3 offset = childTransform->getPosition() - m_position;
+
+		// Scaled gap
+		offset.x *= scaleRatio.x;
+		offset.y *= scaleRatio.y;
+		offset.z *= scaleRatio.z;
+
+		// Child transform stuff
+		childTransform->setPosition(m_position + offset);
+
+		Vec3 childScale = childTransform->getScale();
+
+		childScale.x *= scaleRatio.x;
+		childScale.y *= scaleRatio.y;
+		childScale.z *= scaleRatio.z;
+
+		childTransform->setScale(childScale);
+	}
 	markAsDirty();
 }
 
