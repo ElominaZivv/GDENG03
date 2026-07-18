@@ -36,8 +36,7 @@ void jazzy::MenuScreen::draw()
         {
             if (ImGui::MenuItem("Create Cube"))
             {
-                auto cube = m_world.createGameObject<GameObject>();
-
+                auto cube = m_world.createGameObject<GameObject>(("Cube " + std::to_string(m_cubeCount)).c_str());
                 cube->createOrGetComponent<CubeComponent>();
 
                 auto transform = cube->createOrGetComponent<TransformComponent>();

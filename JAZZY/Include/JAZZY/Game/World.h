@@ -16,13 +16,17 @@ namespace jazzy
 		explicit World(const WorldDesc& desc);
 
 		template<typename T>
-		T* createGameObject() requires isRegistered<GameObject, T>
+		T* createGameObject(const char* name = "GameObject")
+			requires isRegistered<GameObject, T>
 		{
-			UniquePtr<GameObject> e = std::make_unique<T>(GameObjectDesc{
-				{m_logger},
-				m_gameContext,
-				*this
+			UniquePtr<GameObject> e = std::make_unique<T>(
+				GameObjectDesc{
+					{m_logger},
+					m_gameContext,
+					*this,
+					name
 				});
+
 			return static_cast<T*>(createGameObjectInternal(e));
 		}
 

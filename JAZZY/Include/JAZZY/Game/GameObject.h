@@ -48,7 +48,7 @@ namespace jazzy
 		
 		// Hierarchy stuff
 		bool isSelected = false;
-		const char* name = "cube";
+		const char* m_name = "cube";
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}

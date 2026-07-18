@@ -162,6 +162,7 @@ namespace jazzy
 		BaseDesc base;
 		GameContext gameContext;
 		World& world;
+		const char* name;
 	};
 
 	struct WorldDesc

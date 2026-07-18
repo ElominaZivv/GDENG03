@@ -27,20 +27,20 @@ jazzy::Game::Game(const GameDesc& desc):
 	m_previousTime = std::chrono::steady_clock::now();
 
 	// Plane
-	auto plane = m_world->createGameObject<jazzy::GameObject>();
+	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
 	plane->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
 	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
 
 	// Parent
-	test_parent = m_world->createGameObject<jazzy::GameObject>();
+	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
 	test_parent->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
 
 	// Child
-	test_child = m_world->createGameObject<jazzy::GameObject>();
+	test_child = m_world->createGameObject<jazzy::GameObject>("child");
 	test_child->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
 	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
