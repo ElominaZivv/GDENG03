@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ranges>
 #include <JAZZY/Game/Game.h>
 #include <JAZZY/Window/Window.h>
@@ -25,35 +26,27 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	m_previousTime = std::chrono::steady_clock::now();
 
+	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>();
 	plane->createOrGetComponent<jazzy::CubeComponent>();
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
-	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
-	plane_transform->setScale({ 15.0f, 0.05f, 15.0f });
+	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
+	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
 
-	auto cube = m_world->createGameObject<jazzy::GameObject>();
-	cube->createOrGetComponent<jazzy::CubeComponent>();
-	TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
-	cube_transform->setPosition({ 0.0f, 1.0f, 0.0f });
-	cube_transform->setRotation({ 3.14f, 0.0f, 0.0f });
+	// Parent
+	test_parent = m_world->createGameObject<jazzy::GameObject>();
+	test_parent->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
+	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
 
-	cube->setParent(plane);
-	auto parent = cube->getParent();
-	if (parent)
-	{
-		TransformComponent* parent_transform = parent->createOrGetComponent<jazzy::TransformComponent>();
-		parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
+	// Child
+	test_child = m_world->createGameObject<jazzy::GameObject>();
+	test_child->createOrGetComponent<jazzy::CubeComponent>();
+	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
+	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
 
-		/*
-		auto child = parent->getChild(1);
-		if (child)
-		{
-			DX3DLogInfo("Child Found");
-			TransformComponent* child_transform = child->createOrGetComponent<jazzy::TransformComponent>();
-			child_transform->setPosition({ 0.0f, 0.0f, 0.0f });
-		}
-		*/
-	}
+
+	test_child->setParent(test_parent);
 
 	DX3DLogInfo("Game initialized.");
 }
@@ -75,13 +68,34 @@ void jazzy::Game::onInternalUpdate()
 	m_inputSystem->update();
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;	// Close the program
 
+	// Parent Test
+	TransformComponent* parentTransform = test_parent->getComponent<jazzy::TransformComponent>();
+	/*
+	Vec3 parentVec3 = parentTransform->getScale();
+	f32 scaleSpeed = 0.2f;
+	parentVec3.x += deltaTime * scaleSpeed;
+	parentTransform->setScale(parentVec3);
+	*/
+
+	Vec3 parentVec3 = parentTransform->getRotation();
+	parentVec3.z += deltaTime;
+	parentTransform->setRotation(parentVec3);
+
+	// Child Test
+	/*
+	TransformComponent* childTransform = test_child->getComponent<jazzy::TransformComponent>();
+	Vec3 childVec3 = childTransform->getPosition();
+	childVec3.x -= 2.0f * deltaTime;
+	childTransform->setPosition(childVec3);
+	*/
+
 	// World
 	m_world->update(deltaTime);
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
-	//m_inputSystem->setCursorLocked(true);
-	//m_inputSystem->setCursorVisible(false);
+	m_inputSystem->setCursorLocked(true);
+	m_inputSystem->setCursorVisible(false);
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 

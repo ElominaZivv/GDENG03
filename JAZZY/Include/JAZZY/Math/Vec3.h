@@ -18,12 +18,26 @@ namespace jazzy
 			return *this;
 		}
 
+		Vec3& operator-=(const Vec3& rhs)
+		{
+			x -= rhs.x;
+			y -= rhs.y;
+			z -= rhs.z;
+			return *this;
+		}
+
 		Vec3& operator*=(float scalar)
 		{
 			x *= scalar;
 			y *= scalar;
 			z *= scalar;
 			return *this;
+		}
+
+		static f32 magnitude(const Vec3& v)
+		{
+			float lenSq = v.x * v.x + v.y * v.y + v.z * v.z;
+			return std::sqrt(lenSq);
 		}
 
 		static Vec3 normalize(const Vec3& v)
@@ -47,6 +61,12 @@ namespace jazzy
 	inline Vec3 operator+(Vec3 lhs, const Vec3& rhs)
 	{
 		lhs += rhs;
+		return lhs;
+	}
+
+	inline Vec3 operator-(Vec3 lhs, const Vec3& rhs)
+	{
+		lhs -= rhs;
 		return lhs;
 	}
 
