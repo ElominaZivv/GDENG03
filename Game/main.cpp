@@ -6,12 +6,9 @@
 
 int main()
 {
-	int zzWindowDisplayHeight = 400;	// Originally 720
-	int zzWindowDisplayWidth = zzWindowDisplayHeight * 1.78;	// Originally 1280
-
 	try
 	{
-		jazzy::Game game({ {zzWindowDisplayWidth, zzWindowDisplayHeight}, jazzy::Logger::LogLevel::Info });
+		jazzy::Game game({ {1280, 720}, jazzy::Logger::LogLevel::Info });
 		game.run();
 	}
 	catch (const std::runtime_error&)
