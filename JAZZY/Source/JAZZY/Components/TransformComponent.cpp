@@ -11,11 +11,11 @@ jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Compon
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
-	Vec3 currentPostition = m_position;
+	Vec3 currentPosition = m_position;
 	Vec3 newPosition = position;
-	Vec3 displacement = newPosition - currentPostition;
-	m_position = position;
+	Vec3 displacement = position - m_position;
 
+	m_position = position;
 	markAsDirty();
 
 	GameObject& obj = getGameObject();
@@ -25,7 +25,6 @@ void jazzy::TransformComponent::setPosition(const Vec3& position)
 		Vec3 currentChildPosition = childTransform->getPosition();
 		childTransform->setPosition(currentChildPosition + displacement);
 	}
-
 }
 
 jazzy::Vec3 jazzy::TransformComponent::getPosition() const noexcept
@@ -79,6 +78,7 @@ void jazzy::TransformComponent::setScale(const Vec3& scale)
 	};
 
 	m_scale = scale;
+	markAsDirty();
 
 	GameObject& obj = getGameObject();
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
@@ -105,7 +105,6 @@ void jazzy::TransformComponent::setScale(const Vec3& scale)
 
 		childTransform->setScale(childScale);
 	}
-	markAsDirty();
 }
 
 jazzy::Vec3 jazzy::TransformComponent::getScale() const noexcept
@@ -139,19 +138,6 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 	m_affineWorldMatrix =
 		Mat4x4::scale(m_scale) *
 		m_rigidWorldMatrix;
-
-	auto& obj = getGameObject();
-	auto* parent = obj.getParent();
-
-	if (parent)
-	{
-		DX3DLogInfo("TESTING");
-		TransformComponent* parent_transform = parent->getComponent<jazzy::TransformComponent>();
-		Mat4x4 parentMat = parent_transform->getRigidWorldMatrix();
-		m_affineWorldMatrix =
-			parentMat *
-			m_rigidWorldMatrix;
-	}
 }
 
 void jazzy::TransformComponent::markAsDirty()
