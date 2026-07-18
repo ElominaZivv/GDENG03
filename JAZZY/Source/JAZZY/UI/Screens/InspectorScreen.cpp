@@ -23,12 +23,12 @@ void jazzy::InspectorScreen::draw()
     auto cubes = m_world.getComponents<CubeComponent>(numComp);
 
 
-    auto plane = cubes[m_world.GetSelectedIndex()];
-    auto& transform = plane->getGameObject().getTransform();
+    auto cube = cubes[m_world.GetSelectedIndex()];
+    auto& transform = cube->getGameObject().getTransform();
 
-    static float position[3] = {0.0f, 1.0f, 0.0f};
-    static float scale[3] = { 1.0f, 1.0f, 1.0f };
-    static float rotation[3] = { 0.0f, 0.0f, 0.0f };
+    static float position[3] = {transform.getPosition().x, transform.getPosition().y, transform.getPosition().z };
+    static float scale[3] = { transform.getScale().x, transform.getScale().y, transform.getScale().z };
+    static float rotation[3] = { transform.getRotation().x, transform.getRotation().y, transform.getRotation().z };
 
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 

@@ -46,7 +46,9 @@ namespace jazzy
 		GameObject* getChildByIndex(ui32 index);
 		ui32 getChildCount();
 		
+		// Hierarchy stuff
 		bool isSelected = false;
+		const char* name = "cube";
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}

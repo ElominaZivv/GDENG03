@@ -26,9 +26,7 @@ void jazzy::HierarchyScreen::draw()
     auto numComp = 0u;
     auto cubes = m_world.getComponents<CubeComponent>(numComp);
 
-    for (auto i : std::views::iota(0u, numComp)) {
-        if (cubes[i]->getGameObject().isSelected) m_world.SetSelectedObject(i);
-    }
+    
 
     if (ImGui::BeginViewportSideBar("Hierarchy", viewport, ImGuiDir_Left, 150.0f, windowFlags)) {
 
@@ -62,6 +60,13 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
         }
 
         obj->getGameObject().isSelected = true;
+
+        for (auto i : std::views::iota(0u, numComp)) {
+            if (cubes[i]->getGameObject().isSelected) {
+                m_world.SetSelectedObject(i);
+                std::cout << "selected: " << i << std::endl;
+            }
+        }
     }
 
     if (isOpen)
@@ -70,7 +75,6 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
             auto child = obj->getGameObject().getChildByIndex(i)->createOrGetComponent<CubeComponent>();
             DrawObjectHierarchy(child, treeFlags);
         }
-        ImGui::Text("Cube");
         ImGui::TreePop();
     }
 }
