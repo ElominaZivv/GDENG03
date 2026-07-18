@@ -44,7 +44,8 @@ void jazzy::MenuScreen::draw()
                 auto worldPlane = allCubes[0];
                 auto& parent = worldPlane->getGameObject();
 
-                auto cube = m_world.createGameObject<GameObject>("New Cube");
+                std::string name = "Cube " + std::to_string(m_cubeCount);
+                auto cube = m_world.createGameObject<GameObject>(name);
 
                 cube->createOrGetComponent<CubeComponent>();
 

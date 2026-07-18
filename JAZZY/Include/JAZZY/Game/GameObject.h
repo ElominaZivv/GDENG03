@@ -2,7 +2,7 @@
 #include <JAZZY/Core/Common.h>
 #include <JAZZY/Core/Identifiable.h>
 #include <JAZZY/Game/Component.h>
-
+#include <string>
 #include <unordered_map>
 
 #include "JAZZY/Components/TransformComponent.h"
@@ -48,7 +48,7 @@ namespace jazzy
 		
 		// Hierarchy stuff
 		bool isSelected = false;
-		const char* m_name = "cube";
+		std::string m_name = "cube";
 	protected:
 		virtual void onCreate() {}
 		virtual void onUpdate(f32 deltaTime) {}

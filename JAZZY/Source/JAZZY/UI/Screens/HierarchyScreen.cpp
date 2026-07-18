@@ -49,7 +49,7 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
     if (obj->getGameObject().isSelected) treeFlags |= ImGuiTreeNodeFlags_Selected;
     if (obj->getGameObject().getChildCount() == 0) treeFlags |= ImGuiTreeNodeFlags_Leaf;
 
-    bool isOpen = ImGui::TreeNodeEx(obj->getGameObject().m_name, treeFlags);
+    bool isOpen = ImGui::TreeNodeEx(obj->getGameObject().m_name.c_str(), treeFlags);
 
     if (ImGui::IsItemClicked())
     {
