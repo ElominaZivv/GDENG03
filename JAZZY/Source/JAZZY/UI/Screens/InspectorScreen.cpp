@@ -26,9 +26,9 @@ void jazzy::InspectorScreen::draw()
     auto cube = cubes[m_world.GetSelectedIndex()];
     auto& transform = cube->getGameObject().getTransform();
 
-    static float position[3] = {transform.getPosition().x, transform.getPosition().y, transform.getPosition().z };
-    static float scale[3] = { transform.getScale().x, transform.getScale().y, transform.getScale().z };
-    static float rotation[3] = { transform.getRotation().x, transform.getRotation().y, transform.getRotation().z };
+    float position[3] = {transform.getPosition().x, transform.getPosition().y, transform.getPosition().z };
+    float scale[3] = { transform.getScale().x, transform.getScale().y, transform.getScale().z };
+    float rotation[3] = { transform.getRotation().x, transform.getRotation().y, transform.getRotation().z };
 
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 

@@ -47,6 +47,7 @@ jazzy::Game::Game(const GameDesc& desc):
 
 
 	test_child->setParent(test_parent);
+	test_parent->setParent(plane);
 
 	DX3DLogInfo("Game initialized.");
 }

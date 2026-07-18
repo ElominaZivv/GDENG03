@@ -47,8 +47,9 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
 
     static int selectedNode = m_world.GetSelectedIndex();
     if (obj->getGameObject().isSelected) treeFlags |= ImGuiTreeNodeFlags_Selected;
+    if (obj->getGameObject().getChildCount() == 0) treeFlags |= ImGuiTreeNodeFlags_Leaf;
 
-    bool isOpen = ImGui::TreeNodeEx("ROOT", treeFlags, "World Plane");
+    bool isOpen = ImGui::TreeNodeEx(obj->getGameObject().m_name, treeFlags);
 
     if (ImGui::IsItemClicked())
     {
@@ -75,6 +76,7 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(CubeComponent* obj, ImGuiTreeNo
             auto child = obj->getGameObject().getChildByIndex(i)->createOrGetComponent<CubeComponent>();
             DrawObjectHierarchy(child, treeFlags);
         }
+
         ImGui::TreePop();
     }
 }
