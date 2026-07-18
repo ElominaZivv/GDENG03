@@ -78,7 +78,7 @@ void jazzy::Game::onInternalUpdate()
 	*/
 
 	Vec3 parentVec3 = parentTransform->getRotation();
-	parentVec3.z += deltaTime;
+	parentVec3.z += deltaTime * 30.0f;
 	parentTransform->setRotation(parentVec3);
 
 	// Child Test

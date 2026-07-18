@@ -139,10 +139,12 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 
 	m_dirty = false;
 
+	Vec3 radians = (m_rotation * (MathUtils::PI / 180.0f));
+
 	m_rigidWorldMatrix =
-		Mat4x4::rotateX(m_rotation.x) *
-		Mat4x4::rotateY(m_rotation.y) *
-		Mat4x4::rotateZ(m_rotation.z) *
+		Mat4x4::rotateX(radians.x) *
+		Mat4x4::rotateY(radians.y) *
+		Mat4x4::rotateZ(radians.z) *
 		Mat4x4::translation(m_position);
 
 	m_affineWorldMatrix =
