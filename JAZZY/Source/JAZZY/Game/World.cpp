@@ -23,7 +23,8 @@ void jazzy::World::update(f32 deltaTime)
 			{
 				auto& obj = m_pendingObjectSwapBuffer[pendingObjIndex];
 				auto ptr = obj.get();
-				// Gets from the unordered map the type of object (objTypeId) then pushes back that object into a vector of that typeId
+				// Gets from the unordered map the type of object (objTypeId) then 
+				// pushes back that object into a vector of that typeId
 				m_objects[objTypeId].push_back(std::move(obj));
 				ptr->onCreate();
 			}

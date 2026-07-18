@@ -38,6 +38,7 @@ void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 	Vec3 currentRotation = m_rotation;
 	Vec3 newRotation = rotation;
 	Vec3 difference = newRotation - currentRotation;
+	Vec3 differenceRadians = (difference * (MathUtils::PI / 180.0f));
 
 	m_rotation = rotation;
 	markAsDirty();
@@ -47,26 +48,27 @@ void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 	{
 		TransformComponent* childTransform = obj.getChildByIndex(i)->getComponent<jazzy::TransformComponent>();
 
-		// Set Position
-		// Using spherical coordinates, change the position of the child
-		// Distance
-		f32 distance = Vec3::magnitude(childTransform->getPosition() - m_position);
-
-		// Azimuth
-
-		// Polar Angle
-
-
-
 		Vec3 currentChildPosition = childTransform->getPosition();
-		Vec3 newChildPosition = currentChildPosition;
-		childTransform->setPosition(newChildPosition);
+		Vec3 newChildPosition{};
+
+		// Get displacement of child from parent
+		Vec3 displacement = childTransform->getPosition() - m_position;
+		// Rotate displacement
+		Mat4x4 temporary = Mat4x4::identity();
+		temporary = Mat4x4::translation(displacement);
+		temporary =
+			temporary *
+			Mat4x4::rotateX(differenceRadians.x) *
+			Mat4x4::rotateY(differenceRadians.y) *
+			Mat4x4::rotateZ(differenceRadians.z);
+		// Translate to parent
+		temporary = temporary * Mat4x4::translation(m_position);
+		Vec3 newPosition({ temporary.row(3).x, temporary.row(3).y, temporary.row(3).z});
+		childTransform->setPosition(newPosition);
 
 		// Set Rotation
-		/*
 		Vec3 currentChildRotation = childTransform->getRotation();
 		childTransform->setRotation(currentChildRotation + difference);
-		*/
 	}
 
 }
