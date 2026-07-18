@@ -36,6 +36,14 @@ void jazzy::GameObject::addChild(GameObject* obj)
 	m_children.push_back(static_cast<GameObject*>(obj));
 }
 
+void jazzy::GameObject::removeChildByIndex(ui32 index)
+{
+	if (m_children.empty()) return;
+	if (index >= m_children.size()) return;
+	std::swap(m_children[index], m_children.back());
+	m_children.pop_back();
+}
+
 jazzy::GameObject* jazzy::GameObject::getChildByIndex(ui32 index)
 {
 	if (m_children.empty()) return{};
