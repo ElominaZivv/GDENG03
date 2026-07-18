@@ -12,26 +12,20 @@ jazzy::MenuScreen::MenuScreen(World& world)
 
 void jazzy::MenuScreen::draw()
 {
+    static bool showCredits = false;
+
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("File"))
+        if (ImGui::BeginMenu("About"))
         {
-            if (ImGui::MenuItem("Save"))
+            if (ImGui::MenuItem("Credits"))
             {
+                showCredits = true;
             }
 
             if (ImGui::IsItemHovered())
             {
-                ImGui::SetTooltip("In Progress");
-            }
-
-            if (ImGui::MenuItem("Exit"))
-            {
-            }
-
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::SetTooltip("In Progress");
+                ImGui::SetTooltip("View engine credits");
             }
 
             ImGui::EndMenu();
@@ -62,5 +56,31 @@ void jazzy::MenuScreen::draw()
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
+    }
+    if (showCredits)
+    {
+        ImGui::OpenPopup("Credits");
+        showCredits = false;
+    }
+
+    if (ImGui::BeginPopupModal("Credits", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("JAZZY Engine");
+        ImGui::Separator();
+
+        ImGui::Text("Created by:");
+        ImGui::BulletText("Vivian Angel Chen");
+        ImGui::BulletText("Zivv Elomina");
+        ImGui::BulletText("Johann Naranjo");
+        ImGui::BulletText("Yzabelle Anne Montuerto");
+
+        ImGui::Spacing();
+
+        if (ImGui::Button("Close"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
     }
 }

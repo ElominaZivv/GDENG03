@@ -7,7 +7,7 @@
 #include <iostream>
 
 jazzy::InspectorScreen::InspectorScreen(World& world)
-    : Screens("Menu"), m_world(world)
+    : Screens("Inspector"), m_world(world)
 {
 }
 

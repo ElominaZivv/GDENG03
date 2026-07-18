@@ -9,7 +9,7 @@
 
 
 jazzy::HierarchyScreen::HierarchyScreen(World & world)
-    : Screens("Menu"), m_world(world)
+    : Screens("Hierarchy"), m_world(world)
 {
 }
 
