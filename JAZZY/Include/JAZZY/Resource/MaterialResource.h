@@ -1,6 +1,4 @@
 #pragma once
-
-#pragma once
 #include <JAZZY/Resource/Resource.h>
 #include <vector>
 #include <span>
