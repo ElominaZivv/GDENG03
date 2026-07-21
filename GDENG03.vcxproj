@@ -171,6 +171,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\UI\UIManager.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\Screens.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="JAZZY\Source\JAZZY\UI\UIManager.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\Screens.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">

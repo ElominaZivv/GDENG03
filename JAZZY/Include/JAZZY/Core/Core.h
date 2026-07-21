@@ -34,24 +34,12 @@ namespace jazzy
 	class UIManager;
 	class Screens;
 	class MenuScreen;
+	class Texture;
 
 	using i32 = int;
 	using ui32 = unsigned int;
 	using f32 = float;
 	using d64 = double;
-
-	/*
-	using SwapChainPtr = std::shared_ptr<SwapChain>;
-	using DeviceContextPtr = std::shared_ptr<DeviceContext>;
-	using ShaderBinaryPtr = std::shared_ptr<ShaderBinary>;
-	using GraphicsPipelineStatePtr = std::shared_ptr<GraphicsPipelineState>;
-	using VertexBufferPtr = std::shared_ptr< VertexBuffer>;
-	using VertexShaderSignaturePtr = std::shared_ptr< VertexShaderSignature>;
-	using ConstantBufferPtr = std::shared_ptr<ConstantBuffer>;
-	using IndexBufferPtr = std::shared_ptr<IndexBuffer>;
-	using InputSystemPtr = std::shared_ptr<InputSystem>;
-	using EditorCameraPtr = std::shared_ptr<EditorCamera>;
-	*/
 
 	template <typename T> using RefPtr = std::shared_ptr<T>;
 	template <typename T> using UniquePtr = std::unique_ptr<T>;

@@ -178,4 +178,10 @@ namespace jazzy
 		World& world;
 		GameContext& context;
 	};
+
+	struct TextureDesc
+	{
+		Rect size{};
+		const void* pixels{};
+	};
 }
