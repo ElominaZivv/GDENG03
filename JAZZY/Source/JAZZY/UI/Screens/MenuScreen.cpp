@@ -84,9 +84,13 @@ void jazzy::MenuScreen::draw()
         ImGui::BulletText("Zivv Elomina");
         ImGui::BulletText("Johann Naranjo");
         ImGui::BulletText("Yzabelle Anne Montuerto");
-
         ImGui::Spacing();
 
+        ImGui::Separator();
+        ImGui::BulletText("Based on PardCode's CPP 3D Game Tutorial Series");
+        ImGui::Spacing();
+
+        ImGui::Separator();
         if (ImGui::Button("Close"))
         {
             ImGui::CloseCurrentPopup();
