@@ -184,4 +184,28 @@ namespace jazzy
 		Rect size{};
 		const void* pixels{};
 	};
+
+	struct ResourceDesc
+	{
+		BaseDesc base;
+		const wchar_t* path{};
+		ResourceManager& manager;
+	};
+
+	struct SystemContext
+	{
+		GraphicsDevice& graphicsDevice;
+	};
+
+	struct MaterialResourceDesc
+	{
+		ResourceDesc base;
+		GraphicsDevice& graphicsDevice;
+	};
+
+	struct ResourceManagerDesc
+	{
+		BaseDesc base;
+		SystemContext context;
+	};
 }

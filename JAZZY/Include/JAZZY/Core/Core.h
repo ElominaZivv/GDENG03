@@ -36,6 +36,9 @@ namespace jazzy
 	class MenuScreen;
 	class Texture;
 
+	class ResourceManager;
+	class Resource;
+
 	using i32 = int;
 	using ui32 = unsigned int;
 	using f32 = float;
