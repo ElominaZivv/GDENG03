@@ -1,31 +1,40 @@
-#include <iostream>
-#include <ranges>
 #include <JAZZY/Game/Game.h>
 #include <JAZZY/Window/Window.h>
-#include <JAZZY/Graphics/GraphicsEngine.h>
+#include <JAZZY/Graphics/GraphicsDevice.h>
 #include <JAZZY/Core/Logger.h>
-#include<JAZZY/Game/Display.h>
 #include <JAZZY/Input/InputSystem.h>
+#include <JAZZY/Game/Display.h>
 #include <JAZZY/Game/World.h>
+#include <JAZZY/Game/GameObject.h>
+#include <JAZZY/Game/WorldRenderer.h>
+#include <JAZZY/Resource/ResourceManager.h>
+
+#include <iostream>
+#include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 
-jazzy::Game::Game(const GameDesc& desc):
-	Base({*std::make_unique<Logger>(desc.logLevel).release()}),
-	m_LoggerPtr(&m_logger)
+jazzy::Game::Game(const GameDesc& desc)
 {
-	m_inputSystem = std::make_shared<InputSystem>(InputSystemDesc{ m_logger });
-	m_inputSystem->setCursorLockArea(desc.windowSize);
-	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ m_logger , m_inputSystem });
-	m_graphicsEngine = std::make_unique<GraphicsEngine>(GraphicsEngineDesc{m_logger, m_editorCamera});
-	m_display = std::make_unique<Display>(DisplayDesc{ {m_logger, desc.windowSize}, m_graphicsEngine->getGraphicsDevice() });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{m_logger}, GameContext{*m_inputSystem, m_graphicsEngine->getGraphicsDevice()} });
-	m_graphicsEngine->initializeUI(m_display->getHWND(),*m_world);
+	m_logger = std::make_unique<Logger>(desc.logLevel);
+	m_inputSystem = std::make_unique<InputSystem>(InputSystemDesc{ *m_logger });
+	m_graphicsDevice = std::make_shared<GraphicsDevice>(GraphicsDeviceDesc{ *m_logger });
+	m_display = std::make_unique<Display>(DisplayDesc{ {*m_logger,desc.windowSize},*m_graphicsDevice });
+	auto context = SystemContext{ *m_graphicsDevice };
+	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice} });
+	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });
 
-	m_previousTime = std::chrono::steady_clock::now();
+	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
 
+	// My Free-cam
+	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ *m_logger , *m_inputSystem });
+	
+	// FIX ME! m_graphicsEngine->initializeUI(m_display->getHWND(),*m_world);
+
+	/*
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
 	plane->createOrGetComponent<jazzy::CubeComponent>();
@@ -48,13 +57,36 @@ jazzy::Game::Game(const GameDesc& desc):
 
 	test_child->setParent(test_parent);
 	test_parent->setParent(plane);
+	*/
 
+	// How does Pardcode call this function when class Game does not inherit class Base?
 	DX3DLogInfo("Game initialized.");
 }
 
 jazzy::Game::~Game()
 {
+	// How does Pardcode call this function when class Game does not inherit class Base?
 	DX3DLogInfo("Game is shutting down.");
+}
+
+jazzy::World& jazzy::Game::getWorld() noexcept
+{
+	return *m_world;
+}
+
+jazzy::Logger& jazzy::Game::getLogger() const noexcept
+{
+	return *m_logger;
+}
+
+jazzy::InputSystem& jazzy::Game::getInputSystem() noexcept
+{
+	return *m_inputSystem;
+}
+
+jazzy::ResourceManager& jazzy::Game::getResourceManager() noexcept
+{
+	return *m_resourceManager;
 }
 
 void jazzy::Game::onInternalUpdate()
@@ -70,6 +102,7 @@ void jazzy::Game::onInternalUpdate()
 	if (m_inputSystem->isKeyPressed(KeyCode::Escape)) m_isRunning = false;	// Close the program
 
 	// World
+	onUpdate(deltaTime);
 	m_world->update(deltaTime);
 
 	// Editor Camera
@@ -77,6 +110,9 @@ void jazzy::Game::onInternalUpdate()
 	m_editorCamera->setDisplayRect(m_display->getClientAreaInScreenSpace());
 	m_editorCamera->update(deltaTime);
 
+	// World Renderer
+	m_worldRenderer->render(*m_world, m_display->getSwapChain(), deltaTime);
+
 	// Graphics Engine
-	m_graphicsEngine->render(*m_world, m_display->getSwapChain(), deltaTime);
+	// m_graphicsEngine->render(*m_world, m_display->getSwapChain(), deltaTime);
 }

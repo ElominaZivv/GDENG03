@@ -8,6 +8,9 @@ namespace jazzy
 	{
 	public:
 		GraphicsPipelineLayout(const GraphicsPipelineLayoutDesc& desc, const GraphicsResourceDesc& gDesc);
+		BinaryData getVSBinaryData() const noexcept;
+		BinaryData getPSBinaryData() const noexcept;
+		BinaryData getInputElementsData() const noexcept;
 	private:
 		void processShaderBinary(ShaderBinary& binary);
 	private:

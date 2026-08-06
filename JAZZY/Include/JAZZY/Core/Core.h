@@ -37,6 +37,8 @@ namespace jazzy
 	class MenuScreen;
 	class Texture;
 
+	class WorldRenderer;
+
 	class ResourceManager;
 	class Resource;
 

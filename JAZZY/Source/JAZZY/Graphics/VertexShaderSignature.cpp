@@ -14,7 +14,8 @@ jazzy::VertexShaderSignature::VertexShaderSignature(const VertexShaderSignatureD
 
 	DX3DGraphicsLogThrowOnFail
 	(
-		D3DReflect
+		
+
 		(
 			vsData.data,
 			vsData.dataSize,

@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>JAZZY/Include;JAZZY/Source;$(IncludePath)</IncludePath>
+    <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -176,6 +176,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\Resource.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\ResourceManager.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\MaterialResource.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\WorldRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\Resource.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\ResourceManager.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\MaterialResource.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Game\WorldRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">

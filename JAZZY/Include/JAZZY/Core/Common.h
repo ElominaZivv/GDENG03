@@ -147,12 +147,13 @@ namespace jazzy
 	struct EditorCameraDesc
 	{
 		BaseDesc base;
-		RefPtr<InputSystem>& inputSystem;
+		InputSystem& input;
 	};
 
 	struct GameContext
 	{
 		InputSystem& input;
+		ResourceManager& resourceManager;
 		GraphicsDevice& device;
 	};
 
@@ -212,5 +213,11 @@ namespace jazzy
 	{
 		const RefPtr<ShaderBinary>& vsBinary;
 		const RefPtr<ShaderBinary>& psBinary;
+	};
+
+	struct WorldRendererDesc
+	{
+		BaseDesc base;
+		GraphicsDevice& engine;
 	};
 }
