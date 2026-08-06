@@ -117,6 +117,27 @@
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\Resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\MaterialResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -258,6 +279,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\MenuScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\MaterialResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

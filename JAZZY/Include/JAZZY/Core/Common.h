@@ -68,8 +68,7 @@ namespace jazzy
 
 	struct GraphicsPipelineStateDesc
 	{
-		const VertexShaderSignature& vs;
-		const ShaderBinary& ps;
+		const GraphicsPipelineLayout& layout;
 	};
 
 	struct VertexBufferDesc
@@ -207,5 +206,11 @@ namespace jazzy
 	{
 		BaseDesc base;
 		SystemContext context;
+	};
+
+	struct GraphicsPipelineLayoutDesc
+	{
+		const RefPtr<ShaderBinary>& vsBinary;
+		const RefPtr<ShaderBinary>& psBinary;
 	};
 }

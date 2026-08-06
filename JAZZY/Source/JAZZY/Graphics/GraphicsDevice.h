@@ -23,6 +23,7 @@ namespace jazzy
 		RefPtr<VertexBuffer> createVertexBuffer(const VertexBufferDesc& desc);
 		RefPtr<VertexShaderSignature> createVertexShaderSignature(const VertexShaderSignatureDesc& desc);
 		RefPtr<ConstantBuffer> createConstantBuffer(const ConstantBufferDesc& desc);
+		RefPtr<GraphicsPipelineLayout> createGraphicsPipelineLayout(const GraphicsPipelineLayoutDesc& desc);
 		RefPtr<IndexBuffer> createIndexBuffer(const IndexBufferDesc& desc);
 		ID3D11Device* getDevice() const noexcept;
 		ID3D11DeviceContext* getContext() const noexcept;

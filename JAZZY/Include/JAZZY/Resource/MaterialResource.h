@@ -13,5 +13,8 @@ namespace jazzy
 
 	private:
 		GraphicsDevice& m_graphicsDevice;
+
+		RefPtr<GraphicsPipelineLayout> m_layout;
+		RefPtr<GraphicsPipelineState> m_pipeline;
 	};
 }

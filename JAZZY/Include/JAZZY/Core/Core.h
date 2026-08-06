@@ -22,6 +22,7 @@ namespace jazzy
 	class Display;
 	class DeviceContext;
 	class ShaderBinary;
+	class GraphicsPipelineLayout;
 	class GraphicsPipelineState;
 	class VertexBuffer;
 	class VertexShaderSignature;

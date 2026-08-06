@@ -5,6 +5,7 @@
 #include <JAZZY/Graphics/ShaderBinary.h>
 #include <JAZZY/Graphics/GraphicsPipelineState.h>
 #include <JAZZY/Graphics/VertexBuffer.h>
+#include <JAZZY/Graphics/GraphicsPipelineLayout.h>
 #include <JAZZY/Graphics/VertexShaderSignature.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
 #include <JAZZY/Graphics/IndexBuffer.h>
@@ -96,6 +97,11 @@ RefPtr<VertexShaderSignature> GraphicsDevice::createVertexShaderSignature(const 
 RefPtr<ConstantBuffer> GraphicsDevice::createConstantBuffer(const ConstantBufferDesc& desc)
 {
 	return std::make_shared<ConstantBuffer>(desc, getGraphicsResourceDesc());
+}
+
+RefPtr<GraphicsPipelineLayout> GraphicsDevice::createGraphicsPipelineLayout(const GraphicsPipelineLayoutDesc& desc)
+{
+	return std::make_shared<GraphicsPipelineLayout>(desc, getGraphicsResourceDesc());
 }
 
 RefPtr<IndexBuffer> GraphicsDevice::createIndexBuffer(const IndexBufferDesc& desc)

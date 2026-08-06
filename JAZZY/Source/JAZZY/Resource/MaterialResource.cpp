@@ -22,6 +22,9 @@ jazzy::MaterialResource::MaterialResource(const MaterialResourceDesc& desc) : Re
 	// WARNING we need to make separate shader file paths for the vertex and pixel :(((((((((((
 	auto vsBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "main", ShaderType::VertexShader });
 	auto psBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "main", ShaderType::PixelShader });
+
+	m_layout = m_graphicsDevice.createGraphicsPipelineLayout({});
+	m_pipeline = m_graphicsDevice.createGraphicsPipelineState({ *m_layout });
 }
 
 jazzy::MaterialResource::MaterialResource(const MaterialResource& material, const MaterialResourceDesc& desc): Resource(desc.base), m_graphicsDevice(desc.graphicsDevice)
