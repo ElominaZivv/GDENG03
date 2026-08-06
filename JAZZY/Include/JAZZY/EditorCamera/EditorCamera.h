@@ -31,7 +31,7 @@ namespace jazzy
 		f32 m_fov = 1.3f;
 		f32 m_zNear = 0.01f;
 		f32 m_zFar = 100.0f;
-		RefPtr<InputSystem> m_inputSystem{};
+		InputSystem& m_inputSystem;
 
 		// Controls
 		Mat4x4 m_worldCam{};

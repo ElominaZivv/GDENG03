@@ -3,38 +3,38 @@
 #include "JAZZY/Input/InputSystem.h"
 using namespace jazzy;
 
-EditorCamera::EditorCamera(const EditorCameraDesc& desc): Base(desc.base), m_inputSystem(desc.inputSystem)
+EditorCamera::EditorCamera(const EditorCameraDesc& desc): Base(desc.base), m_inputSystem(desc.input)
 {
 	m_viewMat = Mat4x4::identity();
 }
 
 void EditorCamera::update(f32 _deltaTime)
 {
-	if (m_inputSystem->isKeyPressed(KeyCode::P)) m_projection = Projection::PERSPECTIVE;
-	if (m_inputSystem->isKeyPressed(KeyCode::O)) m_projection = Projection::ORTHOGRAPHIC;
+	if (m_inputSystem.isKeyPressed(KeyCode::P)) m_projection = Projection::PERSPECTIVE;
+	if (m_inputSystem.isKeyPressed(KeyCode::O)) m_projection = Projection::ORTHOGRAPHIC;
 
 	f32 moveSpeed = m_moveSpeed;
-	if (m_inputSystem->isKeyDown(KeyCode::Shift)) moveSpeed = m_fasterMoveSpeed;
-
-	if (m_inputSystem->isKeyDown(KeyCode::W)) m_forward = 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::S)) m_forward = -1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::D)) m_right = 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::A)) m_right = -1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::E)) m_up = 1.0f;
-	if (m_inputSystem->isKeyDown(KeyCode::Q)) m_up = -1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::Shift)) moveSpeed = m_fasterMoveSpeed;
+					 
+	if (m_inputSystem.isKeyDown(KeyCode::W)) m_forward = 1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::S)) m_forward = -1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::D)) m_right = 1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::A)) m_right = -1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::E)) m_up = 1.0f;
+	if (m_inputSystem.isKeyDown(KeyCode::Q)) m_up = -1.0f;
 
 	Mat4x4 world_cam{};
 	world_cam = Mat4x4::identity();
 
-	m_inputSystem->setCursorLocked(false);
-	m_inputSystem->setCursorVisible(true);
+	m_inputSystem.setCursorLocked(false);
+	m_inputSystem.setCursorVisible(true);
 	// Rotation
-	if (m_inputSystem->isKeyDown(KeyCode::MouseRight))
+	if (m_inputSystem.isKeyDown(KeyCode::MouseRight))
 	{
-		m_inputSystem->setCursorLocked(true);
-		m_inputSystem->setCursorVisible(false);
-		m_rotX += m_inputSystem->getMouseDelta().y * m_sensitivity * _deltaTime;
-		m_rotY += m_inputSystem->getMouseDelta().x * m_sensitivity * _deltaTime;
+		m_inputSystem.setCursorLocked(true);
+		m_inputSystem.setCursorVisible(false);
+		m_rotX += m_inputSystem.getMouseDelta().y * m_sensitivity * _deltaTime;
+		m_rotY += m_inputSystem.getMouseDelta().x * m_sensitivity * _deltaTime;
 	}
 	world_cam = world_cam * Mat4x4::rotateX(m_rotX);
 	world_cam = world_cam * Mat4x4::rotateY(m_rotY);

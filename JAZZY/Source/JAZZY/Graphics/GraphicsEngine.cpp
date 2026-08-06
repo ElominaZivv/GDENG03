@@ -70,7 +70,7 @@ jazzy::GraphicsEngine::GraphicsEngine(const GraphicsEngineDesc& desc) : Base(des
 	auto vsSig = device.createVertexShaderSignature({ vs });
 
 	// Graphics Pipeline
-	m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
+	//m_pipeline = device.createGraphicsPipelineState({ *vsSig, *ps });
 
 	/*
 	Vertex vertexList[] =

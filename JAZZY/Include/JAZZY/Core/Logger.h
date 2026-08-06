@@ -6,7 +6,7 @@ namespace jazzy
 {
 	class Logger final
 	{
-		dx3d_disable_copy_and_move(Logger);
+		dx3d_disable_copy_and_move(Logger)
 	public:
 		enum class LogLevel
 		{
@@ -15,7 +15,7 @@ namespace jazzy
 			Info
 		};
 
-		explicit Logger(LogLevel loglevel = LogLevel::Error);
+		explicit Logger(LogLevel logLevel = LogLevel::Error);
 		~Logger();
 
 		template<typename... Args>
@@ -26,23 +26,19 @@ namespace jazzy
 				str.c_str()
 			);
 		}
-
 	private:
-		void log(LogLevel level, const char* message);
-
+		void _log(LogLevel level, const char* message);
 	private:
 		LogLevel m_logLevel = LogLevel::Error;
 	};
-
-
 }
 
 #define DX3DLog(logger, type, message,...)\
-	logger.log((type), {message} __VA_OPT__(,) __VA_ARGS__ );
+	logger.log((type), {message} __VA_OPT__(,) __VA_ARGS__);
 
-#define DX3DLogThrow(logger, exception, type, message)\
+#define DX3DLogThrow(logger, exception, type, message, ...)\
 {\
-DX3DLog(logger, type, message, __VA_ARGS__);\
+DX3DLog(logger,type,message, __VA_ARGS__);\
 throw exception(message);\
 }
 
