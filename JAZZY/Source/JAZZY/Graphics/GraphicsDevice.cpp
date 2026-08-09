@@ -119,6 +119,17 @@ ID3D11DeviceContext* jazzy::GraphicsDevice::getContext() const noexcept
 	return m_d3dContext.Get();
 }
 
+void GraphicsDevice::setBackBuffer(const SwapChain& swapChain)
+{
+	auto rtv = swapChain.getRenderTargetView();
+
+	m_d3dContext->OMSetRenderTargets(
+		1,
+		&rtv,
+		nullptr
+	);
+}
+
 void GraphicsDevice::executeCommandList(DeviceContext& context)
 {
 	Microsoft::WRL::ComPtr<ID3D11CommandList> list{};

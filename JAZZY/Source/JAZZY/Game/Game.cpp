@@ -49,13 +49,16 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
-	test_parent->createOrGetComponent<jazzy::CubeComponent>();
+	auto parent_comp = test_parent->createOrGetComponent<jazzy::CubeComponent>();
+	parent_comp->setMaterial(mat);
+	
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
 
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>("child");
-	test_child->createOrGetComponent<jazzy::CubeComponent>();
+	auto child_comp = test_child->createOrGetComponent<jazzy::CubeComponent>();
+	child_comp->setMaterial(mat);
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
 	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
 

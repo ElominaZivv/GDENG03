@@ -22,9 +22,9 @@ jazzy::UIManager::UIManager(const UIManagerDesc& desc)
     ImGui::StyleColorsDark();
 
     auto hwnd = static_cast<HWND>(desc.display.getHWND());
-    ImGui_ImplWin32_Init(hwnd);
+	ImGui_ImplWin32_Init(hwnd);
 
-    ImGui_ImplDX11_Init(
+    bool check = ImGui_ImplDX11_Init(
         graphicsDevice.getDevice(),
         graphicsDevice.getContext()
     );

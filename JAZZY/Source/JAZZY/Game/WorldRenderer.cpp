@@ -81,6 +81,7 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 		}
 	}
 	m_graphicsDevice.executeCommandList(context);
+	m_graphicsDevice.setBackBuffer(swapChain);
 	uiManager.draw();
 	swapChain.present();
 }

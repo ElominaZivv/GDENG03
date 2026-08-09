@@ -81,5 +81,6 @@ float4 _PSMain(VSOutput input) : SV_TARGET
         psOut.shininess
     );   
 
+    result = psOut.diffuse.rgb;
     return float4(result, 1);
 }
