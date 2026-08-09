@@ -18,7 +18,7 @@ void jazzy::InspectorScreen::draw()
     ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoSavedSettings |
                                    ImGuiWindowFlags_NoNavFocus;
 
-    // transform temp || this should be a reference to the specific transform being changed
+    // reference to the specific transform being changed
     auto numComp = 0u;
     auto cubes = m_world.getComponents<CubeComponent>(numComp);
 

@@ -20,8 +20,8 @@ jazzy::MaterialResource::MaterialResource(const MaterialResourceDesc& desc) : Re
 	};
 
 	// WARNING this might have issues later if the entrypoint is not "main"
-	auto vsBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "VSMain", ShaderType::VertexShader });
-	auto psBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "PSMain", ShaderType::PixelShader });
+	auto vsBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "_VSMain", ShaderType::VertexShader });
+	auto psBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "_PSMain", ShaderType::PixelShader });
 
 	m_layout = m_graphicsDevice.createGraphicsPipelineLayout({vsBinary, psBinary});
 	m_pipeline = m_graphicsDevice.createGraphicsPipelineState({ *m_layout });

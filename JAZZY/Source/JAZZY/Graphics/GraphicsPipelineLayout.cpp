@@ -60,12 +60,16 @@ void jazzy::GraphicsPipelineLayout::processShaderBinary(ShaderBinary& binary)
 		D3D11_SIGNATURE_PARAMETER_DESC params[D3D11_STANDARD_VERTEX_ELEMENT_COUNT]{};
 		for (auto i : std::views::iota(0u, m_numElements))
 		{
+			DX3DGraphicsLogThrowOnFail(reflection->GetInputParameterDesc(i, &params[i]),
+				"ID3D11ShaderReflection::GetInputParameterDesc failed.");
+		}
+		for (auto i : std::views::iota(0u, m_numElements))
+		{
 			auto param = params[i];
-			m_elements[i] =
-			{
+			m_elements[i] = {
 				param.SemanticName,
 				param.SemanticIndex,
-				GraphicsUtils::GetDXGIFormatFromMask(param.ComponentType, param.Mask),
+				GraphicsUtils::GetDXGIFormatFromMask(param.ComponentType,param.Mask),
 				0,
 				D3D11_APPEND_ALIGNED_ELEMENT,
 				D3D11_INPUT_PER_VERTEX_DATA,

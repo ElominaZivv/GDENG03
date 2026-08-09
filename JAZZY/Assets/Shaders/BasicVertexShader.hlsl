@@ -1,13 +1,16 @@
 struct VSInput
 {
-    float3 position : POSITION0; //SEMANTIC
-    float4 color : COLOR0; //SEMANTIC
+    float3 position : POSITION0;
+    float2 texcoord : TEXCOORD0;
+    float3 normal : NORMAL0;
 };
 
 struct VSOutput
 {
-    float4 position : SV_Position; // System Value (SV)
-    float4 color : COLOR0;
+    float4 position : SV_POSITION;
+    float2 texcoord : TEXCOORD0;    
+    float3 worldPosition : TEXCOORD1;
+    float3 worldNormal : TEXCOORD2;
 };
 
 struct CameraData
@@ -32,31 +35,24 @@ struct MaterialVSOut
 {
 };
 
+static float2 TextureCoordinate = float2(0, 0);
 void VSMain(inout MaterialVSOut output);
+
 
 VSOutput _VSMain(VSInput input)
 {
-	/*
-    VSOutput output;
-    output.position = float4(input.position.x, input.position.y, input.position.z, 1);
-
-	// World Space
-    output.position = mul(output.position, m_world);
-    // View Space
-    output.position = mul(output.position, m_view);
-    // Screen Space 
-    output.position = mul(output.position, m_projection);
-    
-    output.color = input.color;
-    return output;
-    */
-
-    VSOutput output;
+	VSOutput output;
     output.position = mul(float4(input.position, 1), affineWorld);
+    output.worldPosition = output.position.xyz;    
+    output.worldNormal = normalize(mul(input.normal, (float3x3) rigidWorld));
 
     output.position = mul(output.position, cameraData.view);
     output.position = mul(output.position, cameraData.proj);
+    output.texcoord = input.texcoord;
 
-    output.color = input.color;
+    TextureCoordinate = input.texcoord;  
+    MaterialVSOut vsOut;
+    VSMain(vsOut);
+    
     return output;
 }
