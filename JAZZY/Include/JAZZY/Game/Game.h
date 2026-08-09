@@ -32,6 +32,7 @@ namespace jazzy
 		UniquePtr<InputSystem> m_inputSystem{};
 		RefPtr<GraphicsDevice> m_graphicsDevice{};
 		UniquePtr<Display> m_display{};
+		UniquePtr<UIManager> m_uiManager{};
 		UniquePtr<ResourceManager> m_resourceManager{};
 		UniquePtr<World> m_world{};
 
@@ -41,6 +42,9 @@ namespace jazzy
 		RefPtr<EditorCamera> m_editorCamera{};
 
 		bool m_isRunning{ true };
+
+		GameObject* test_parent;
+		GameObject* test_child;
 
 		// Time
 		std::chrono::steady_clock::time_point m_previousTime{};

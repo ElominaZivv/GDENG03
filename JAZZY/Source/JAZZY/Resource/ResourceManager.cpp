@@ -1,12 +1,14 @@
-#include <filesystem>
 #include <JAZZY/Resource/ResourceManager.h>
+#include <JAZZY/Resource/MaterialResource.h>
+#include <filesystem>
+#include <iostream>
 
 
 jazzy::ResourceManager::ResourceManager(const ResourceManagerDesc& desc) : Base(desc.base), m_context(desc.context)
 {
 }
 
-void jazzy::ResourceManager::createResourceFileFromConcrete(const wchar_t* file_path)
+jazzy::RefPtr<jazzy::Resource> jazzy::ResourceManager::createResourceFromFileConcrete(const wchar_t* file_path)
 {
 	std::filesystem::path resourcePath{ file_path };
 	auto ext = resourcePath.extension();
@@ -14,6 +16,45 @@ void jazzy::ResourceManager::createResourceFileFromConcrete(const wchar_t* file_
 	auto it = m_resources.find(file_path);
 	if (it != m_resources.end())
 	{
-		//auto mat = std::dynamic_pointer_cast<MaterialResource>( it -> second );
+		auto mat = std::dynamic_pointer_cast<MaterialResource>(it->second);
+		if (mat)
+			return std::make_shared<MaterialResource>(*mat, MaterialResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
+		return it->second;
 	}
+
+	if (!std::filesystem::exists(resourcePath))
+	{
+		DX3DLogError("File {} doesn't exist.", resourcePath.string().c_str());
+		return nullptr;
+	}
+
+	RefPtr<Resource> resPtr{};
+	try
+	{
+		if (!ext.compare(L".hlsl") || !ext.compare(L".fx"))
+			resPtr = std::make_shared<MaterialResource>(MaterialResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
+		/*
+		if (!ext.compare(L".jpg") || !ext.compare(L".png"))
+			resPtr = std::make_shared<TextureResource>(TextureResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
+		if (!ext.compare(L".obj"))
+			resPtr = std::make_shared<MeshResource>(MeshResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
+		*/
+	}
+	catch (...)
+	{
+		DX3DLogError("Failed to load resource {}", resourcePath.string().c_str());
+	}
+
+	if (resPtr)
+	{
+		m_resources.emplace(file_path, resPtr);
+		return resPtr;
+	}
+
+	return nullptr;
+}
+
+jazzy::ResourceDesc jazzy::ResourceManager::getResourceDesc(const wchar_t* file_path)
+{
+	return ResourceDesc{ { m_logger }, file_path, *this };
 }

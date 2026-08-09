@@ -10,19 +10,33 @@ struct VSOutput
     float4 color : COLOR0;
 };
 
-cbuffer constant: register(b0)
+struct CameraData
 {
-	// row major says that the rows go from top to bottom
-	// column major says that the rows go from left to right instead
-    // Basically, the column major is the transpose of row major
-    row_major float4x4 m_world;
-    row_major float4x4 m_view;
-    row_major float4x4 m_projection;
-    float m_time;
-}
+    row_major float4x4 view;
+    row_major float4x4 proj;
+    float3 position;
+};
 
-VSOutput main(VSInput input)
+cbuffer ObjectData : register(b0)
 {
+    row_major float4x4 affineWorld;
+    row_major float4x4 rigidWorld;
+};
+
+cbuffer CameraData : register(b1)
+{
+    CameraData cameraData;
+};
+
+struct MaterialVSOut
+{
+};
+
+void VSMain(inout MaterialVSOut output);
+
+VSOutput _VSMain(VSInput input)
+{
+	/*
     VSOutput output;
     output.position = float4(input.position.x, input.position.y, input.position.z, 1);
 
@@ -33,6 +47,16 @@ VSOutput main(VSInput input)
     // Screen Space 
     output.position = mul(output.position, m_projection);
     
+    output.color = input.color;
+    return output;
+    */
+
+    VSOutput output;
+    output.position = mul(float4(input.position, 1), affineWorld);
+
+    output.position = mul(output.position, cameraData.view);
+    output.position = mul(output.position, cameraData.proj);
+
     output.color = input.color;
     return output;
 }

@@ -1,6 +1,9 @@
 #pragma once
+
 #include "JAZZY/Graphics/GraphicsResource.h"
 #include <JAZZY/Math/Vec4.h>
+#include <span>
+#include <array>
 
 namespace jazzy
 {
@@ -15,11 +18,14 @@ namespace jazzy
 		void setViewportSize(const Rect& size);
 		void drawTriangleList(ui32 vertexCount, ui32 startVertexLocation);
 		void drawIndexedTriangleList(ui32 indexCount, ui32 startVertexIndex, ui32 startIndexLocation);
-		void updateConstantBuffer(const ConstantBuffer& buffer, const void* data);
-		void setConstantBuffer(const ConstantBuffer& buffer);
+		void updateConstantBuffer(const ConstantBuffer& buffer, const std::span<const std::byte>& data);
+		void setConstantBuffers(const std::span<ConstantBuffer*>& buffers);
+	public:
+		static constexpr std::size_t MaxConstantBuffersPerStage{ D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT };
 
 	private:
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext > m_context{};
+		std::array<ID3D11Buffer*, MaxConstantBuffersPerStage> m_constantBuffers{};
 
 		friend class GraphicsDevice;
 	};

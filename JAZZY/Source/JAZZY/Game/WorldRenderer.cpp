@@ -13,6 +13,8 @@
 #include <JAZZY/ComponentS/CubeComponent.h>
 
 #include <JAZZY/Resource/MaterialResource.h>
+#include <JAZZY/EditorCamera/EditorCamera.h>
+#include <JAZZY/UI/UIManager.h>
 
 #include <JAZZY/Math/Vec3.h>
 #include <fstream>
@@ -27,7 +29,7 @@ jazzy::WorldRenderer::WorldRenderer(const WorldRendererDesc& desc): Base (desc.b
 	m_cameraCb = device.createConstantBuffer({ {}, sizeof(CameraData) });
 }
 
-void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, f32 deltaTime)
+void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, EditorCamera& editorCamera, UIManager& uiManager, f32 deltaTime)
 {
 	auto size = swapChain.getSize();
 
@@ -40,44 +42,17 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, f32 
 	auto& cameraCb = *m_cameraCb;
 	auto& objectCb = *m_objectCb;
 
-	/*
-	EnvironmentData envData{};
-	//directional lights
-	{
-		auto components = world.getComponents<dx3d::DirectionaLightComponent>(numComponents);
-		for (auto i : std::views::iota(0u, numComponents))
-		{
-			auto component = components[i];
-			auto& transform = component->getGameObject().getTransform();
-			auto dir = transform.getRigidWorldMatrix().row(2);
-
-			envData.directionalLightData.intensity = component->getIntensity();
-			envData.directionalLightData.direction = { dir.x,dir.y,dir.z };
-			envData.directionalLightData.color = component->getColor();
-			break;
-		}
-		context.updateConstantBuffer(envCb, std::as_bytes(std::span{ &envData, 1 }));
-	}
-	*/
-
 	//cameras
-	/*
 	{
 		CameraData cameraData{};
-		auto components = world.getComponents<CameraComponent>(numComponents);
-		for (auto i : std::views::iota(0u, numComponents))
-		{
-			auto component = components[i];
-			cameraData.view = component->getViewMatrix();
-			component->setViewportSize(size);
-			cameraData.proj = component->getProjectionMatrix();
-			cameraData.position = component->getGameObject().getTransform().getPosition();
-			context.updateConstantBuffer(cameraCb, std::as_bytes(std::span{ &cameraData, 1 }));
-			break;
-		}
+		cameraData.view = editorCamera.getViewMat();
+		editorCamera.setDisplayRect(size);
+		cameraData.proj = editorCamera.getProjectionViewMat();
+		Vec4 translation4 = editorCamera.getViewMat().row(3);
+		Vec3 translation = Vec3(translation4.x, translation4.y, translation4.z);
+		cameraData.position = translation;
+		context.updateConstantBuffer(cameraCb, std::as_bytes(std::span{ &cameraData, 1 }));
 	}
-	*/
-
 
 	//cubes
 	{
@@ -87,8 +62,6 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, f32 
 		{
 			auto component = components[i];
 			auto& transform = component->getGameObject().getTransform();
-
-			/*
 			auto material = component->getMaterial();
 
 			if (material)
@@ -98,78 +71,16 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, f32 
 
 				context.setGraphicsPipelineState(material->getGraphicsPipelineState());
 				context.updateConstantBuffer(objectCb, std::as_bytes(std::span{ &objectData, 1 }));
-				context.updateConstantBuffer(materialCb, material->getData());
-				ConstantBuffer* cbs[] = { &objectCb, &cameraCb, &envCb, &materialCb };
+				ConstantBuffer* cbs[] = { &objectCb, &cameraCb };
 				context.setConstantBuffers(std::span<ConstantBuffer*>{cbs});
-
-				m_textures.clear();
-				m_textures.resize(material->getNumTextures());
-				for (auto t : std::views::iota(0u, m_textures.size()))
-				{
-					auto tex = material->getTexture(t);
-					if (tex) m_textures[t] = &tex->getTexture();
-				}
-				context.setTextures(std::span<Texture*>{m_textures});
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
 				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
-			*/
 		}
 	}
-
-
-	//meshes
-	/*
-	{
-		ObjectData objectData{};
-		auto components = world.getComponents<MeshComponent>(numComponents);
-		for (auto i : std::views::iota(0u, numComponents))
-		{
-			auto comp = components[i];
-			auto meshRes = comp->getMesh();
-			if (!meshRes) continue;
-			auto& mesh = *meshRes;
-
-			objectData.affineWorld = comp->getGameObject().getTransform().getAffineWorldMatrix();
-			objectData.rigidWorld = comp->getGameObject().getTransform().getRigidWorldMatrix();
-
-
-			context.setVertexBuffer(mesh.getVertexBuffer());
-			context.setIndexBuffer(mesh.getIndexBuffer());
-
-			auto numSlots = 0u;
-			auto slots = mesh.getMaterialSlots(numSlots);
-
-			for (auto u : std::views::iota(0u, numSlots))
-			{
-				auto slot = slots[u];
-				auto material = comp->getMaterial(u);
-				if (!material) continue;
-				auto numTexs = material->getNumTextures();
-
-				context.setGraphicsPipelineState(material->getGraphicsPipelineState());
-				context.updateConstantBuffer(objectCb, std::as_bytes(std::span{ &objectData, 1 }));
-				context.updateConstantBuffer(materialCb, material->getData());
-				ConstantBuffer* cbs[] = { &objectCb, &cameraCb, &envCb, &materialCb };
-				context.setConstantBuffers(std::span<ConstantBuffer*>{cbs});
-
-				m_textures.clear();
-				m_textures.resize(material->getNumTextures());
-				for (auto t : std::views::iota(0u, m_textures.size()))
-				{
-					auto tex = material->getTexture(t);
-					if (tex) m_textures[t] = &tex->getTexture();
-				}
-				context.setTextures(std::span<Texture*>{m_textures});
-
-				context.drawIndexedTriangleList(slot.indexCount, 0, slot.startIndex);
-			}
-		}
-	}
-	*/
-
 	m_graphicsDevice.executeCommandList(context);
+	uiManager.draw();
 	swapChain.present();
 }

@@ -8,7 +8,7 @@ int main()
 {
 	try
 	{
-		jazzy::Game game({ {1280, 720}, jazzy::Logger::LogLevel::Info });
+		jazzy::Game game({ {960, 540}, jazzy::Logger::LogLevel::Info });
 		game.run();
 	}
 	catch (const std::runtime_error&)

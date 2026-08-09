@@ -4,6 +4,7 @@
 #include <JAZZY/Graphics/VertexBuffer.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
 #include <JAZZY/Graphics/IndexBuffer.h>
+#include <ranges>
 
 jazzy::DeviceContext::DeviceContext(const GraphicsResourceDesc& gDesc): GraphicsResource(gDesc)
 {
@@ -85,13 +86,20 @@ void jazzy::DeviceContext::drawIndexedTriangleList(ui32 indexCount, ui32 startVe
 	m_context->DrawIndexed(indexCount, startVertexIndex, startIndexLocation);	// Executes Graphics Pipeline
 }
 
-void jazzy::DeviceContext::updateConstantBuffer(const ConstantBuffer& buffer, const void* data)
+void jazzy::DeviceContext::updateConstantBuffer(const ConstantBuffer& buffer, const std::span<const std::byte>& data)
 {
-	if (!data)
+	auto dataSize = static_cast<ui32>(data.size());
+	if (!dataSize)
 	{
-		DX3DLogError("Null data pointer passed to updateConstantBuffer");
+		DX3DLogError("No data passed to updateConstantBuffer.");
 		return;
 	}
+	if (dataSize > buffer.m_size)
+	{
+		DX3DLogWarning("Buffer size ({} bytes) exceeds the constant buffer limit ({} bytes). Extra bytes will be ignored.", dataSize, buffer.m_size);
+	}
+
+	dataSize = std::min(dataSize, buffer.m_size);
 
 	auto buf = buffer.m_buffer.Get();
 	D3D11_MAPPED_SUBRESOURCE mapped{};
@@ -102,23 +110,22 @@ void jazzy::DeviceContext::updateConstantBuffer(const ConstantBuffer& buffer, co
 		DX3DLogError("ID3D11DeviceContext::Map failed.");
 		return;
 	}
-	std::memcpy(mapped.pData, data, buffer.m_size);
+	std::memcpy(mapped.pData, data.data(), dataSize);
 	m_context->Unmap(buf, 0);
 }
 
-void jazzy::DeviceContext::setConstantBuffer(const ConstantBuffer& buffer)
+void jazzy::DeviceContext::setConstantBuffers(const std::span<ConstantBuffer*>& buffers)
 {
-	auto buf = buffer.m_buffer.Get();
-	m_context->VSSetConstantBuffers
-	(
-		0,	// Starting point of the buffer. There can be multiple buffers with different starting points
-		1,	// The number of buffers
-		&buf
-	);
-	m_context->PSSetConstantBuffers
-	(
-		0,	// Starting point of the buffer. There can be multiple buffers with different starting points
-		1,	// The number of buffers
-		&buf
-	);
+	if (buffers.size() > MaxConstantBuffersPerStage)
+	{
+		DX3DLogWarning("Number of buffers exceeds {}. Extra buffers will be ignored.", MaxConstantBuffersPerStage)
+	}
+	auto numBuffers = static_cast<UINT>(std::min(buffers.size(), MaxConstantBuffersPerStage));
+	for (auto i : std::views::iota(0u, numBuffers))
+	{
+		if (buffers[i]) m_constantBuffers[i] = (buffers[i]->m_buffer.Get());
+		else  m_constantBuffers[i] = {};
+	}
+	m_context->VSSetConstantBuffers(0, numBuffers, m_constantBuffers.data());
+	m_context->PSSetConstantBuffers(0, numBuffers, m_constantBuffers.data());
 }

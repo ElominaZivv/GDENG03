@@ -12,10 +12,14 @@ namespace jazzy
 	public:
 		explicit CubeComponent(const ComponentDesc& data);
 
+		void setMaterial(const RefPtr<MaterialResource>& material);
+		MaterialResource* getMaterial();
+
 		VertexBuffer& getVertexBuffer();
 		IndexBuffer& getIndexBuffer();
 
 	private:
+		RefPtr<MaterialResource> m_material{};
 		RefPtr<VertexBuffer> m_vb{};
 		RefPtr<IndexBuffer> m_ib{};
 	};

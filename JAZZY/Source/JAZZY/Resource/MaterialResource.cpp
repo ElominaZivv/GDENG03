@@ -1,10 +1,11 @@
-#include <filesystem>
 #include <JAZZY/Resource/MaterialResource.h>
+#include <JAZZY/Graphics/GraphicsDevice.h>
+#include <JAZZY/Resource/ResourceManager.h>
+#include <JAZZY/Graphics/GraphicsPipelineLayout.h>
 
 #include <fstream>
 #include <filesystem>
 
-#include "JAZZY/Graphics/GraphicsDevice.h"
 
 jazzy::MaterialResource::MaterialResource(const MaterialResourceDesc& desc) : Resource(desc.base), m_graphicsDevice(desc.graphicsDevice)
 {
@@ -19,9 +20,8 @@ jazzy::MaterialResource::MaterialResource(const MaterialResourceDesc& desc) : Re
 	};
 
 	// WARNING this might have issues later if the entrypoint is not "main"
-	// WARNING we need to make separate shader file paths for the vertex and pixel :(((((((((((
-	auto vsBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "main", ShaderType::VertexShader });
-	auto psBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "main", ShaderType::PixelShader });
+	auto vsBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "VSMain", ShaderType::VertexShader });
+	auto psBinary = m_graphicsDevice.compileShader({ shaderFileStr.c_str(), shaderCode.c_str(), shaderCode.size(), "PSMain", ShaderType::PixelShader });
 
 	m_layout = m_graphicsDevice.createGraphicsPipelineLayout({vsBinary, psBinary});
 	m_pipeline = m_graphicsDevice.createGraphicsPipelineState({ *m_layout });
@@ -29,4 +29,11 @@ jazzy::MaterialResource::MaterialResource(const MaterialResourceDesc& desc) : Re
 
 jazzy::MaterialResource::MaterialResource(const MaterialResource& material, const MaterialResourceDesc& desc): Resource(desc.base), m_graphicsDevice(desc.graphicsDevice)
 {
+	m_layout = material.m_layout;
+	m_pipeline = material.m_pipeline;
+}
+
+const jazzy::GraphicsPipelineState& jazzy::MaterialResource::getGraphicsPipelineState() const noexcept
+{
+	return *m_pipeline;
 }

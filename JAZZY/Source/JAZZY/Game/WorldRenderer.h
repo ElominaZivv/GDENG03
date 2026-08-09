@@ -13,7 +13,7 @@ namespace jazzy
 	{
 	public:
 		explicit WorldRenderer(const WorldRendererDesc& desc);
-		void render(const World& world, SwapChain& swapChain, f32 deltaTime);
+		void render(const World& world, SwapChain& swapChain, EditorCamera& editorCamera, UIManager& uiManager, f32 deltaTime);
 
 	private:
 		struct alignas(16) ObjectData

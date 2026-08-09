@@ -111,7 +111,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JAZZY/Assets/Shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UseStandardPreprocessor>Yes</UseStandardPreprocessor>
     </ClCompile>
     <Link>
@@ -154,7 +154,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineState.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Display.cpp" />
-    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Game.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Core\Base.cpp" />
     <ClCompile Include="Game\main.cpp" />
@@ -181,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderInclude.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\IMGUI\imconfig.h" />
@@ -208,7 +208,6 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\DeviceContext.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Display.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Common.h" />
-    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.h" />
     <ClInclude Include="JAZZY\Include\All.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Core.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\Game.h" />
@@ -235,20 +234,6 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\ResourceManager.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\MaterialResource.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Game\WorldRenderer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="JAZZY\Assets\Shaders\BasicVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

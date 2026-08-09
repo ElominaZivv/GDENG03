@@ -220,4 +220,11 @@ namespace jazzy
 		BaseDesc base;
 		GraphicsDevice& engine;
 	};
+
+	struct UIManagerDesc
+	{
+		Display& display;
+		GraphicsDevice& graphicsDevice;
+		World& world;
+	};
 }

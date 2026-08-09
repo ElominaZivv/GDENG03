@@ -18,13 +18,12 @@ namespace jazzy {
 	class UIManager
 	{
 	public:
-		void initialize(HWND hwnd, GraphicsEngine& graphicsEngine, World& world);
+		explicit UIManager(const UIManagerDesc& desc);
 		void draw();
 		void destroy();
 	private:
 
 		std::vector<UniquePtr<Screens>> m_screens;
-		GraphicsDevice* m_graphicsDevice;
 	};
 }
 

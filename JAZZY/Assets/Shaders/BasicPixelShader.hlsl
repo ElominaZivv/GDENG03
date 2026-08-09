@@ -4,7 +4,16 @@ struct PSInput
     float4 color : COLOR0; //SEMANTIC
 };
 
-float4 main(PSInput input) : SV_Target
+struct MaterialPSOut
+{
+    float4 diffuse;
+    float4 specular;
+    float shininess;
+};
+
+void PSMain(inout MaterialPSOut output);
+
+float4 _PSMain(PSInput input) : SV_Target
 {
     float4 newColor = input.color;
     return newColor;

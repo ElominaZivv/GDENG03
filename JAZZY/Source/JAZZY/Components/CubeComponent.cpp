@@ -56,6 +56,17 @@ jazzy::CubeComponent::CubeComponent(const ComponentDesc& data): Component(data)
 	m_ib = ib;
 }
 
+void jazzy::CubeComponent::setMaterial(const RefPtr<MaterialResource>& material)
+{
+	m_material = material;
+}
+
+
+jazzy::MaterialResource* jazzy::CubeComponent::getMaterial()
+{
+	return m_material.get();
+}
+
 jazzy::VertexBuffer& jazzy::CubeComponent::getVertexBuffer()
 {
 	return *m_vb;

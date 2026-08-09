@@ -30,9 +30,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Game\Win32\Win32Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -156,9 +153,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\All.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsDevice.h">
@@ -308,9 +302,8 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Game\WorldRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="JAZZY\Assets\Shaders\BasicPixelShader.hlsl" />
-    <FxCompile Include="JAZZY\Assets\Shaders\BasicVertexShader.hlsl" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderInclude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,13 +8,15 @@ namespace jazzy
 	class MaterialResource final : public Resource
 	{
 	public:
-		MaterialResource(const MaterialResourceDesc& desc);
+		explicit MaterialResource(const MaterialResourceDesc& desc);
 		MaterialResource(const MaterialResource& material, const MaterialResourceDesc& desc);
+
+		const GraphicsPipelineState& getGraphicsPipelineState() const noexcept;
 
 	private:
 		GraphicsDevice& m_graphicsDevice;
 
-		RefPtr<GraphicsPipelineLayout> m_layout;
-		RefPtr<GraphicsPipelineState> m_pipeline;
+		RefPtr<GraphicsPipelineLayout> m_layout{};
+		RefPtr<GraphicsPipelineState> m_pipeline{};
 	};
 }

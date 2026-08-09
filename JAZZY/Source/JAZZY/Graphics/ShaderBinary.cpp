@@ -1,6 +1,8 @@
 #include <JAZZY/Graphics/ShaderBinary.h>
 #include <JAZZY/Graphics/GraphicsUtils.h>
 #include <d3dcompiler.h>
+#include <JAZZY/Graphics/ShaderInclude.h>
+
 jazzy::ShaderBinary::ShaderBinary(const ShaderCompileDesc& desc, const GraphicsResourceDesc& gDesc): 
 	GraphicsResource(gDesc), m_type(desc.shaderType)
 {
@@ -15,6 +17,8 @@ jazzy::ShaderBinary::ShaderBinary(const ShaderCompileDesc& desc, const GraphicsR
 		compileFlags != D3DCOMPILE_DEBUG;
 #endif
 
+	ShaderInclude shaderInclude{};
+
 	Microsoft::WRL::ComPtr<ID3DBlob>errorBlob{};
 	DX3DGraphicsCheckShaderCompile
 	(
@@ -24,7 +28,7 @@ jazzy::ShaderBinary::ShaderBinary(const ShaderCompileDesc& desc, const GraphicsR
 			desc.shaderSourceCodeSize,
 			desc.shaderSourceName,
 			nullptr,
-			nullptr,
+			&shaderInclude,
 			desc.shaderEntryPoint,
 			jazzy::GraphicsUtils::GetShaderModelTarget(desc.shaderType),
 			compileFlags,

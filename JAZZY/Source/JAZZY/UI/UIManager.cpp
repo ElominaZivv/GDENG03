@@ -1,5 +1,4 @@
 #include <JAZZY/UI/UIManager.h>
-#include <JAZZY/Graphics/GraphicsEngine.h>
 #include <JAZZY/Graphics/DeviceContext.h>
 #include <JAZZY/Graphics/GraphicsDevice.h>
 #include <JAZZY/UI/Screens/MenuScreen.h>
@@ -8,11 +7,12 @@
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Game/World.h>
 #include <iostream>
-void jazzy::UIManager::initialize(HWND hwnd, GraphicsEngine& graphicsEngine, World& world)
+
+#include "JAZZY/Game/Display.h"
+
+jazzy::UIManager::UIManager(const UIManagerDesc& desc)
 {
-    m_graphicsDevice = &graphicsEngine.getGraphicsDevice();
-    auto& graphicsDevice = graphicsEngine.getGraphicsDevice();
-    auto& deviceContext = graphicsEngine.getDeviceContext();
+    auto& graphicsDevice = desc.graphicsDevice;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
@@ -21,6 +21,7 @@ void jazzy::UIManager::initialize(HWND hwnd, GraphicsEngine& graphicsEngine, Wor
 
     ImGui::StyleColorsDark();
 
+    auto hwnd = static_cast<HWND>(desc.display.getHWND());
     ImGui_ImplWin32_Init(hwnd);
 
     ImGui_ImplDX11_Init(
@@ -28,9 +29,9 @@ void jazzy::UIManager::initialize(HWND hwnd, GraphicsEngine& graphicsEngine, Wor
         graphicsDevice.getContext()
     );
 
-    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(world)));
-    m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(world)));
-    m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(world)));
+    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world)));
+    m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(desc.world)));
+    m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(desc.world)));
 }
 
 void jazzy::UIManager::draw()

@@ -5,20 +5,11 @@ namespace jazzy
 {
 	class Base
 	{
+		dx3d_disable_copy_and_move(Base)
 	public:
 		explicit Base(const BaseDesc& desc);
 		virtual ~Base();
 		virtual Logger& getLogger() noexcept final;
-
-	protected:
-		//	These /**/ is causing issues with the code. I have to use the // instead >:[
-		//	these "= delete" forbids the surface level copying of anything that inherits from the Base class
-		//	Basically, you cant assign this class to anything and manipulate the copy, this will now cause an error
-		//	You need to directly manipulate the instance
-		Base(const Base&) = delete;
-		Base(Base&) = delete;
-		Base& operator = (const Base&) = delete;
-		Base& operator = (Base&&) = delete;
 
 	protected:
 		Logger& m_logger;

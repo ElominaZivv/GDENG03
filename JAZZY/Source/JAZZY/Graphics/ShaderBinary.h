@@ -1,4 +1,5 @@
 #pragma once
+
 #include <JAZZY/Graphics/GraphicsResource.h>
 
 namespace jazzy
