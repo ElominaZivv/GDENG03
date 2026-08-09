@@ -37,7 +37,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	// Create Material
 	
 	//auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"JAZZY/Assets/Shaders/BasicShader.hlsl");
-	auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"C:/Users/pekep/Desktop/University/Academics/Year3/Term3/GDENG03/GDENG03/Game/Assets/Shaders/BasicShader.hlsl");
+	auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
