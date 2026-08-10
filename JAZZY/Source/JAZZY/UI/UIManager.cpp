@@ -32,6 +32,7 @@ jazzy::UIManager::UIManager(const UIManagerDesc& desc)
     m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world)));
     m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(desc.world)));
     m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(desc.world)));
+    m_screens.push_back(UniquePtr<UndoScreen>(new UndoScreen(desc.world)));
 }
 
 void jazzy::UIManager::draw()

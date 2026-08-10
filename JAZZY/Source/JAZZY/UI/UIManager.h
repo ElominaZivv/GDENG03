@@ -12,6 +12,7 @@
 
 #include <JAZZY/UI/Screens/Screens.h>
 #include <JAZZY/UI/Screens/MenuScreen.h>
+#include <JAZZY/UI/Screens/UndoScreen.h>
 
 namespace jazzy {
 

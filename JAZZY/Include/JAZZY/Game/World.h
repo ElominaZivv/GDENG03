@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "JAZZY/Components/TransformComponent.h"
+#include "JAZZY/Recorder/RecordHolder.h"
 
 namespace jazzy
 {
@@ -40,6 +41,9 @@ namespace jazzy
 
 		void SetSelectedObject(ui32 index);
 		ui32 GetSelectedIndex();
+		GameObject* getGameObjectByName(const std::string& name) noexcept;
+
+		RecordHolder& getRecordHolder() noexcept;
 
 	private:
 		enum class EventType
@@ -74,6 +78,8 @@ namespace jazzy
 		std::vector<GameObjectEvents> m_events{};
 		std::vector<GameObjectEvents> m_eventsSwapBuffer{};
 	
+		RecordHolder m_recordHolder;
+
 		friend class GameObject;
 		friend class TransformComponent;
 

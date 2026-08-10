@@ -8,3 +8,13 @@ jazzy::GameObject& jazzy::Component::getGameObject() noexcept
 {
 	return m_object;
 }
+
+bool jazzy::Component::getHidden()
+{
+	return hidden;
+}
+
+void jazzy::Component::setHidden(bool hide)
+{
+	hidden = hide;
+}

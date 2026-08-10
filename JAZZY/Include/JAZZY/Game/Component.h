@@ -12,10 +12,14 @@ namespace jazzy
 	public:
 		explicit Component(const ComponentDesc& desc);
 		GameObject& getGameObject() noexcept;
+		bool getHidden();
+		void setHidden(bool hide);
 
 	protected:
 		GameObject& m_object;
 		World& m_world;
 		GameContext& m_context;
+
+		bool hidden = false;
 	};
 }

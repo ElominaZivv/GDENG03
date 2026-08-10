@@ -237,6 +237,11 @@ namespace jazzy
 		World& world;
 	};
 
+	struct RecorderDesc 
+	{
+		World& world;
+	};
+
 	struct MeshVertex
 	{
 		Vec3 position{};

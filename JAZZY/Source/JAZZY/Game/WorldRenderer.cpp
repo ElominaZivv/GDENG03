@@ -87,7 +87,9 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
-				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+
+				if(!component->getHidden())
+					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
 	}
