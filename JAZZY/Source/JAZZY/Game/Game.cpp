@@ -36,16 +36,22 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	// Create Material
 	auto woodTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
-	auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-	if (mat)
+	auto stoneTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
+	auto woodMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	auto stoneMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	if (woodMat)
 	{
-		mat->setTexture(0, woodTexture);
+		woodMat->setTexture(0, woodTexture);
+	}
+	if (stoneMat)
+	{
+		stoneMat->setTexture(0, stoneTexture);
 	}
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
 	auto comp = plane->createOrGetComponent<jazzy::CubeComponent>();
-	comp->setMaterial(mat);
+	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
 	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
@@ -53,7 +59,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
 	auto parent_comp = test_parent->createOrGetComponent<jazzy::CubeComponent>();
-	parent_comp->setMaterial(mat);
+	parent_comp->setMaterial(woodMat);
 	
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
@@ -61,7 +67,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>("child");
 	auto child_comp = test_child->createOrGetComponent<jazzy::CubeComponent>();
-	child_comp->setMaterial(mat);
+	child_comp->setMaterial(woodMat);
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
 	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
 

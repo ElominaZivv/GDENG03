@@ -1,14 +1,13 @@
 #include <All.h>
-#include <iostream>
-#include <string>
-	
+#include "MainGame.h"
+
 // hello
 
 int main()
 {
 	try
 	{
-		jazzy::Game game({ {960, 540}, jazzy::Logger::LogLevel::Info });
+		MainGame game({ {960, 540}, jazzy::Logger::LogLevel::Info });
 		game.run();
 	}
 	catch (const std::runtime_error&)
