@@ -14,6 +14,9 @@ namespace jazzy
 		GameObject& getGameObject() noexcept;
 		bool getHidden();
 		void setHidden(bool hide);
+		bool getHiddenByParent();
+		void setHiddenByParent(bool hide);
+		bool isVisible();
 
 	protected:
 		GameObject& m_object;
@@ -21,5 +24,6 @@ namespace jazzy
 		GameContext& m_context;
 
 		bool hidden = false;
+		bool hiddenByParent = false;
 	};
 }

@@ -16,6 +16,7 @@ namespace jazzy
     private:
         World& m_world;
         int m_cubeCount = 1;
+        void setHiddenRecursive(GameObject* object, bool hidden);
     };
 
 }
