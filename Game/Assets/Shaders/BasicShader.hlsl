@@ -25,13 +25,24 @@ SOFTWARE.*/
 #include "JAZZY/Assets/Shaders/BasicVertexShader.hlsl"
 #include "JAZZY/Assets/Shaders/BasicPixelShader.hlsl"
 
+
+cbuffer MaterialData : register(b3)
+{
+    float specularStrength;
+};
+
+Texture2D Diffuse : register(t0);
+
+sampler DefaultSampler : register(s0);
+
 void VSMain(inout MaterialVSOut output)
 {
 }
 
 void PSMain(inout MaterialPSOut output)
 {
-    output.diffuse = float4(1, 1, 1, 1);
-    output.specular = float4(1, 1, 1, 1);
+    float4 diffuse = Diffuse.Sample(DefaultSampler, TextureCoordinate);
+    output.diffuse = float4(diffuse.rgb, 1);
+    output.specular = float4(1, 1, 1, 1) * specularStrength;
     output.shininess = 64.0f;
 }

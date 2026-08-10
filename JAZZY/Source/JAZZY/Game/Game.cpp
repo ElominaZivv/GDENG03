@@ -35,9 +35,12 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ *m_logger , *m_inputSystem });
 
 	// Create Material
-	
-	//auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"JAZZY/Assets/Shaders/BasicShader.hlsl");
+	auto woodTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
 	auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	if (mat)
+	{
+		mat->setTexture(0, woodTexture);
+	}
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");

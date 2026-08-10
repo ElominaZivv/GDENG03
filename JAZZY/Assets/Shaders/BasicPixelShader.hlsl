@@ -54,7 +54,7 @@ float4 _PSMain(VSOutput input) : SV_TARGET
 {
     TextureCoordinate = input.texcoord; 
     MaterialPSOut psOut;
-    psOut.diffuse = float4(1, 1, 1, 1);    
+    psOut.diffuse = float4(1,1,1,1);    
     psOut.specular = float4(0,0,0,0);
     psOut.shininess = 0.0; 
     PSMain(psOut);
@@ -67,8 +67,10 @@ float4 _PSMain(VSOutput input) : SV_TARGET
     float3 ia = float3(0.27f, 0.39f, 0.55f) * psOut.diffuse.rgb;
     float3 ambientLight = ka * ia;    
     result = ambientLight;
+    result = psOut.diffuse.rgb;
 
 	//directional light
+    /*
     result += ComputePhongDirectionalLight(
         cameraData, 
         directionLightData,
@@ -78,7 +80,7 @@ float4 _PSMain(VSOutput input) : SV_TARGET
         1.0, psOut.specular.rgb,
         psOut.shininess
     );   
-
-    result = psOut.diffuse.rgb;
+    */
+    
     return float4(result, 1);
 }

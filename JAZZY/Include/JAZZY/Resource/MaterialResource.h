@@ -17,6 +17,7 @@ namespace jazzy
 
 		TextureResource* getTexture(size_t index);
 		size_t getNumTextures() const noexcept;
+		void setTexture(size_t index, const jazzy::RefPtr<TextureResource>& texture);
 
 	public:
 		static constexpr std::size_t MaxDataSize{ 256 };

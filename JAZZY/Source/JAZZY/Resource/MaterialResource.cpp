@@ -74,3 +74,13 @@ size_t jazzy::MaterialResource::getNumTextures() const noexcept
 {
 	return m_textures.size();
 }
+
+void jazzy::MaterialResource::setTexture(size_t index, const jazzy::RefPtr<TextureResource>& texture)
+{
+	if (index > m_textures.size())
+	{
+		DX3DLogError("Index {} is out of bounds for list of size {}", index, m_textures.size());
+		return;
+	}
+	m_textures.push_back(texture);
+}

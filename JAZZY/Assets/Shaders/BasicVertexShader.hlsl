@@ -36,6 +36,7 @@ struct MaterialVSOut
 };
 
 static float2 TextureCoordinate = float2(0, 0);
+
 void VSMain(inout MaterialVSOut output);
 
 VSOutput _VSMain(VSInput input)
