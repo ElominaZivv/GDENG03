@@ -58,15 +58,16 @@ float4 _PSMain(VSOutput input) : SV_TARGET
     psOut.specular = float4(0,0,0,0);
     psOut.shininess = 0.0; 
     PSMain(psOut);
-
     
     float3 result = float3(0, 0, 0);
 
-	//ambient light
+	// Ambient light
     float ka = 0.1;
-    float3 ia = float3(0.27f, 0.39f, 0.55f) * psOut.diffuse.rgb;
+    float3 ia = float3(0.0549f, 0.07f, 0.109f) * psOut.diffuse.rgb;
     float3 ambientLight = ka * ia;    
     result = ambientLight;
+    
+    // For now, disregard the lighting of the scene and just render the textures
     result = psOut.diffuse.rgb;
 
 	//directional light

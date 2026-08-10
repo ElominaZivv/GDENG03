@@ -1,5 +1,4 @@
 #pragma once
-
 #include <JAZZY/Core/Core.h>
 #include <JAZZY/Game/Component.h>
 

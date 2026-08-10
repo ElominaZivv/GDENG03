@@ -1,55 +1,60 @@
 #include <JAZZY/Components/CubeComponent.h>
-#include <JAZZY/Math/Vertex.h>
-
 #include "JAZZY/Graphics/GraphicsDevice.h"
 
 jazzy::CubeComponent::CubeComponent(const ComponentDesc& data): Component(data)
 {
-	f32 cubeSize = 0.5f;
-	Vec4 orange(0.99f, 0.16f, 0.01f, 1.0f);
-	Vec4 mikublue(0.03f, 0.74f, 0.68f, 1.0f);
-	Vec4 ourple(0.34f, 0.0f, 0.94f, 1.0f);
-	Vec4 black(0.0f, 0.0f, 0.0f, 1.0f);
-
-	// Vertex Buffer
-	static const Vertex vertexList[] =
+	// Vertices
+	static const MeshVertex vertexList[] =
 	{
-		// Front Face
-		Vertex{ {-cubeSize,-cubeSize,-cubeSize}, orange},
-		Vertex{ {-cubeSize,cubeSize,-cubeSize}, mikublue},
-		Vertex{ {cubeSize,cubeSize,-cubeSize}, ourple},
-		Vertex{ {cubeSize,-cubeSize,-cubeSize}, black},
-		// Back Face
-		Vertex{ {cubeSize,-cubeSize,cubeSize}, orange},
-		Vertex{ {cubeSize,cubeSize,cubeSize}, mikublue},
-		Vertex{ {-cubeSize,cubeSize,cubeSize}, ourple},
-		Vertex{ {-cubeSize,-cubeSize,cubeSize}, black}
+		// Front (+Z)
+		{{-0.5f, -0.5f,  0.5f}, {0, 1},{0,0,1}},
+		{{-0.5f,  0.5f,  0.5f}, {0, 0},{0,0,1}},
+		{{ 0.5f,  0.5f,  0.5f}, {1, 0},{0,0,1}},
+		{{ 0.5f, -0.5f,  0.5f}, {1, 1},{0,0,1}},
+
+		// Back (-Z)
+		{{ 0.5f, -0.5f, -0.5f}, {0, 1},{0,0,-1}},
+		{{ 0.5f,  0.5f, -0.5f}, {0, 0},{0,0,-1}},
+		{{-0.5f,  0.5f, -0.5f}, {1, 0},{0,0,-1}},
+		{{-0.5f, -0.5f, -0.5f}, {1, 1},{0,0,-1}},
+
+		// Left (-X)
+		{{-0.5f, -0.5f, -0.5f}, {0, 1},{-1,0,0}},
+		{{-0.5f,  0.5f, -0.5f}, {0, 0},{-1,0,0}},
+		{{-0.5f,  0.5f,  0.5f}, {1, 0},{-1,0,0}},
+		{{-0.5f, -0.5f,  0.5f}, {1, 1},{-1,0,0}},
+
+		// Right (+X)
+		{{ 0.5f, -0.5f,  0.5f}, {0, 1},{1,0,0}},
+		{{ 0.5f,  0.5f,  0.5f}, {0, 0},{1,0,0}},
+		{{ 0.5f,  0.5f, -0.5f}, {1, 0},{1,0,0}},
+		{{ 0.5f, -0.5f, -0.5f}, {1, 1},{1,0,0}},
+
+		// Top (+Y)
+		{{-0.5f,  0.5f,  0.5f}, {0, 1},{0,1,0}},
+		{{-0.5f,  0.5f, -0.5f}, {0, 0},{0,1,0}},
+		{{ 0.5f,  0.5f, -0.5f}, {1, 0},{0,1,0}},
+		{{ 0.5f,  0.5f,  0.5f}, {1, 1},{0,1,0}},
+
+		// Bottom (-Y)
+		{{-0.5f, -0.5f, -0.5f}, {0, 1},{0,-1,0}},
+		{{-0.5f, -0.5f,  0.5f}, {0, 0},{0,-1,0}},
+		{{ 0.5f, -0.5f,  0.5f}, {1, 0},{0,-1,0}},
+		{{ 0.5f, -0.5f, -0.5f}, {1, 1},{0,-1,0}},
 	};
 
 	// Index Buffer
 	static const ui32 indexList[] =
 	{
-		// Front Side
-		0,1,2,
-		2,3,0,
-		// Back Side
-		4,5,6,
-		6,7,4,
-		// Top Side
-		1,6,5,
-		5,2,1,
-		// Bottom Side
-		7,0,3,
-		3,4,7,
-		// Left Side
-		3,2,5,
-		5,4,3,
-		// Right Side
-		7,6,1,
-		1,0,7
+		 0,  2,  1,   0,  3,  2,   // Front
+		 4,  6,  5,   4,  7,  6,   // Back
+		 8, 10,  9,   8, 11, 10,   // Left
+		12, 14, 13,  12, 15, 14,   // Right
+		16, 18, 17,  16, 19, 18,   // Top
+		20, 22, 21,  20, 23, 22    // Bottom
 	};
 
-	static const auto vb = m_context.device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(Vertex) });
+	static const auto vb = m_context.device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(MeshVertex) });
 	static const auto ib = m_context.device.createIndexBuffer({ indexList, std::size(indexList)});
 
 	m_vb = vb;

@@ -2,6 +2,8 @@
 #include <JAZZY/Core/Core.h>
 #include <JAZZY/Core/Logger.h>
 #include <JAZZY/Math/Rect.h>
+#include <JAZZY/Math/Vec3.h>
+#include <JAZZY/Math/Vec2.h>
 
 namespace jazzy
 {
@@ -41,6 +43,7 @@ namespace jazzy
 
 	enum class ShaderType
 	{
+		
 		VertexShader = 0,
 		PixelShader
 	};
@@ -232,5 +235,12 @@ namespace jazzy
 		Display& display;
 		GraphicsDevice& graphicsDevice;
 		World& world;
+	};
+
+	struct MeshVertex
+	{
+		Vec3 position{};
+		Vec2 texcoord{};
+		Vec3 normal{};
 	};
 }

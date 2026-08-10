@@ -218,9 +218,6 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Input\InputSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JAZZY\Include\JAZZY\Math\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Math\Vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
