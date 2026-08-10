@@ -5,6 +5,7 @@
 #include <JAZZY/Resource/Resource.h>
 #include <JAZZY/Resource/MaterialResource.h>
 #include <JAZZY/Resource/TextureResource.h>
+#include <JAZZY/Resource/MeshResource.h>
 
 namespace jazzy
 {
