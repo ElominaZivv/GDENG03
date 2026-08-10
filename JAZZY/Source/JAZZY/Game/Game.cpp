@@ -50,8 +50,8 @@ jazzy::Game::Game(const GameDesc& desc)
 	}
 
 	// Meshes
-	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
-	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/marble_bust_01.obj");
+	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/red_brick_03_diff_1k.jpg");
+	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/teapot.obj");
 	auto marbleBustMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
 	if (marbleBustMat)
 	{
@@ -64,14 +64,14 @@ jazzy::Game::Game(const GameDesc& desc)
 	bustComp->setMesh(marbleBustMesh);
 	bustComp->setMaterial(0, marbleBustMat);
 	mesh->getTransform().setScale({ 4, 4, 4 });
-	mesh->getTransform().setPosition({ 0, 0, 0 });
+	mesh->getTransform().setPosition({ 0, -0.5, 2 });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
 	auto comp = plane->createOrGetComponent<jazzy::CubeComponent>();
 	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
-	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
+	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
 	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
 
 	// Parent
@@ -80,14 +80,14 @@ jazzy::Game::Game(const GameDesc& desc)
 	parent_comp->setMaterial(woodMat);
 	
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
-	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
+	parent_transform->setPosition({ 2.0f, 0.0f, 4.0f });
 
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>("child");
 	auto child_comp = test_child->createOrGetComponent<jazzy::CubeComponent>();
 	child_comp->setMaterial(woodMat);
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
-	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
+	child_transform->setPosition({ 0.0f, 0.0f, 4.0f });
 
 
 	test_child->setParent(test_parent);
