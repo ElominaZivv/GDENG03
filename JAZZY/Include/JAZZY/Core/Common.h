@@ -249,4 +249,10 @@ namespace jazzy
 		Vec2 texcoord{};
 		Vec3 normal{};
 	};
+	struct MaterialSlot
+	{
+		ui32 startIndex{};
+		ui32 indexCount{};
+		i32 materialIndex{};
+	};
 }

@@ -13,6 +13,7 @@
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
+#include "JAZZY/Components/MeshComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
@@ -34,7 +35,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	// My Free-cam
 	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ *m_logger , *m_inputSystem });
 
-	// Create Material
+	// Create Materials
 	auto woodTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
 	auto stoneTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
 	auto woodMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
@@ -47,6 +48,23 @@ jazzy::Game::Game(const GameDesc& desc)
 	{
 		stoneMat->setTexture(0, stoneTexture);
 	}
+
+	// Meshes
+	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
+	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/marble_bust_01.obj");
+	auto marbleBustMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	if (marbleBustMat)
+	{
+		marbleBustMat->setTexture(0, marbleBustTex);
+	}
+
+	// Marble Bust
+	auto mesh = m_world->createGameObject<jazzy::GameObject>();
+	auto bustComp = mesh->createOrGetComponent<jazzy::MeshComponent>();
+	bustComp->setMesh(marbleBustMesh);
+	bustComp->setMaterial(0, marbleBustMat);
+	mesh->getTransform().setScale({ 4, 4, 4 });
+	mesh->getTransform().setPosition({ 0, 0, 0 });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
