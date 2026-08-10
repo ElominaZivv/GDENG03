@@ -7,7 +7,7 @@
 
 jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Component(data)
 {
-	markAsDirty(m_position, m_rotation, m_scale);
+	//markAsDirty(m_position, m_rotation, m_scale);
 }
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
