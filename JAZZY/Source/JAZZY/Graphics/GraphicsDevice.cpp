@@ -9,6 +9,7 @@
 #include <JAZZY/Graphics/VertexShaderSignature.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
 #include <JAZZY/Graphics/IndexBuffer.h>
+#include <JAZZY/Graphics/Texture.h>
 
 using namespace jazzy;
 
@@ -128,6 +129,11 @@ void GraphicsDevice::setBackBuffer(const SwapChain& swapChain)
 		&rtv,
 		nullptr
 	);
+}
+
+RefPtr<Texture> GraphicsDevice::createTexture(const TextureDesc& desc)
+{
+	return std::make_shared<Texture>(desc, getGraphicsResourceDesc());
 }
 
 void GraphicsDevice::executeCommandList(DeviceContext& context)

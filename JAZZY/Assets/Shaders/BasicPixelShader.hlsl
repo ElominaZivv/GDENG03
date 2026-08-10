@@ -50,10 +50,8 @@ struct MaterialPSOut
 
 void PSMain(inout MaterialPSOut output);
 
-
 float4 _PSMain(VSOutput input) : SV_TARGET
 {
-    
     TextureCoordinate = input.texcoord; 
     MaterialPSOut psOut;
     psOut.diffuse = float4(1, 1, 1, 1);    

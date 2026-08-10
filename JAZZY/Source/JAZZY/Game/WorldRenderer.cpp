@@ -13,6 +13,7 @@
 #include <JAZZY/ComponentS/CubeComponent.h>
 
 #include <JAZZY/Resource/MaterialResource.h>
+#include <JAZZY/Resource/TextureResource.h>
 #include <JAZZY/EditorCamera/EditorCamera.h>
 #include <JAZZY/UI/UIManager.h>
 
@@ -27,6 +28,7 @@ jazzy::WorldRenderer::WorldRenderer(const WorldRendererDesc& desc): Base (desc.b
 
 	m_objectCb = device.createConstantBuffer({ {}, sizeof(ObjectData) });
 	m_cameraCb = device.createConstantBuffer({ {}, sizeof(CameraData) });
+	m_materialCb = device.createConstantBuffer({ {}, jazzy::MaterialResource::MaxDataSize});
 }
 
 void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, EditorCamera& editorCamera, UIManager& uiManager, f32 deltaTime)
@@ -41,20 +43,19 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 	auto& cameraCb = *m_cameraCb;
 	auto& objectCb = *m_objectCb;
+	auto& materialCb = *m_materialCb;
 
-	//cameras
+	// Camera
 	{
 		CameraData cameraData{};
 		cameraData.view = editorCamera.getViewMat();
 		editorCamera.setDisplayRect(size);
 		cameraData.proj = editorCamera.getProjectionViewMat();
-		Vec4 translation4 = editorCamera.getViewMat().row(3);
-		Vec3 translation = Vec3(translation4.x, translation4.y, translation4.z);
-		cameraData.position = translation;
+		cameraData.position = Vec3(editorCamera.getViewMat().row(3));
 		context.updateConstantBuffer(cameraCb, std::as_bytes(std::span{ &cameraData, 1 }));
 	}
 
-	//cubes
+	// Cubes
 	{
 		ObjectData objectData{};
 		auto components = world.getComponents<CubeComponent>(numComponents);
@@ -71,8 +72,18 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setGraphicsPipelineState(material->getGraphicsPipelineState());
 				context.updateConstantBuffer(objectCb, std::as_bytes(std::span{ &objectData, 1 }));
-				ConstantBuffer* cbs[] = { &objectCb, &cameraCb };
+				context.updateConstantBuffer(materialCb, material->getData());
+				ConstantBuffer* cbs[] = { &objectCb, &cameraCb, &materialCb };
 				context.setConstantBuffers(std::span<ConstantBuffer*>{cbs});
+
+				m_textures.clear();
+				m_textures.resize(material->getNumTextures());
+				for (auto t: std::views::iota(0u, m_textures.size()))
+				{
+					auto tex = material->getTexture(t);
+					if (tex) m_textures[t] = &tex->getTexture();
+				}
+				context.setTextures(std::span<Texture*>{m_textures});
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());

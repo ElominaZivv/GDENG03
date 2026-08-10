@@ -46,6 +46,7 @@ namespace jazzy
 	class ResourceManager;
 	class Resource;
 	class MaterialResource;
+	class TextureResource;
 
 	using i32 = int;
 	using ui32 = unsigned int;

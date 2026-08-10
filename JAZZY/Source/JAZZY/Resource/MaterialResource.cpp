@@ -37,3 +37,40 @@ const jazzy::GraphicsPipelineState& jazzy::MaterialResource::getGraphicsPipeline
 {
 	return *m_pipeline;
 }
+
+void jazzy::MaterialResource::setData(const std::span<const std::byte>& data)
+{
+	if (!data.size())
+	{
+		DX3DLogError("No material data provided.")
+			return;
+	}
+	if (data.size() > MaxDataSize)
+	{
+		DX3DLogWarning("Material data size ({} bytes) exceeds the maximum allowed size of {} bytes. Data will be truncated.", data.size(), MaxDataSize)
+	}
+
+	auto size = std::min(data.size(), MaxDataSize);
+	memcpy(m_data, data.data(), size);
+	m_dataSize = size;
+}
+
+const std::span<const std::byte> jazzy::MaterialResource::getData() const noexcept
+{
+	return m_data;
+}
+
+jazzy::TextureResource* jazzy::MaterialResource::getTexture(size_t index)
+{
+	if (index > m_textures.size())
+	{
+		DX3DLogThrowError(" Index {} is out of bounds for the list of size {}", index, m_textures.size());
+		return {};
+	}
+	return m_textures[index].get();
+}
+
+size_t jazzy::MaterialResource::getNumTextures() const noexcept
+{
+	return m_textures.size();
+}

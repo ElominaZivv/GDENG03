@@ -28,6 +28,7 @@ namespace jazzy
 		ID3D11Device* getDevice() const noexcept;
 		ID3D11DeviceContext* getContext() const noexcept;
 		void setBackBuffer(const SwapChain& swapChain);
+		RefPtr<Texture> createTexture(const TextureDesc& desc);
 
 		void executeCommandList(DeviceContext& context);
 	private:

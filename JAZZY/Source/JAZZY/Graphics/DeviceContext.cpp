@@ -4,6 +4,7 @@
 #include <JAZZY/Graphics/VertexBuffer.h>
 #include <JAZZY/Graphics/ConstantBuffer.h>
 #include <JAZZY/Graphics/IndexBuffer.h>
+#include <JAZZY/Graphics/Texture.h>
 #include <ranges>
 
 jazzy::DeviceContext::DeviceContext(const GraphicsResourceDesc& gDesc): GraphicsResource(gDesc)
@@ -128,4 +129,20 @@ void jazzy::DeviceContext::setConstantBuffers(const std::span<ConstantBuffer*>& 
 	}
 	m_context->VSSetConstantBuffers(0, numBuffers, m_constantBuffers.data());
 	m_context->PSSetConstantBuffers(0, numBuffers, m_constantBuffers.data());
+}
+
+void jazzy::DeviceContext::setTextures(const std::span<Texture*>& textures)
+{
+	if (textures.size() > MaxTexturesPerStage)
+	{
+		DX3DLogWarning("Number of textures exceeds {}. Extra textures will be ignored.", MaxTexturesPerStage);
+	}
+	auto numTextures = static_cast<UINT>(std::min(textures.size(), MaxTexturesPerStage));
+	for (auto i : std::views::iota(0u, numTextures))
+	{
+		if (textures[i]) m_srv[i] = (textures[i]->m_srv.Get());
+		else m_srv[i] = {};
+	}
+	m_context->VSSetShaderResources(0, numTextures, m_srv.data());
+	m_context->PSSetShaderResources(0, numTextures, m_srv.data());
 }

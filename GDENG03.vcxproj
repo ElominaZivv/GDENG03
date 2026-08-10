@@ -177,6 +177,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\ResourceManager.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\MaterialResource.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\WorldRenderer.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\TextureResource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\ResourceManager.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\MaterialResource.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Game\WorldRenderer.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\TextureResource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -33,6 +33,9 @@ namespace jazzy
 
 		RefPtr<ConstantBuffer> m_cameraCb{};
 		RefPtr<ConstantBuffer> m_objectCb{};
+		RefPtr<ConstantBuffer> m_materialCb{};
+
+		std::vector<Texture*> m_textures{};
 	};
 }
 

@@ -209,6 +209,12 @@ namespace jazzy
 		SystemContext context;
 	};
 
+	struct TextureResourceDesc
+	{
+		ResourceDesc base;
+		GraphicsDevice& graphicsDevice;
+	};
+
 	struct GraphicsPipelineLayoutDesc
 	{
 		const RefPtr<ShaderBinary>& vsBinary;

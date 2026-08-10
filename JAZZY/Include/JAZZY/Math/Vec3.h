@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <JAZZY/Core/Core.h>
+#include <JAZZY/Math/Vec4.h>
 
 namespace jazzy
 {
@@ -9,6 +10,7 @@ namespace jazzy
 	public:
 		Vec3() = default;
 		Vec3(f32 x, f32 y, f32 z) : x(x), y(y), z(z) {}
+		Vec3( Vec4 vec4 ) : x(vec4.x), y(vec4.y), z(vec4.z) {}
 
 		Vec3& operator+=(const Vec3& rhs)
 		{
