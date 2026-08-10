@@ -50,8 +50,8 @@ jazzy::Game::Game(const GameDesc& desc)
 	}
 
 	// Meshes
-	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/red_brick_03_diff_1k.jpg");
-	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/teapot.obj");
+	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
+	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/marble_bust_01.obj");
 	auto marbleBustMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
 	if (marbleBustMat)
 	{
@@ -64,7 +64,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	bustComp->setMesh(marbleBustMesh);
 	bustComp->setMaterial(0, marbleBustMat);
 	mesh->getTransform().setScale({ 4, 4, 4 });
-	mesh->getTransform().setPosition({ 0, -0.5, 2 });
+	mesh->getTransform().setPosition({ 0, -1, 2 });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
