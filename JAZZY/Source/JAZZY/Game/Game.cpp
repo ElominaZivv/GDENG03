@@ -69,27 +69,6 @@ jazzy::Game::Game(const GameDesc& desc)
 		stoneMat->setTexture(0, stoneTexture);
 	}
 
-	// Meshes
-	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
-	//auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/marble_bust_01.obj");
-	auto marbleBustMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-	if (marbleBustMat)
-	{
-		marbleBustMat->setTexture(0, marbleBustTex);
-	}
-
-	// Marble Bust
-	/*
-	m_world->AddGameSceneObject("Marble Bust", { World::COMP_Mesh, World::COMP_RigidBody }, { 0, -1, 2 });
-	auto bustObj = m_world->getGameObjectByName("Marble Bust");
-	auto bustComp = bustObj->getComponent<jazzy::MeshComponent>();
-	auto bustRigidComp = bustObj->getComponent<jazzy::RigidBodyComponent>();
-	bustRigidComp->addBoxCollider({ 0.5f, 0.5f, 0.5f }, { 0.0f, 0.0f,0.0f });
-	bustComp->setMesh(marbleBustMesh);
-	bustComp->setMaterial(0, marbleBustMat);
-	bustObj->getTransform().setScale({ 4, 4, 4 });
-	*/
-
 	// Plane
 	m_world->AddGameSceneObject("Floor", { World::COMP_Plane, World::COMP_RigidBody }, { 0.0f, -5.0f, 0.0f });
 	auto plane = m_world->getGameObjectByName("Floor");
