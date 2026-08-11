@@ -14,23 +14,38 @@ void jazzy::DebugConsole::draw()
 {
     ImGuiViewport* viewport = ImGui::GetMainViewport();
 
-    ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoFocusOnAppearing;
+    ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoFocusOnAppearing;
 
-    if (ImGui::BeginViewportSideBar("Debug Console", viewport, ImGuiDir_Down, 150.0f, windowFlags)) {
+    float height = isOpen ? expandedHeight : collapsedHeight;
 
-        ImGui::BeginChild("AllMessages", ImVec2(0, 100), false, ImGuiWindowFlags_HorizontalScrollbar);
+    if (ImGui::BeginViewportSideBar("Debug Console", viewport, ImGuiDir_Down, height, windowFlags)) {
 
-        ImGuiListClipper clipper;
-        clipper.Begin(logMessages.size());
+        if (ImGui::Button(isOpen ? "<" : ">", ImVec2(25.0f, 0))) {
+            isOpen = !isOpen;
+            autoScroll = true;
+        } ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.9f, 0.5f, 0.2f, 1.0f), "Debug Console");
+        ImGui::Separator();
 
-        while (clipper.Step()) {
-            for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++) {
-                ImGui::Text(logMessages[i].c_str());
+        if (isOpen) {
+            ImGui::BeginChild("AllMessages", ImVec2(0, 130), false, ImGuiWindowFlags_HorizontalScrollbar);
+
+            ImGuiListClipper clipper;
+            clipper.Begin(logMessages.size());
+
+            while (clipper.Step()) {
+                for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++) {
+                    ImGui::Text(logMessages[i].c_str());
+                }
             }
-        }
 
-        ImGui::EndChild();
+            if (autoScroll) {
+                ImGui::SetScrollHereY(1.0f);
+                autoScroll = false;
+            }
+
+            ImGui::EndChild();
+        }
 
         ImGui::End();
     }

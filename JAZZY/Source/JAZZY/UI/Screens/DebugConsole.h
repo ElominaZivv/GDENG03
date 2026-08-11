@@ -22,6 +22,12 @@ namespace jazzy
 
     private:
         std::vector<std::string> logMessages{};
+
+        bool isOpen = false;
+        bool autoScroll = true;
+
+        float expandedHeight = 180.0f;
+        float collapsedHeight = 40.0f;
     };
 
 }
