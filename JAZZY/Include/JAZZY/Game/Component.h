@@ -22,6 +22,7 @@ namespace jazzy
 		GameObject& m_object;
 		World& m_world;
 		GameContext& m_context;
+		reactphysics3d::PhysicsCommon* m_physicsCommon;
 		reactphysics3d::PhysicsWorld* m_worldPhysics;
 	};
 }

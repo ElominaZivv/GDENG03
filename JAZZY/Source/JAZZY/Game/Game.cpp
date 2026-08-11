@@ -36,7 +36,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	auto context = SystemContext{ *m_graphicsDevice };
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
 	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, m_worldPhysics->getWorld() });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, m_worldPhysics->getCommon(), m_worldPhysics->getWorld() });
 	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{*m_display, *m_graphicsDevice, *m_world});
 	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });
 
@@ -72,11 +72,12 @@ jazzy::Game::Game(const GameDesc& desc)
 	auto mesh = m_world->createGameObject<jazzy::GameObject>();
 	auto bustComp = mesh->createOrGetComponent<jazzy::MeshComponent>();
 	bustComp->setMesh(marbleBustMesh);
-	// Rigidbody
-	auto rbComp = mesh->createOrGetComponent<jazzy::RigidBodyComponent>();
 	bustComp->setMaterial(0, marbleBustMat);
 	mesh->getTransform().setScale({ 4, 4, 4 });
 	mesh->getTransform().setPosition({ 0, -1, 2 });
+	auto rbComp = mesh->createOrGetComponent<jazzy::RigidBodyComponent>();
+	rbComp->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+	rbComp->addBoxCollider({ 1.5f, 2.0f, 1.5f });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
@@ -85,6 +86,9 @@ jazzy::Game::Game(const GameDesc& desc)
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
 	plane_transform->setScale({ 25.0f, 25.0f, 25.0f });
+	auto planeRb = plane->createOrGetComponent<jazzy::RigidBodyComponent>();
+	planeRb->setBodyType(reactphysics3d::BodyType::STATIC);
+	planeRb->addBoxCollider({ 12.5f, 0.25f, 12.5f });
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");

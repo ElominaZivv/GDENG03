@@ -3,7 +3,7 @@
 #include <JAZZY/Components/RigidBodyComponent.h>
 #include <JAZZY/Game/GameObject.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_worldPhysics(desc.worldPhysics)
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_physicsCommon(desc.physicsCommon), m_worldPhysics(desc.worldPhysics)
 {
 }
 

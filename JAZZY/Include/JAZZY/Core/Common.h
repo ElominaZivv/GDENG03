@@ -171,6 +171,7 @@ namespace jazzy
 		GameContext gameContext;
 		World& world;
 		std::string name;
+		reactphysics3d::PhysicsCommon* physicsCommon;
 		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 
@@ -178,6 +179,7 @@ namespace jazzy
 	{
 		BaseDesc base;
 		GameContext gameContext;
+		reactphysics3d::PhysicsCommon* physicsCommon;
 		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 
@@ -187,6 +189,7 @@ namespace jazzy
 		GameObject& object;
 		World& world;
 		GameContext& context;
+		reactphysics3d::PhysicsCommon* physicsCommon;
 		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 

@@ -15,6 +15,7 @@ namespace jazzy
 		explicit WorldPhysics(const WorldPhysicsDesc& desc);
 		void update(f32 deltaTime);
 
+		reactphysics3d::PhysicsCommon* getCommon() const noexcept;
 		reactphysics3d::PhysicsWorld* getWorld() const noexcept;
 
 	private:
@@ -24,4 +25,3 @@ namespace jazzy
 
 	};
 }
-

@@ -6,13 +6,34 @@
 jazzy::RigidBodyComponent::RigidBodyComponent(const ComponentDesc& data) : Component(data)
 {
 	m_rigidBody = data.worldPhysics->createRigidBody(buildPhysicsTransform(getGameObject().getTransform()));
-	m_rigidBody->setType(BodyType::DYNAMIC);
-	m_rigidBody->enableGravity(true);
+	setBodyType(BodyType::DYNAMIC);
 	m_rigidBody->setLinearDamping(decimal(0.0));
 	m_rigidBody->setAngularDamping(decimal(0.0));
 	m_rigidBody->setIsAllowedToSleep(false);
 	m_rigidBody->setMass(decimal(1.0));
 	syncTransformToPhysics();
+}
+
+void jazzy::RigidBodyComponent::setBodyType(reactphysics3d::BodyType type) noexcept
+{
+	if (!m_rigidBody) return;
+	m_rigidBody->setType(type);
+	m_rigidBody->enableGravity(type == BodyType::DYNAMIC);
+}
+
+void jazzy::RigidBodyComponent::addBoxCollider(const Vec3& halfExtents) noexcept
+{
+	if (!m_rigidBody || !m_physicsCommon || m_collider) return;
+
+	m_boxShape = m_physicsCommon->createBoxShape(
+		reactphysics3d::Vector3(halfExtents.x, halfExtents.y, halfExtents.z)
+	);
+	m_collider = m_rigidBody->addCollider(m_boxShape, reactphysics3d::Transform::identity());
+
+	if (m_rigidBody->getType() == BodyType::DYNAMIC)
+	{
+		m_rigidBody->updateMassPropertiesFromColliders();
+	}
 }
 
 void jazzy::RigidBodyComponent::syncTransformToPhysics() noexcept

@@ -25,6 +25,7 @@ namespace jazzy
 					m_gameContext,
 					*this,
 					name,
+					m_physicsCommon,
 					m_worldPhysics
 				});
 
@@ -64,6 +65,7 @@ namespace jazzy
 
 	private:
 		GameContext m_gameContext;
+		reactphysics3d::PhysicsCommon* m_physicsCommon;
 		reactphysics3d::PhysicsWorld* m_worldPhysics;
 
 		// size_t is the typeId of the GameObject which maps to a list of GameObjects of the same typeId?

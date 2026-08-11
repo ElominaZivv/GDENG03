@@ -16,6 +16,8 @@ namespace jazzy
 
 	public:
 		explicit RigidBodyComponent(const ComponentDesc& data);
+		void setBodyType(reactphysics3d::BodyType type) noexcept;
+		void addBoxCollider(const Vec3& halfExtents) noexcept;
 		void syncTransformToPhysics() noexcept;
 		void syncPhysicsToTransform() noexcept;
 
@@ -24,5 +26,7 @@ namespace jazzy
 
 	private:
 		reactphysics3d::RigidBody* m_rigidBody{};
+		reactphysics3d::BoxShape* m_boxShape{};
+		reactphysics3d::Collider* m_collider{};
 	};
 }
