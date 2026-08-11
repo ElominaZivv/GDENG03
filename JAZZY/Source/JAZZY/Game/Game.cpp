@@ -100,7 +100,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	// Sphere
 	auto sphere = m_world->createGameObject<jazzy::GameObject>("sphere");
 	auto sphereComp = sphere->createOrGetComponent<jazzy::SphereComponent>();
-	sphereComp->setMaterial(stoneMat);
+	sphereComp->setMaterial(woodMat);
 	sphere->getTransform().setPosition({ -2.0f, -2.0f, 2.0f });
 	sphere->getTransform().setScale({ 2.0f, 2.0f, 2.0f });
 
@@ -114,9 +114,9 @@ jazzy::Game::Game(const GameDesc& desc)
 	// Capsule
 	auto capsule = m_world->createGameObject<jazzy::GameObject>("capsule");
 	auto capsuleComp = capsule->createOrGetComponent<jazzy::CapsuleComponent>();
-	capsuleComp->setMaterial(stoneMat);
+	capsuleComp->setMaterial(woodMat);
 	capsule->getTransform().setPosition({ 7.0f, -2.5f, 2.0f });
-	capsule->getTransform().setScale({ 2.0f, 3.0f, 2.0f });
+	capsule->getTransform().setScale({ 1.0f, 1.0f, 1.0f });
 
 	DX3DLogInfo("Game initialized.");
 }
