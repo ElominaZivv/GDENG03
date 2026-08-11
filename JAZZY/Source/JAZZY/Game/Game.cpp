@@ -20,15 +20,11 @@
 #include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
+#include "JAZZY/Game/WorldPhysics.h"
 #include "JAZZY/UI/UIManager.h"
-
-
 
 jazzy::Game::Game(const GameDesc& desc)
 {
-
-
-
 	m_logger = std::make_unique<Logger>(desc.logLevel);
 	m_inputSystem = std::make_unique<InputSystem>(InputSystemDesc{ *m_logger });
 	m_graphicsDevice = std::make_shared<GraphicsDevice>(GraphicsDeviceDesc{ *m_logger });
@@ -37,6 +33,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
 	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice} });
 	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{*m_display, *m_graphicsDevice, *m_world});
+	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
 	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });
 
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
@@ -166,6 +163,9 @@ void jazzy::Game::onInternalUpdate()
 	// World
 	onUpdate(deltaTime);
 	m_world->update(deltaTime);
+
+	// World Physics
+	m_worldPhysics->update(deltaTime);
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());

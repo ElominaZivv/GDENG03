@@ -42,6 +42,7 @@ namespace jazzy
 	class Texture;
 
 	class WorldRenderer;
+	class WorldPhysics;
 
 	class ResourceManager;
 	class Resource;

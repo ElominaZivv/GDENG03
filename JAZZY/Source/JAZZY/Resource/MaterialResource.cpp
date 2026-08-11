@@ -82,5 +82,8 @@ void jazzy::MaterialResource::setTexture(size_t index, const jazzy::RefPtr<Textu
 		DX3DLogError("Index {} is out of bounds for list of size {}", index, m_textures.size());
 		return;
 	}
+	// This should be
+	// m_textures[index] = texture;
+	// but this causes an assertion error
 	m_textures.push_back(texture);
 }

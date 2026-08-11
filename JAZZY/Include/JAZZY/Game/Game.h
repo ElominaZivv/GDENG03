@@ -36,6 +36,7 @@ namespace jazzy
 		UniquePtr<ResourceManager> m_resourceManager{};
 		UniquePtr<World> m_world{};
 
+		UniquePtr<WorldPhysics>m_worldPhysics{};
 		UniquePtr<WorldRenderer>m_worldRenderer{};
 
 		// My Free-Cam

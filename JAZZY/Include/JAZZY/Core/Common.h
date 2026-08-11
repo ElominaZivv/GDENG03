@@ -255,4 +255,8 @@ namespace jazzy
 		ui32 indexCount{};
 		i32 materialIndex{};
 	};
+	struct WorldPhysicsDesc
+	{
+		BaseDesc base;
+	};
 }
