@@ -62,11 +62,11 @@ jazzy::SphereComponent::SphereComponent(const ComponentDesc& data) : Component(d
 				const auto bottomRight = bottomLeft + 1;
 
 				indexList.push_back(topLeft);
-				indexList.push_back(bottomLeft);
 				indexList.push_back(topRight);
 				indexList.push_back(bottomLeft);
+				indexList.push_back(bottomLeft);
+				indexList.push_back(topRight);
 				indexList.push_back(bottomRight);
-				indexList.push_back(topRight);
 			}
 		}
 

@@ -13,6 +13,7 @@
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
+#include "JAZZY/Components/CylinderComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
 #include "JAZZY/Components/PlaneComponent.h"
 #include "JAZZY/Components/SphereComponent.h"
@@ -101,6 +102,13 @@ jazzy::Game::Game(const GameDesc& desc)
 	sphereComp->setMaterial(stoneMat);
 	sphere->getTransform().setPosition({ -2.0f, -2.0f, 2.0f });
 	sphere->getTransform().setScale({ 2.0f, 2.0f, 2.0f });
+
+	// Cylinder
+	auto cylinder = m_world->createGameObject<jazzy::GameObject>("cylinder");
+	auto cylinderComp = cylinder->createOrGetComponent<jazzy::CylinderComponent>();
+	cylinderComp->setMaterial(woodMat);
+	cylinder->getTransform().setPosition({ 4.0f, -2.5f, 2.0f });
+	cylinder->getTransform().setScale({ 2.0f, 3.0f, 2.0f });
 
 	DX3DLogInfo("Game initialized.");
 }
