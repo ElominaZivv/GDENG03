@@ -88,16 +88,41 @@ jazzy::Game::Game(const GameDesc& desc)
 	plane_transform->setScale({ 25.0f, 1.0f, 25.0f });
 	auto planeRb = plane->createOrGetComponent<jazzy::RigidBodyComponent>();
 	planeRb->setBodyType(reactphysics3d::BodyType::STATIC);
-	planeRb->addBoxCollider({ 12.5f, 0.01f, 12.5f });
+	planeRb->addBoxCollider({ 12.5f, 0.025f, 12.5f });
 
+	// Load bearing GameObject lol
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
 	auto parent_comp = test_parent->createOrGetComponent<jazzy::CubeComponent>();
-	parent_comp->setMaterial(woodMat);
+	//Hide this object first
+	//parent_comp->setMaterial(woodMat);
 	
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
 	parent_transform->setPosition({ 2.0f, 0.0f, 4.0f });
 
+	// Test Cubes
+	for (auto i : std::views::iota(0u, 100u))
+	{
+		// Create Gameobject
+		auto cube = m_world->createGameObject<jazzy::GameObject>("child");
+		// Add Cube Component
+		auto cube_comp = cube->createOrGetComponent<jazzy::CubeComponent>();
+		// Set Cube Material
+		cube_comp->setMaterial(woodMat);
+
+		// Create, Get, and Set Transform Component
+		TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
+		cube_transform->setPosition({ 0.0f, 1.0f, 4.0f });
+		cube_transform->setRotation({ f32(i * 5), f32(i * 10), f32(i * 5) });
+
+
+		// Create, Get and Set Rigidbody Component
+		auto cubeRb = cube->createOrGetComponent<jazzy::RigidBodyComponent>();
+		cubeRb->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+		cubeRb->addBoxCollider({ 0.5f, 0.5f, 0.5f });
+	}
+
+	/*
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>("child");
 	auto child_comp = test_child->createOrGetComponent<jazzy::CubeComponent>();
@@ -111,7 +136,9 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	test_child->setParent(test_parent);
 	test_parent->setParent(plane);
+	*/
 
+	/*
 	// Sphere
 	auto sphere = m_world->createGameObject<jazzy::GameObject>("sphere");
 	auto sphereComp = sphere->createOrGetComponent<jazzy::SphereComponent>();
@@ -131,7 +158,8 @@ jazzy::Game::Game(const GameDesc& desc)
 	auto capsuleComp = capsule->createOrGetComponent<jazzy::CapsuleComponent>();
 	capsuleComp->setMaterial(woodMat);
 	capsule->getTransform().setPosition({ 7.0f, -2.5f, 2.0f });
-	capsule->getTransform().setScale({ 1.0f, 1.0f, 1.0f });
+	capsule->getTransform().setScale({ 1.0f, 1.0f, 1.0f }); 
+	*/
 
 	DX3DLogInfo("Game initialized.");
 }
