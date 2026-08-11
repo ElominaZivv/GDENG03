@@ -5,6 +5,7 @@
 #include <JAZZY/Components/SphereComponent.h>
 #include <JAZZY/Components/CylinderComponent.h>
 #include <JAZZY/Components/CapsuleComponent.h>
+#include <JAZZY/Components/MeshComponent.h>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Resource/ResourceManager.h>
@@ -21,6 +22,7 @@ jazzy::MenuScreen::MenuScreen(World& world, ResourceManager& resource)
 void jazzy::MenuScreen::draw()
 {
     static bool showCredits = false;
+    static bool enterFilename = false;
 
     if (ImGui::BeginMainMenuBar())
     {
@@ -41,6 +43,57 @@ void jazzy::MenuScreen::draw()
             }
 
             ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Load Obj"))
+            {
+                enterFilename = true;
+            }
+
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip("Load in an .obj from the Assets folder");
+            }
+
+            ImGui::EndMenu();
+        }
+
+        if (enterFilename) {
+            if (ImGui::BeginMenu("ObjFileName"))
+            {
+                static char objCurrentName[100] = "";
+
+                if (ImGui::InputText("##Name", objCurrentName, sizeof(objCurrentName))) {
+                    meshFileName.append(objCurrentName);
+                }
+
+                if (ImGui::Button(" [Load] "))
+                {
+                    std::string name =
+                        "Custom " + std::to_string(customMeshCount);
+
+                    float newPosition =
+                        customMeshCount * 1.5f;
+
+                    auto id = m_world.AddGameSceneObject(name, { World::COMP_Mesh, World::COMP_RigidBody }, { 0.0f, 1.0f, newPosition });
+                    auto obj = m_world.getGameObjectByID(id);
+                    auto objComp = obj->getComponent<jazzy::MeshComponent>();
+                    
+                    auto mesh = m_world.LoadMesh(meshFileName);
+                    std::cout << meshFileName << std::endl;
+                    objComp->setMesh(mesh);
+
+                    objComp->setMaterial(0, woodMat);
+
+                    meshFileName = "./Game/Assets/Meshes/";
+
+                    enterFilename = false;
+                }
+
+                ImGui::EndMenu();
+            }
         }
 
         if (ImGui::BeginMenu("Game Object"))

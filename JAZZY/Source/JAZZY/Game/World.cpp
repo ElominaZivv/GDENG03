@@ -10,6 +10,7 @@
 #include <JAZZY/Components/MeshComponent.h>
 
 #include <JAZZY/SaveSystem/SaveStructs.h>
+#include <JAZZY/Resource/ResourceManager.h>
 #include <JAZZY/Game/WorldPhysics.h>
 
 jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), worldPhysicsObj(desc.worldPhysics), m_recordHolder(*this)
@@ -251,6 +252,15 @@ void jazzy::World::ResetTransforms()
 jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
 {
 	return m_recordHolder;
+}
+
+jazzy::RefPtr<jazzy::MeshResource> jazzy::World::LoadMesh(std::string filepath)
+{
+	std::wstring wideStr(filepath.begin(), filepath.end());
+	const wchar_t* filepathFull = wideStr.c_str();
+
+	ResourceManager& resMan = m_gameContext.resourceManager;
+	return resMan.createResourceFromFile<jazzy::MeshResource>(filepathFull);
 }
 
 std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd)

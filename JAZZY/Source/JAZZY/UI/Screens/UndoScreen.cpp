@@ -9,22 +9,26 @@ jazzy::UndoScreen::UndoScreen(World& world)
 
 void jazzy::UndoScreen::draw()
 {
-    ImGui::SetNextWindowSize(ImVec2(160.0f, 60.f));
+    if (m_world.currentSceneState == m_world.EDIT_MODE) {
 
-    if (ImGui::Begin("Action", nullptr, ImGuiWindowFlags_NoResize))
-    {
-        if (ImGui::Button("Undo", ImVec2(70.0f, 25.0f)))
+        ImGui::SetNextWindowSize(ImVec2(160.0f, 60.f));
+
+        if (ImGui::Begin("Action", nullptr, ImGuiWindowFlags_NoResize))
         {
-            m_world.getRecordHolder().undo();
+            if (ImGui::Button("Undo", ImVec2(70.0f, 25.0f)))
+            {
+                m_world.getRecordHolder().undo();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Redo", ImVec2(70.0f, 25.0f)))
+            {
+                m_world.getRecordHolder().redo();
+            }
         }
 
-        ImGui::SameLine();
+        ImGui::End();
 
-        if (ImGui::Button("Redo", ImVec2(70.0f, 25.0f)))
-        {
-            m_world.getRecordHolder().redo();
-        }
     }
-
-    ImGui::End();
 }

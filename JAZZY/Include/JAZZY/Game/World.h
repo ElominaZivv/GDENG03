@@ -55,6 +55,8 @@ namespace jazzy
 
 		RecordHolder& getRecordHolder() noexcept;
 
+		RefPtr<MeshResource> LoadMesh(std::string filepath);
+
 		// Hierarchy
 		std::string ROOTSCENE_ID = "ROOTSCENE_0";
 		enum ComponentType {
