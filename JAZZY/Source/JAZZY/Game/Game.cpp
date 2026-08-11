@@ -14,6 +14,7 @@
 
 #include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
+#include "JAZZY/Components/PlaneComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
@@ -68,11 +69,11 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
-	auto comp = plane->createOrGetComponent<jazzy::CubeComponent>();
+	auto comp = plane->createOrGetComponent<jazzy::PlaneComponent>();
 	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
-	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
+	plane_transform->setScale({ 20.0f, 1.0f, 20.0f });
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");

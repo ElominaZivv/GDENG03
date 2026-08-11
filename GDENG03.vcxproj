@@ -181,6 +181,7 @@
     <ClCompile Include="Game\MainGame.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\MeshResource.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\MeshComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\PlaneComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Game\MainGame.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\MeshResource.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\MeshComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\PlaneComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

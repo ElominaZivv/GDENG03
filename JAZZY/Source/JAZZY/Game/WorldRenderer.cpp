@@ -12,6 +12,7 @@
 #include <JAZZY/ComponentS/TransformComponent.h>
 #include <JAZZY/ComponentS/CubeComponent.h>
 #include <JAZZY/ComponentS/MeshComponent.h>
+#include <JAZZY/Components/PlaneComponent.h>
 
 #include <JAZZY/Resource/MaterialResource.h>
 #include <JAZZY/Resource/TextureResource.h>
@@ -81,6 +82,43 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 				m_textures.clear();
 				m_textures.resize(material->getNumTextures());
 				for (auto t: std::views::iota(0u, m_textures.size()))
+				{
+					auto tex = material->getTexture(t);
+					if (tex) m_textures[t] = &tex->getTexture();
+				}
+				context.setTextures(std::span<Texture*>{m_textures});
+
+				context.setVertexBuffer(component->getVertexBuffer());
+				context.setIndexBuffer(component->getIndexBuffer());
+				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+			}
+		}
+	}
+
+	// Planes
+	{
+		ObjectData objectData{};
+		auto components = world.getComponents<PlaneComponent>(numComponents);
+		for (auto i : std::views::iota(0u, numComponents))
+		{
+			auto component = components[i];
+			auto& transform = component->getGameObject().getTransform();
+			auto material = component->getMaterial();
+
+			if (material)
+			{
+				objectData.affineWorld = transform.getAffineWorldMatrix();
+				objectData.rigidWorld = transform.getRigidWorldMatrix();
+
+				context.setGraphicsPipelineState(material->getGraphicsPipelineState());
+				context.updateConstantBuffer(objectCb, std::as_bytes(std::span{ &objectData, 1 }));
+				context.updateConstantBuffer(materialCb, material->getData());
+				ConstantBuffer* cbs[] = { &objectCb, &cameraCb, &materialCb };
+				context.setConstantBuffers(std::span<ConstantBuffer*>{cbs});
+
+				m_textures.clear();
+				m_textures.resize(material->getNumTextures());
+				for (auto t : std::views::iota(0u, m_textures.size()))
 				{
 					auto tex = material->getTexture(t);
 					if (tex) m_textures[t] = &tex->getTexture();
