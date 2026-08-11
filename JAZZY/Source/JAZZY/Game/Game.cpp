@@ -22,8 +22,13 @@
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
 
+
+
 jazzy::Game::Game(const GameDesc& desc)
 {
+
+
+
 	m_logger = std::make_unique<Logger>(desc.logLevel);
 	m_inputSystem = std::make_unique<InputSystem>(InputSystemDesc{ *m_logger });
 	m_graphicsDevice = std::make_shared<GraphicsDevice>(GraphicsDeviceDesc{ *m_logger });
