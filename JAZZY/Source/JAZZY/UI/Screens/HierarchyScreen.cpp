@@ -55,8 +55,9 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(GameObject* obj, ImGuiTreeNodeF
     if (obj->getChildCount() == 0)
         treeFlags |= ImGuiTreeNodeFlags_Leaf;
 
+    std::string treeNodeIDLabel = obj->m_name + "###" + obj->_id;
     bool isOpen = ImGui::TreeNodeEx(
-        obj->m_name.c_str(),
+        treeNodeIDLabel.c_str(),
         treeFlags
     );
 

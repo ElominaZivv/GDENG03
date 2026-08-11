@@ -37,7 +37,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
 	
 	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, m_worldPhysics->getCommon(), m_worldPhysics->getWorld() });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, *m_worldPhysics });
 	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{ *m_display, *m_graphicsDevice, *m_world, *m_resourceManager });
 	m_logger->SetDebugConsole(m_uiManager->GetDebugConsoleScreen());
 

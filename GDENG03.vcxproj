@@ -195,6 +195,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Components\RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Source\JAZZY\SaveSystem\SaveStructs.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderInclude.h" />

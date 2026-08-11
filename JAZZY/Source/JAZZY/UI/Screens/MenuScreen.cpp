@@ -153,6 +153,33 @@ void jazzy::MenuScreen::draw()
             ImGui::EndMenu();
         }
 
+        if (m_world.currentSceneState == m_world.EDIT_MODE) {
+            if (ImGui::Button(" > "))
+            {
+                m_world.ChangeSceneState(m_world.PLAY_MODE);
+            }
+        } 
+        else if (m_world.currentSceneState == m_world.PLAY_MODE) {
+            if (ImGui::Button(" [] "))
+            {
+                m_world.ChangeSceneState(m_world.EDIT_MODE);
+            }
+            if (ImGui::Button(" || "))
+            {
+                m_world.ChangeSceneState(m_world.PAUSED_MODE);
+            }
+        }
+        else if (m_world.currentSceneState == m_world.PAUSED_MODE) {
+            if (ImGui::Button(" [] "))
+            {
+                m_world.ChangeSceneState(m_world.EDIT_MODE);
+            }
+            if (ImGui::Button(" -> "))
+            {
+                m_world.ProceedWhenPaused();
+            }
+        }
+
         ImGui::EndMainMenuBar();
     }
 

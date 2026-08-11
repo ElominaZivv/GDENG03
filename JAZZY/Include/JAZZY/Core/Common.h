@@ -179,8 +179,9 @@ namespace jazzy
 	{
 		BaseDesc base;
 		GameContext gameContext;
-		reactphysics3d::PhysicsCommon* physicsCommon;
-		reactphysics3d::PhysicsWorld* worldPhysics;
+		WorldPhysics& worldPhysics;
+		/*reactphysics3d::PhysicsCommon* physicsCommon;
+		reactphysics3d::PhysicsWorld* worldPhysics;*/
 	};
 
 	struct ComponentDesc

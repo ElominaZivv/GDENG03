@@ -9,8 +9,12 @@
 #include <JAZZY/Components/CapsuleComponent.h>
 #include <JAZZY/Components/MeshComponent.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_physicsCommon(desc.physicsCommon), m_worldPhysics(desc.worldPhysics), m_recordHolder(*this)
+#include <JAZZY/SaveSystem/SaveStructs.h>
+#include <JAZZY/Game/WorldPhysics.h>
+
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), worldPhysicsObj(desc.worldPhysics), m_recordHolder(*this)
 {
+	SetPhysics();
 }
 
 void jazzy::World::update(f32 deltaTime)
@@ -221,7 +225,13 @@ void jazzy::World::SaveCurrentTransforms()
 	auto objs = getComponents<TransformComponent>(num);
 
 	for (auto i : std::views::iota(0u, num)) {
-		EDIT_savedTransforms.push_back(*(objs[i]));
+
+		SAVE_Transform save;
+		save.m_position = objs[i]->getPosition();
+		save.m_rotation = objs[i]->getRotation();
+		save.m_scale = objs[i]->getScale();
+
+		EDIT_savedTransforms.push_back(save);
 	}
 }
 
@@ -231,12 +241,9 @@ void jazzy::World::ResetTransforms()
 	auto objs = getComponents<TransformComponent>(num);
 
 	for (auto i : std::views::iota(0u, num)) {
-
-		objs[i]->setHidden(EDIT_savedTransforms[i].getHidden());
-		objs[i]->setHiddenByParent(EDIT_savedTransforms[i].getHiddenByParent());
-		objs[i]->setPosition(EDIT_savedTransforms[i].getPosition());
-		objs[i]->setRotation(EDIT_savedTransforms[i].getRotation());
-		objs[i]->setScale(EDIT_savedTransforms[i].getScale());
+		objs[i]->setPosition(EDIT_savedTransforms[i].m_position);
+		objs[i]->setRotation(EDIT_savedTransforms[i].m_rotation);
+		objs[i]->setScale(EDIT_savedTransforms[i].m_scale);
 
 	}
 }
@@ -374,13 +381,27 @@ void jazzy::World::ChangeSceneState(SceneState newState)
 	if (currentSceneState != newState) {
 		switch (newState) {
 			case (EDIT_MODE):
+				worldPhysicsObj.physicsActive = false;
+				ResetTransforms();
+				EDIT_savedTransforms.clear();
+				currentSceneState = EDIT_MODE;
 				break;	
 			case (PLAY_MODE):
+				SaveCurrentTransforms();
+				worldPhysicsObj.physicsActive = true;
+				currentSceneState = PLAY_MODE;
 				break;	
 			case (PAUSED_MODE):
+				worldPhysicsObj.isPaused = true;
+				currentSceneState = PAUSED_MODE;
 				break;	
 		}
 	}
+}
+
+void jazzy::World::ProceedWhenPaused()
+{
+	if (currentSceneState = PAUSED_MODE) worldPhysicsObj.proceed = true;
 }
 
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept
@@ -413,4 +434,9 @@ jazzy::GameObject* jazzy::World::getGameObjectByID(const std::string& name) noex
 	}
 
 	return nullptr;
+}
+
+void jazzy::World::SetPhysics() {
+	m_physicsCommon = worldPhysicsObj.getCommon();
+	m_worldPhysics = worldPhysicsObj.getWorld();
 }

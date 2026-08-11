@@ -8,6 +8,7 @@
 
 #include "JAZZY/Components/TransformComponent.h"
 #include "JAZZY/Recorder/RecordHolder.h"
+#include <JAZZY/SaveSystem/SaveStructs.h>
 
 namespace jazzy
 {
@@ -75,6 +76,8 @@ namespace jazzy
 			PAUSED_MODE
 		};
 		void ChangeSceneState(SceneState newState);
+		void ProceedWhenPaused();
+		SceneState currentSceneState = EDIT_MODE;
 
 	private:
 		enum class EventType
@@ -98,10 +101,13 @@ namespace jazzy
 		void SaveCurrentTransforms();
 		void ResetTransforms();
 
+		void SetPhysics();
+
 	private:
 		GameContext m_gameContext;
-		reactphysics3d::PhysicsCommon* m_physicsCommon;
-		reactphysics3d::PhysicsWorld* m_worldPhysics;
+		WorldPhysics& worldPhysicsObj;
+		reactphysics3d::PhysicsCommon* m_physicsCommon{};
+		reactphysics3d::PhysicsWorld* m_worldPhysics{};
 
 		// size_t is the typeId of the GameObject which maps to a list of GameObjects of the same typeId?
 		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};
@@ -122,8 +128,7 @@ namespace jazzy
 		int SCENE_OBJ_NUM = 0;
 
 		// scene states again
-		std::vector<TransformComponent> EDIT_savedTransforms{};
-		SceneState currentSceneState = EDIT_MODE;
+		std::vector<SAVE_Transform> EDIT_savedTransforms{};
 
 		friend class GameObject;
 		friend class TransformComponent;
