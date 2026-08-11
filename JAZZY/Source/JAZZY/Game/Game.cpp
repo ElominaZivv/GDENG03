@@ -95,11 +95,6 @@ jazzy::Game::Game(const GameDesc& desc)
 	test_parent->setParent(plane);
 
 	DX3DLogInfo("Game initialized.");
-
-	for (int i = 0; i < 10; i++) {
-		DX3DLogInfo("TEST INFO.");
-		DX3DLogError("TEST ERROR.");
-	}
 }
 
 jazzy::Game::~Game()

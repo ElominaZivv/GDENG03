@@ -20,16 +20,22 @@ void jazzy::DebugConsole::draw()
 
     if (ImGui::BeginViewportSideBar("Debug Console", viewport, ImGuiDir_Down, height, windowFlags)) {
 
+        // header / toggle visibility
         if (ImGui::Button(isOpen ? "<" : ">", ImVec2(25.0f, 0))) {
             isOpen = !isOpen;
             autoScroll = true;
         } ImGui::SameLine();
-        ImGui::TextColored(ImVec4(0.9f, 0.5f, 0.2f, 1.0f), "Debug Console");
+        ImGui::TextColored(ImVec4(0.9f, 0.5f, 0.2f, 1.0f), "Debug Console"); ImGui::SameLine();
+        if (ImGui::Button("Clear Logs", ImVec2(100.0f, 0))) {
+            ClearDebugLog();
+        } 
         ImGui::Separator();
 
+        // renders log messages if full
         if (isOpen) {
             ImGui::BeginChild("AllMessages", ImVec2(0, 130), false, ImGuiWindowFlags_HorizontalScrollbar);
 
+            // this is for rendering optimization stuff
             ImGuiListClipper clipper;
             clipper.Begin(logMessages.size());
 
@@ -59,4 +65,9 @@ void jazzy::DebugConsole::AddToDebugLog(std::string newMsg)
 void jazzy::DebugConsole::ClearDebugLog()
 {
     logMessages.clear();
+}
+
+jazzy::DebugConsole::~DebugConsole()
+{
+    ClearDebugLog();
 }

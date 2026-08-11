@@ -20,6 +20,8 @@ namespace jazzy
         void AddToDebugLog(std::string newMsg);
         void ClearDebugLog();
 
+        ~DebugConsole();
+
     private:
         std::vector<std::string> logMessages{};
 
