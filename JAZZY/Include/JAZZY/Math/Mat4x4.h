@@ -43,6 +43,28 @@ namespace jazzy
 			return res;
 		}
 
+		static Mat4x4 rotationTranslation(
+			f32 m00, f32 m01, f32 m02,
+			f32 m10, f32 m11, f32 m12,
+			f32 m20, f32 m21, f32 m22,
+			const Vec3& translation) noexcept
+		{
+			Mat4x4 res = Mat4x4::identity();
+			res.m_data[0][0] = m00;
+			res.m_data[0][1] = m01;
+			res.m_data[0][2] = m02;
+			res.m_data[1][0] = m10;
+			res.m_data[1][1] = m11;
+			res.m_data[1][2] = m12;
+			res.m_data[2][0] = m20;
+			res.m_data[2][1] = m21;
+			res.m_data[2][2] = m22;
+			res.m_data[3][0] = translation.x;
+			res.m_data[3][1] = translation.y;
+			res.m_data[3][2] = translation.z;
+			return res;
+		}
+
 		static Mat4x4 rotateX(const f32 rad) noexcept
 		{
 			Mat4x4 res{};

@@ -10,6 +10,7 @@
 #include <JAZZY/Resource/ResourceManager.h>
 
 #include <iostream>
+#include <algorithm>
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
@@ -17,22 +18,29 @@
 #include "JAZZY/Components/CylinderComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
 #include "JAZZY/Components/PlaneComponent.h"
+#include "JAZZY/Components/RigidBodyComponent.h"
 #include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
+#include "JAZZY/Game/WorldPhysics.h"
 #include "JAZZY/UI/UIManager.h"
 
 jazzy::Game::Game(const GameDesc& desc)
 {
+	m_previousTime = std::chrono::steady_clock::now();
+
 	m_logger = std::make_unique<Logger>(desc.logLevel);
 	m_inputSystem = std::make_unique<InputSystem>(InputSystemDesc{ *m_logger });
 	m_graphicsDevice = std::make_shared<GraphicsDevice>(GraphicsDeviceDesc{ *m_logger });
 	m_display = std::make_unique<Display>(DisplayDesc{ {*m_logger,desc.windowSize},*m_graphicsDevice });
 	auto context = SystemContext{ *m_graphicsDevice };
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice} });
+	
+	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, m_worldPhysics->getCommon(), m_worldPhysics->getWorld() });
 	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{ *m_display, *m_graphicsDevice, *m_world, *m_resourceManager });
 	m_logger->SetDebugConsole(m_uiManager->GetDebugConsoleScreen());
+
 	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });
 
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
@@ -119,7 +127,7 @@ void jazzy::Game::onInternalUpdate()
 	auto currentTime = std::chrono::steady_clock::now();
 	std::chrono::duration<f32> delta = currentTime - m_previousTime;
 	m_previousTime = currentTime;
-	auto deltaTime = delta.count();
+	auto deltaTime = std::min(delta.count(), 1.0f / 50.0f); // Set up safety clamp so it won't explode at first
 
 	// Input System
 	m_inputSystem->update();
@@ -128,6 +136,10 @@ void jazzy::Game::onInternalUpdate()
 	// World
 	onUpdate(deltaTime);
 	m_world->update(deltaTime);
+
+	// World Physics
+	m_worldPhysics->update(deltaTime);
+	m_world->syncPhysicsComponents();
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());

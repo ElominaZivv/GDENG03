@@ -9,9 +9,9 @@ namespace jazzy
 	public:
 		explicit Base(const BaseDesc& desc);
 		virtual ~Base();
-		virtual Logger& getLogger() noexcept final;
+		virtual jazzy::Logger& getLogger() noexcept final;
 
 	protected:
-		Logger& m_logger;
+		jazzy::Logger& m_logger;
 	};
 }

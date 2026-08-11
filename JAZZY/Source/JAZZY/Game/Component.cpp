@@ -1,6 +1,6 @@
 #include <JAZZY/Game/Component.h>
 
-jazzy::Component::Component(const ComponentDesc& desc) : Identifiable(desc.base), m_object(desc.object), m_world(desc.world), m_context(desc.context)
+jazzy::Component::Component(const ComponentDesc& desc) : Identifiable(desc.base), m_object(desc.object), m_world(desc.world), m_context(desc.context), m_physicsCommon(desc.physicsCommon), m_worldPhysics(desc.worldPhysics)
 {
 }
 

@@ -4,12 +4,17 @@
 #include <JAZZY/Math/Rect.h>
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vec2.h>
+#include <reactphysics3d/decimal.h>
+
+// ReactPhysics3D
+#include <reactphysics3d/reactphysics3d.h>
+using namespace reactphysics3d;
 
 namespace jazzy
 {
 	struct BaseDesc
 	{
-		Logger& logger;
+		jazzy::Logger& logger;
 	};
 
 	struct WindowDesc
@@ -166,12 +171,16 @@ namespace jazzy
 		GameContext gameContext;
 		World& world;
 		std::string name;
+		reactphysics3d::PhysicsCommon* physicsCommon;
+		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 
 	struct WorldDesc
 	{
 		BaseDesc base;
 		GameContext gameContext;
+		reactphysics3d::PhysicsCommon* physicsCommon;
+		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 
 	struct ComponentDesc
@@ -180,6 +189,8 @@ namespace jazzy
 		GameObject& object;
 		World& world;
 		GameContext& context;
+		reactphysics3d::PhysicsCommon* physicsCommon;
+		reactphysics3d::PhysicsWorld* worldPhysics;
 	};
 
 	struct TextureDesc
@@ -255,5 +266,9 @@ namespace jazzy
 		ui32 startIndex{};
 		ui32 indexCount{};
 		i32 materialIndex{};
+	};
+	struct WorldPhysicsDesc
+	{
+		BaseDesc base;
 	};
 }

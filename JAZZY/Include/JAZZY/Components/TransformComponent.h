@@ -27,6 +27,7 @@ namespace jazzy
 		Mat4x4 getRigidWorldMatrix() noexcept;
 
 		void updateWorldMatrix() noexcept;
+		void syncFromPhysics(const reactphysics3d::Transform& transform) noexcept;
 	private:
 		void markAsDirty(const Vec3& oldPosition, const Vec3& oldRotation, const Vec3& oldScale);
 

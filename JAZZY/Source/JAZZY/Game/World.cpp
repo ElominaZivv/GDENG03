@@ -1,5 +1,6 @@
 #include <ranges>
 #include <JAZZY/Game/World.h>
+#include <JAZZY/Components/RigidBodyComponent.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Components/CubeComponent.h>
 #include <JAZZY/Components/PlaneComponent.h>
@@ -8,7 +9,7 @@
 #include <JAZZY/Components/CapsuleComponent.h>
 #include <JAZZY/Components/MeshComponent.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_recordHolder(*this)
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_physicsCommon(desc.physicsCommon), m_worldPhysics(desc.worldPhysics), m_recordHolder(*this)
 {
 }
 
@@ -46,6 +47,16 @@ void jazzy::World::update(f32 deltaTime)
 		comp->updateWorldMatrix();
 	}
 	m_dirtyTransforms.clear();
+}
+
+void jazzy::World::syncPhysicsComponents()
+{
+	auto numComponents = 0u;
+	auto components = getComponents<RigidBodyComponent>(numComponents);
+	for (auto i : std::views::iota(0u, numComponents))
+	{
+		components[i]->syncPhysicsToTransform();
+	}
 }
 
 void jazzy::World::SetSelectedObject(const std::string& id)

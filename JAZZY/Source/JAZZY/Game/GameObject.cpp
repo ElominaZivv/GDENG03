@@ -3,7 +3,7 @@
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Game/World.h>
 
-jazzy::GameObject::GameObject(const GameObjectDesc& desc): Identifiable(desc.base), m_world(desc.world), m_gameContext(desc.gameContext), m_name(desc.name)
+jazzy::GameObject::GameObject(const GameObjectDesc& desc): Identifiable(desc.base), m_world(desc.world), m_gameContext(desc.gameContext), m_name(desc.name), m_physicsCommon(desc.physicsCommon), m_worldPhysics(desc.worldPhysics)
 {
 	m_transform = createOrGetComponent<TransformComponent>();
 }
