@@ -79,12 +79,16 @@ jazzy::Game::Game(const GameDesc& desc)
 	}
 
 	// Marble Bust
+	/*
 	m_world->AddGameSceneObject("Marble Bust", { World::COMP_Mesh, World::COMP_RigidBody }, { 0, -1, 2 });
 	auto bustObj = m_world->getGameObjectByName("Marble Bust");
 	auto bustComp = bustObj->getComponent<jazzy::MeshComponent>();
+	auto bustRigidComp = bustObj->getComponent<jazzy::RigidBodyComponent>();
+	bustRigidComp->addBoxCollider({ 0.5f, 0.5f, 0.5f }, { 0.0f, 0.0f,0.0f });
 	bustComp->setMesh(marbleBustMesh);
 	bustComp->setMaterial(0, marbleBustMat);
 	bustObj->getTransform().setScale({ 4, 4, 4 });
+	*/
 
 	// Plane
 	m_world->AddGameSceneObject("Floor", { World::COMP_Plane, World::COMP_RigidBody }, { 0.0f, -5.0f, 0.0f });
@@ -92,8 +96,26 @@ jazzy::Game::Game(const GameDesc& desc)
 	auto planeComp = plane->getComponent<jazzy::PlaneComponent>();
 	auto planeRigidComp = plane->getComponent<jazzy::RigidBodyComponent>();
 	planeRigidComp->setBodyType(reactphysics3d::BodyType::STATIC);
+	planeRigidComp->addBoxCollider({ 12.5f, 0.01f, 12.5f }, { 0.0f, 0.0f,0.0f });
 	planeComp->setMaterial(stoneMat);
-	plane->getTransform().setScale({ 25.0f, 25.0f, 25.0f });
+	plane->getTransform().setPosition({ 0.0f, -3.0f, 0.0f });
+	plane->getTransform().setScale({ 25.0f, 1.0f, 25.0f });
+
+	// 100 Physics Cubes
+	for (auto i : std::views::iota(0u, 10u))
+	{
+		for (auto j : std::views::iota(0u, 10u))
+		{
+			auto id = m_world->AddGameSceneObject("Cube", { World::COMP_Cube, World::COMP_RigidBody }, { 0.0f, 0.0f, 0.0f });
+			auto cube = m_world->getGameObjectByID(id);
+			auto cubeComp = cube->getComponent<jazzy::CubeComponent>();
+			auto cubeRb = cube->getComponent<jazzy::RigidBodyComponent>();
+			cubeRb->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+			cubeRb->addBoxCollider({ 0.5f, 0.5f, 0.5f }, { 0.0f, 0.0f,0.0f });
+			cubeComp->setMaterial(woodMat);
+			cube->getTransform().setPosition({ f32(-10.0f + (i * 2)), f32(3.0f + (i+j)), f32(-10.0f + (j * 2)) });
+		}
+	}
 
 	DX3DLogInfo("Game initialized.");
 }
