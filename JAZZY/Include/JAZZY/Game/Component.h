@@ -2,6 +2,11 @@
 #include <JAZZY/Core/Common.h>
 #include <JAZZY/Core/Base.h>
 #include <JAZZY/Core/Identifiable.h>
+#include <reactphysics3d/decimal.h>
+
+// ReactPhysics3D
+#include <reactphysics3d/reactphysics3d.h>
+using namespace reactphysics3d;
 
 namespace jazzy
 {
@@ -17,5 +22,6 @@ namespace jazzy
 		GameObject& m_object;
 		World& m_world;
 		GameContext& m_context;
+		reactphysics3d::PhysicsWorld* m_worldPhysics;
 	};
 }

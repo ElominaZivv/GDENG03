@@ -17,6 +17,7 @@
 #include "JAZZY/Components/CylinderComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
 #include "JAZZY/Components/PlaneComponent.h"
+#include "JAZZY/Components/RigidBodyComponent.h"
 #include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
@@ -31,9 +32,9 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_display = std::make_unique<Display>(DisplayDesc{ {*m_logger,desc.windowSize},*m_graphicsDevice });
 	auto context = SystemContext{ *m_graphicsDevice };
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice} });
-	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{*m_display, *m_graphicsDevice, *m_world});
 	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, m_worldPhysics->getWorld() });
+	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{*m_display, *m_graphicsDevice, *m_world});
 	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });
 
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());
@@ -68,6 +69,8 @@ jazzy::Game::Game(const GameDesc& desc)
 	auto mesh = m_world->createGameObject<jazzy::GameObject>();
 	auto bustComp = mesh->createOrGetComponent<jazzy::MeshComponent>();
 	bustComp->setMesh(marbleBustMesh);
+	// Rigidbody
+	auto rbComp = mesh->createOrGetComponent<jazzy::RigidBodyComponent>();
 	bustComp->setMaterial(0, marbleBustMat);
 	mesh->getTransform().setScale({ 4, 4, 4 });
 	mesh->getTransform().setPosition({ 0, -1, 2 });

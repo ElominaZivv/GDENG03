@@ -24,7 +24,8 @@ namespace jazzy
 					{m_logger},
 					m_gameContext,
 					*this,
-					name
+					name,
+					m_worldPhysics
 				});
 
 			return static_cast<T*>(createGameObjectInternal(e));
@@ -62,6 +63,7 @@ namespace jazzy
 
 	private:
 		GameContext m_gameContext;
+		reactphysics3d::PhysicsWorld* m_worldPhysics;
 
 		// size_t is the typeId of the GameObject which maps to a list of GameObjects of the same typeId?
 		std::unordered_map<size_t, std::vector<UniquePtr<GameObject>>> m_objects{};

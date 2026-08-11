@@ -26,7 +26,8 @@ namespace jazzy
 				{m_logger},
 				*this, 
 				m_world,
-				m_gameContext
+				m_gameContext,
+				m_worldPhysics
 				});
 			return static_cast<T*>(createComponentInternal(cp));
 		}
@@ -64,6 +65,7 @@ namespace jazzy
 		TransformComponent* m_transform{};
 		GameContext m_gameContext;
 		World& m_world;
+		reactphysics3d::PhysicsWorld* m_worldPhysics;
 
 		GameObject* m_parent;
 		std::vector<GameObject*> m_children;

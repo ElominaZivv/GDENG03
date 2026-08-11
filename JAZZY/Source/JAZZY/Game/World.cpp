@@ -2,7 +2,7 @@
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext)
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_worldPhysics(desc.worldPhysics)
 {
 }
 

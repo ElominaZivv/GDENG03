@@ -14,3 +14,8 @@ void jazzy::WorldPhysics::update(f32 deltaTime)
 	m_world->update(decimal(deltaTime));
 	//DX3DLogInfo("World Gravity {}.", m_world->getGravity().to_string().c_str())
 }
+
+reactphysics3d::PhysicsWorld* jazzy::WorldPhysics::getWorld() const noexcept
+{
+	return m_world;
+}
