@@ -13,7 +13,11 @@
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
+#include "JAZZY/Components/CapsuleComponent.h"
+#include "JAZZY/Components/CylinderComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
+#include "JAZZY/Components/PlaneComponent.h"
+#include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
@@ -69,11 +73,11 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
-	auto comp = plane->createOrGetComponent<jazzy::CubeComponent>();
+	auto comp = plane->createOrGetComponent<jazzy::PlaneComponent>();
 	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
-	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
+	plane_transform->setScale({ 25.0f, 25.0f, 25.0f });
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
@@ -93,6 +97,27 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	test_child->setParent(test_parent);
 	test_parent->setParent(plane);
+
+	// Sphere
+	auto sphere = m_world->createGameObject<jazzy::GameObject>("sphere");
+	auto sphereComp = sphere->createOrGetComponent<jazzy::SphereComponent>();
+	sphereComp->setMaterial(woodMat);
+	sphere->getTransform().setPosition({ -2.0f, -2.0f, 2.0f });
+	sphere->getTransform().setScale({ 2.0f, 2.0f, 2.0f });
+
+	// Cylinder
+	auto cylinder = m_world->createGameObject<jazzy::GameObject>("cylinder");
+	auto cylinderComp = cylinder->createOrGetComponent<jazzy::CylinderComponent>();
+	cylinderComp->setMaterial(woodMat);
+	cylinder->getTransform().setPosition({ 4.0f, -2.5f, 2.0f });
+	cylinder->getTransform().setScale({ 2.0f, 3.0f, 2.0f });
+
+	// Capsule
+	auto capsule = m_world->createGameObject<jazzy::GameObject>("capsule");
+	auto capsuleComp = capsule->createOrGetComponent<jazzy::CapsuleComponent>();
+	capsuleComp->setMaterial(woodMat);
+	capsule->getTransform().setPosition({ 7.0f, -2.5f, 2.0f });
+	capsule->getTransform().setScale({ 1.0f, 1.0f, 1.0f });
 
 	DX3DLogInfo("Game initialized.");
 }

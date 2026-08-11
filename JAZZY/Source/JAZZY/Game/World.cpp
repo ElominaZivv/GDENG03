@@ -2,6 +2,10 @@
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Components/CubeComponent.h>
+#include <JAZZY/Components/PlaneComponent.h>
+#include <JAZZY/Components/SphereComponent.h>
+#include <JAZZY/Components/CylinderComponent.h>
+#include <JAZZY/Components/CapsuleComponent.h>
 
 jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_recordHolder(*this)
 {
@@ -43,14 +47,146 @@ void jazzy::World::update(f32 deltaTime)
 	m_dirtyTransforms.clear();
 }
 
-void jazzy::World::SetSelectedObject(ui32 index)
+void jazzy::World::SetSelectedObject(const std::string& name)
 {
-	selectedObjIndex = index;
+	auto numCube = 0u;
+	auto cubes = getComponents<CubeComponent>(numCube);
+
+	for (ui32 i = 0; i < numCube; ++i)
+	{
+		if (cubes[i]->getGameObject().m_name == name)
+		{
+			selectedObjIndex = i;
+			selectedObjectType = "Cube";
+			return;
+		}
+	}
+
+	auto numPlane = 0u;
+	auto planes = getComponents<PlaneComponent>(numPlane);
+
+	for (ui32 i = 0; i < numPlane; ++i)
+	{
+		if (planes[i]->getGameObject().m_name == name)
+		{
+			selectedObjIndex = i;
+			selectedObjectType = "Plane";
+			return;
+		}
+	}
+
+	auto numSphere = 0u;
+	auto spheres = getComponents<SphereComponent>(numSphere);
+
+	for (ui32 i = 0; i < numSphere; ++i)
+	{
+		if (spheres[i]->getGameObject().m_name == name)
+		{
+			selectedObjIndex = i;
+			selectedObjectType = "Sphere";
+			return;
+		}
+	}
+
+	auto numCapsule = 0u;
+	auto capsules = getComponents<CapsuleComponent>(numCapsule);
+
+	for (ui32 i = 0; i < numCapsule; ++i)
+	{
+		if (capsules[i]->getGameObject().m_name == name)
+		{
+			selectedObjIndex = i;
+			selectedObjectType = "Capsule";
+			return;
+		}
+	}
+
+	auto numCylinder = 0u;
+	auto cylinders = getComponents<CylinderComponent>(numCylinder);
+
+	for (ui32 i = 0; i < numCylinder; ++i)
+	{
+		if (cylinders[i]->getGameObject().m_name == name)
+		{
+			selectedObjIndex = i;
+			selectedObjectType = "Cylinder";
+			return;
+		}
+	}
+}
+
+void jazzy::World::resetSelectedObject()
+{
+	selectedObjIndex = 0;
+	selectedObjectType = "";
+}
+
+void jazzy::World::deleteGameObject(GameObject* object)
+{
+	if (!object)
+		return;
+
+	while (object->getChildCount() > 0)
+	{
+		GameObject* child = object->getChildByIndex(0);
+		deleteGameObject(child);
+	}
+
+	if (GameObject* parent = object->getParent())
+	{
+		parent->removeChildByName(object->m_name);
+	}
+	if (auto* component = object->getComponent<CubeComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<PlaneComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<SphereComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<CapsuleComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<CylinderComponent>())
+		removeComponent(component);
+
+	for (auto& [typeId, objects] : m_objects)
+	{
+		for (auto it = objects.begin(); it != objects.end(); ++it)
+		{
+			if (it->get() == object)
+			{
+				objects.erase(it);
+				return;
+			}
+		}
+	}
+}
+
+void jazzy::World::removeComponent(Component* component)
+{
+	if (!component)
+		return;
+
+	auto it = m_components.find(component->getTypeId());
+
+	if (it == m_components.end())
+		return;
+
+	auto& components = it->second;
+
+	components.erase(std::remove(components.begin(), components.end(), component), components.end());
 }
 
 jazzy::ui32 jazzy::World::GetSelectedIndex()
 {
 	return selectedObjIndex;
+}
+
+std::string jazzy::World::getSelectedObjectType()
+{
+	return selectedObjectType;
 }
 
 jazzy::GameObject* jazzy::World::createGameObjectInternal(UniquePtr<GameObject>& object)
@@ -96,8 +232,28 @@ jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
 
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept
 {
+	auto numPlane = 0u;
+	auto planes = getComponents<PlaneComponent>(numPlane);
+
 	auto numCube = 0u;
 	auto cubes = getComponents<CubeComponent>(numCube);
+
+	auto numSphere = 0u;
+	auto spheres = getComponents<SphereComponent>(numSphere);
+
+	auto numCapsule = 0u;
+	auto capsules = getComponents<CapsuleComponent>(numCapsule);
+
+	auto numCylinder = 0u;
+	auto cylinders = getComponents<CylinderComponent>(numCylinder);
+
+	for (ui32 i = 0; i < numPlane; ++i)
+	{
+		auto* plane = planes[i];
+
+		if (plane->getGameObject().m_name == name)
+			return &plane->getGameObject();
+	}
 
 	for (ui32 i = 0; i < numCube; ++i)
 	{
@@ -107,5 +263,28 @@ jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) no
 			return &cube->getGameObject();
 	}
 
+	for (ui32 i = 0; i < numSphere; ++i)
+	{
+		auto* sphere = spheres[i];
+
+		if (sphere->getGameObject().m_name == name)
+			return &sphere->getGameObject();
+	}
+
+	for (ui32 i = 0; i < numCapsule; ++i)
+	{
+		auto* capsule = capsules[i];
+
+		if (capsule->getGameObject().m_name == name)
+			return &capsule->getGameObject();
+	}
+
+	for (ui32 i = 0; i < numCylinder; ++i)
+	{
+		auto* cylinder = cylinders[i];
+
+		if (cylinder->getGameObject().m_name == name)
+			return &cylinder->getGameObject();
+	}
 	return nullptr;
 }

@@ -241,6 +241,7 @@ namespace jazzy
 		Display& display;
 		GraphicsDevice& graphicsDevice;
 		World& world;
+		ResourceManager& resource;
 	};
 
 	struct MeshVertex
