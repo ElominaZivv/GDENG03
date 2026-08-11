@@ -41,6 +41,8 @@ namespace jazzy
 
 		void SetSelectedObject(const std::string& name);
 		void resetSelectedObject();
+		void deleteGameObject(GameObject* object);
+		void removeComponent(Component* component);
 		ui32 GetSelectedIndex();
 		std::string getSelectedObjectType();
 		GameObject* getGameObjectByName(const std::string& name) noexcept;

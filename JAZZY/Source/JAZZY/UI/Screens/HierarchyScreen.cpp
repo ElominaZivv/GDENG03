@@ -92,22 +92,27 @@ void jazzy::HierarchyScreen::draw()
 
 void jazzy::HierarchyScreen::DrawObjectHierarchy(GameObject* obj, ImGuiTreeNodeFlags treeFlags)
 {
-    auto numComp = 0u;
-    auto shape = m_world.getComponents<CubeComponent>(numComp);
+    if (obj->isSelected)
+        treeFlags |= ImGuiTreeNodeFlags_Selected;
 
-    static int selectedNode = m_world.GetSelectedIndex();
-    if (obj->isSelected) treeFlags |= ImGuiTreeNodeFlags_Selected;
-    if (obj->getChildCount() == 0) treeFlags |= ImGuiTreeNodeFlags_Leaf;
+    if (obj->getChildCount() == 0)
+        treeFlags |= ImGuiTreeNodeFlags_Leaf;
 
-    bool isOpen = ImGui::TreeNodeEx(obj->m_name.c_str(), treeFlags);
+    bool isOpen = ImGui::TreeNodeEx(
+        obj->m_name.c_str(),
+        treeFlags
+    );
 
     if (ImGui::IsItemClicked())
     {
         m_world.SetSelectedObject(obj->m_name);
     }
 
-    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-        ImGui::SetDragDropPayload("PARENTING_PAYLOAD", obj->m_name.c_str(), sizeof(CubeComponent*));
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+    {
+        GameObject* draggedObject = obj;
+
+        ImGui::SetDragDropPayload("PARENTING_PAYLOAD", &draggedObject, sizeof(GameObject*));
 
         ImGui::Text("Assign Parent");
         ImGui::EndDragDropSource();
@@ -115,30 +120,35 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(GameObject* obj, ImGuiTreeNodeF
 
     if (ImGui::BeginDragDropTarget())
     {
-        // Accept the specific payload type
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PARENTING_PAYLOAD"))
+        if (const ImGuiPayload* payload =
+            ImGui::AcceptDragDropPayload("PARENTING_PAYLOAD"))
         {
-            IM_ASSERT(payload->DataSize == sizeof(CubeComponent*));
-            
-            const char* selected = (const char*)payload->Data;
+            IM_ASSERT(payload->DataSize == sizeof(GameObject*));
 
-            for (auto i : std::views::iota(0u, numComp)) {
-                if (shape[i]->getGameObject().m_name == selected && selected != obj->m_name) {
-                    shape[i]->getGameObject().getParent()->removeChildByName(shape[i]->getGameObject().m_name);
-                    shape[i]->getGameObject().setParent(nullptr);
-                    shape[i]->getGameObject().setParent(obj);
+            GameObject* draggedObject =
+                *(GameObject**)payload->Data;
+
+            if (draggedObject && draggedObject != obj && draggedObject->getParent() != obj)
+            {
+                if (GameObject* oldParent = draggedObject->getParent())
+                {
+                    oldParent->removeChildByName(
+                        draggedObject->m_name
+                    );
                 }
+                draggedObject->setParent(obj);
             }
-            std::cout << "attempted to parent" << std::endl;
         }
+
         ImGui::EndDragDropTarget();
     }
 
     if (isOpen)
     {
-        for (int i = 0; i < obj->getChildCount(); i++) {
-            auto child = obj->getChildByIndex(i)->createOrGetComponent<CubeComponent>();
-            DrawObjectHierarchy(&child->getGameObject(), treeFlags);
+        for (ui32 i = 0; i < obj->getChildCount(); ++i)
+        {
+            GameObject* child = obj->getChildByIndex(i);
+            DrawObjectHierarchy(child, treeFlags);
         }
 
         ImGui::TreePop();

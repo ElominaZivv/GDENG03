@@ -8,10 +8,13 @@
 #include <JAZZY/Components/CapsuleComponent.h>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
+#include <JAZZY/Components/MeshComponent.h>
+#include <JAZZY/Resource/MaterialResource.h>
+#include <JAZZY/Resource/ResourceManager.h>
 #include <iostream>
 
-jazzy::InspectorScreen::InspectorScreen(World& world)
-    : Screens("Inspector"), m_world(world)
+jazzy::InspectorScreen::InspectorScreen(World& world, ResourceManager& resource)
+    : Screens("Inspector"), m_world(world), m_resource(resource)
 {
 }
 
@@ -155,7 +158,60 @@ void jazzy::InspectorScreen::draw()
             transform.setRotation({ rotation[0], rotation[1], rotation[2] });
         }
 
+        ImGui::Separator();
+        ImGui::Text("Material");
+
+        auto marbleTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
+        auto marbleMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        marbleMat->setTexture(0, marbleTexture);
+
+        auto brickTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/red_brick_03_diff_1k.jpg");
+        auto brickMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        brickMat->setTexture(0, brickTexture);
+
+        auto stoneTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
+        auto stoneMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        stoneMat->setTexture(0, stoneTexture);
+
+        auto stoneTileTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone_tiles_02_diff_1k.jpg");
+        auto stoneTileMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        stoneTileMat->setTexture(0, stoneTileTexture);
+
+        auto woodTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
+        auto woodMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        woodMat->setTexture(0, woodTexture);
+
+        const char* materialNames[] = { "Marble", "Brick", "Stone", "Stone Tile", "Wood" }; 
+        static int selectedMaterial = 0; 
+        if (ImGui::Combo("##Material", &selectedMaterial, materialNames, IM_ARRAYSIZE(materialNames))) { 
+            switch (selectedMaterial) { 
+                case 0: 
+                    setMaterial(selectedObject, marbleMat); 
+                    break; 
+                case 1: setMaterial(selectedObject, brickMat); 
+                    break; 
+                case 2: setMaterial(selectedObject, stoneMat); 
+                    break; 
+                case 3: setMaterial(selectedObject, stoneTileMat); 
+                    break; 
+                case 4: setMaterial(selectedObject, woodMat); 
+                    break; 
+            } 
+        }
+
+        ImGui::Separator();
+
+        if (ImGui::Button("Delete"))
+        {
+            m_world.deleteGameObject(selectedObject);
+            m_world.resetSelectedObject();
+
+            ImGui::End();
+            return;
+        }
+
         ImGui::End();
+
     }
 }
 
@@ -182,4 +238,24 @@ void jazzy::InspectorScreen::setHiddenRecursive(GameObject* object, bool hidden)
         
         setHiddenRecursive(child, hidden);
     }
+}
+void jazzy::InspectorScreen::setMaterial(GameObject* object, RefPtr<MaterialResource> material)
+{
+    if (!object || !material)
+        return;
+
+    if (m_world.getSelectedObjectType() == "Cube")
+        object->getComponent<CubeComponent>()->setMaterial(material);
+
+    else if (m_world.getSelectedObjectType() == "Plane")
+        object->getComponent<PlaneComponent>()->setMaterial(material);
+
+    else if (m_world.getSelectedObjectType() == "Sphere")
+        object->getComponent<SphereComponent>()->setMaterial(material);
+
+    else if (m_world.getSelectedObjectType() == "Capsule")
+        object->getComponent<CapsuleComponent>()->setMaterial(material);
+
+    else if (m_world.getSelectedObjectType() == "Cylinder")
+        object->getComponent<CylinderComponent>()->setMaterial(material);
 }

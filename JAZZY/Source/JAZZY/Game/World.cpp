@@ -121,6 +121,64 @@ void jazzy::World::resetSelectedObject()
 	selectedObjectType = "";
 }
 
+void jazzy::World::deleteGameObject(GameObject* object)
+{
+	if (!object)
+		return;
+
+	while (object->getChildCount() > 0)
+	{
+		GameObject* child = object->getChildByIndex(0);
+		deleteGameObject(child);
+	}
+
+	if (GameObject* parent = object->getParent())
+	{
+		parent->removeChildByName(object->m_name);
+	}
+	if (auto* component = object->getComponent<CubeComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<PlaneComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<SphereComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<CapsuleComponent>())
+		removeComponent(component);
+
+	if (auto* component = object->getComponent<CylinderComponent>())
+		removeComponent(component);
+
+	for (auto& [typeId, objects] : m_objects)
+	{
+		for (auto it = objects.begin(); it != objects.end(); ++it)
+		{
+			if (it->get() == object)
+			{
+				objects.erase(it);
+				return;
+			}
+		}
+	}
+}
+
+void jazzy::World::removeComponent(Component* component)
+{
+	if (!component)
+		return;
+
+	auto it = m_components.find(component->getTypeId());
+
+	if (it == m_components.end())
+		return;
+
+	auto& components = it->second;
+
+	components.erase(std::remove(components.begin(), components.end(), component), components.end());
+}
+
 jazzy::ui32 jazzy::World::GetSelectedIndex()
 {
 	return selectedObjIndex;

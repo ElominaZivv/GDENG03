@@ -24,13 +24,9 @@ void jazzy::MenuScreen::draw()
 
     if (ImGui::BeginMainMenuBar())
     {
-        auto woodTexture =
-            m_resource.createResourceFromFile<jazzy::TextureResource>(
-                L"./Game/Assets/Textures/wood.jpg");
-
-        auto woodMat =
-            m_resource.createResourceFromFile<jazzy::MaterialResource>(
-                L"./Game/Assets/Shaders/BasicShader.hlsl");
+        auto woodTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
+        auto woodMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+        woodMat->setTexture(0, woodTexture);
 
         if (ImGui::BeginMenu("About"))
         {
