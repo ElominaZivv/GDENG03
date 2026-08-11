@@ -113,7 +113,7 @@ jazzy::Game::Game(const GameDesc& desc)
 		// Create, Get, and Set Transform Component
 		TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
 		cube_transform->setPosition({ 0.0f, 1.0f, 4.0f });
-		cube_transform->setRotation({ f32(i * 5), f32(i * 10), f32(i * 5) });
+		cube_transform->setRotation({ 0.0f, 0.0f, 0.0f });
 
 
 		// Create, Get and Set Rigidbody Component
