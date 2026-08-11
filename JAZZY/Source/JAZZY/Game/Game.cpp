@@ -101,25 +101,28 @@ jazzy::Game::Game(const GameDesc& desc)
 	parent_transform->setPosition({ 2.0f, 0.0f, 4.0f });
 
 	// Test Cubes
-	for (auto i : std::views::iota(0u, 100u))
+	for (auto i : std::views::iota(0u, 10u))
 	{
-		// Create Gameobject
-		auto cube = m_world->createGameObject<jazzy::GameObject>("child");
-		// Add Cube Component
-		auto cube_comp = cube->createOrGetComponent<jazzy::CubeComponent>();
-		// Set Cube Material
-		cube_comp->setMaterial(woodMat);
+		for (auto j : std::views::iota(0u, 10u))
+		{
+			// Create Gameobject
+			auto cube = m_world->createGameObject<jazzy::GameObject>("child");
+			// Add Cube Component
+			auto cube_comp = cube->createOrGetComponent<jazzy::CubeComponent>();
+			// Set Cube Material
+			cube_comp->setMaterial(woodMat);
 
-		// Create, Get, and Set Transform Component
-		TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
-		cube_transform->setPosition({ 0.0f, 1.0f, 4.0f });
-		cube_transform->setRotation({ f32(i * 5), f32(i * 10), f32(i * 5) });
+			// Create, Get, and Set Transform Component
+			TransformComponent* cube_transform = cube->createOrGetComponent<jazzy::TransformComponent>();
+			cube_transform->setPosition({ f32(10 - (2*i)), 0.0f, f32(10 - (2*j)) });
+			cube_transform->setRotation({ f32(i * j), f32(i * j), f32(i * j) });
 
 
-		// Create, Get and Set Rigidbody Component
-		auto cubeRb = cube->createOrGetComponent<jazzy::RigidBodyComponent>();
-		cubeRb->setBodyType(reactphysics3d::BodyType::DYNAMIC);
-		cubeRb->addBoxCollider({ 0.5f, 0.5f, 0.5f });
+			// Create, Get and Set Rigidbody Component
+			auto cubeRb = cube->createOrGetComponent<jazzy::RigidBodyComponent>();
+			cubeRb->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+			cubeRb->addBoxCollider({ 0.5f, 0.5f, 0.5f });
+		}
 	}
 
 	/*
