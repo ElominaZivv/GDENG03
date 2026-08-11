@@ -169,6 +169,7 @@ void jazzy::Game::onInternalUpdate()
 
 	// World Physics
 	m_worldPhysics->update(deltaTime);
+	m_world->syncPhysicsComponents();
 
 	// Editor Camera
 	m_inputSystem->setCursorLockArea(m_display->getClientAreaInScreenSpace());

@@ -1,5 +1,6 @@
 #include <ranges>
 #include <JAZZY/Game/World.h>
+#include <JAZZY/Components/RigidBodyComponent.h>
 #include <JAZZY/Game/GameObject.h>
 
 jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_worldPhysics(desc.worldPhysics)
@@ -40,6 +41,16 @@ void jazzy::World::update(f32 deltaTime)
 		comp->updateWorldMatrix();
 	}
 	m_dirtyTransforms.clear();
+}
+
+void jazzy::World::syncPhysicsComponents()
+{
+	auto numComponents = 0u;
+	auto components = getComponents<RigidBodyComponent>(numComponents);
+	for (auto i : std::views::iota(0u, numComponents))
+	{
+		components[i]->syncPhysicsToTransform();
+	}
 }
 
 void jazzy::World::SetSelectedObject(ui32 index)

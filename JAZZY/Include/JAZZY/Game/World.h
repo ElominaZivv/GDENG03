@@ -38,6 +38,7 @@ namespace jazzy
 		}
 
 		void update(f32 deltaTime);
+		void syncPhysicsComponents();
 
 		void SetSelectedObject(ui32 index);
 		ui32 GetSelectedIndex();

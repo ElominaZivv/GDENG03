@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ranges>
 #include <JAZZY/Components/TransformComponent.h>
+#include <JAZZY/Components/RigidBodyComponent.h>
 #include <JAZZY/Game/World.h>
 
 #include "JAZZY/Game/GameObject.h"
@@ -12,8 +13,6 @@ jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Compon
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
-	Vec3 currentPosition = m_position;
-	Vec3 newPosition = position;
 	Vec3 displacement = position - m_position;
 
 	m_position = position;
@@ -26,6 +25,11 @@ void jazzy::TransformComponent::setPosition(const Vec3& position)
 		Vec3 currentChildPosition = childTransform->getPosition();
 		childTransform->setPosition(currentChildPosition + displacement);
 	}
+
+	if (auto* rigidBody = obj.getComponent<jazzy::RigidBodyComponent>())
+	{
+		rigidBody->syncTransformToPhysics();
+	}
 }
 
 jazzy::Vec3 jazzy::TransformComponent::getPosition() const noexcept
@@ -36,8 +40,7 @@ jazzy::Vec3 jazzy::TransformComponent::getPosition() const noexcept
 void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 {
 	Vec3 currentRotation = m_rotation;
-	Vec3 newRotation = rotation;
-	Vec3 difference = newRotation - currentRotation;
+	Vec3 difference = rotation - currentRotation;
 	Vec3 differenceRadians = (difference * (MathUtils::PI / 180.0f));
 
 	m_rotation = rotation;
@@ -69,6 +72,11 @@ void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 		// Set Rotation
 		Vec3 currentChildRotation = childTransform->getRotation();
 		childTransform->setRotation(currentChildRotation + difference);
+	}
+
+	if (auto* rigidBody = obj.getComponent<jazzy::RigidBodyComponent>())
+	{
+		rigidBody->syncTransformToPhysics();
 	}
 
 }
@@ -154,10 +162,30 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 		m_rigidWorldMatrix;
 }
 
+void jazzy::TransformComponent::syncFromPhysics(const reactphysics3d::Transform& transform) noexcept
+{
+	const auto position = transform.getPosition();
+	const auto rotationMatrix = transform.getOrientation().getMatrix();
+
+	m_position = Vec3(
+		static_cast<f32>(position.x),
+		static_cast<f32>(position.y),
+		static_cast<f32>(position.z)
+	);
+
+	m_rigidWorldMatrix = Mat4x4::rotationTranslation(
+		static_cast<f32>(rotationMatrix[0][0]), static_cast<f32>(rotationMatrix[0][1]), static_cast<f32>(rotationMatrix[0][2]),
+		static_cast<f32>(rotationMatrix[1][0]), static_cast<f32>(rotationMatrix[1][1]), static_cast<f32>(rotationMatrix[1][2]),
+		static_cast<f32>(rotationMatrix[2][0]), static_cast<f32>(rotationMatrix[2][1]), static_cast<f32>(rotationMatrix[2][2]),
+		m_position
+	);
+	m_affineWorldMatrix = Mat4x4::scale(m_scale) * m_rigidWorldMatrix;
+	m_dirty = false;
+}
+
 void jazzy::TransformComponent::markAsDirty()
 {
 	if (m_dirty) return;
 	m_dirty = true;
 	m_world.addDirtyTransformInternal(*this);
 }
-
