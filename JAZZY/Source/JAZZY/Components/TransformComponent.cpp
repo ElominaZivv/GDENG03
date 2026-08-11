@@ -7,7 +7,7 @@
 
 jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Component(data)
 {
-	markAsDirty();
+	//markAsDirty(m_position, m_rotation, m_scale);
 }
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
@@ -17,7 +17,7 @@ void jazzy::TransformComponent::setPosition(const Vec3& position)
 	Vec3 displacement = position - m_position;
 
 	m_position = position;
-	markAsDirty();
+	markAsDirty(currentPosition, m_rotation, m_scale);
 
 	GameObject& obj = getGameObject();
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
@@ -41,7 +41,7 @@ void jazzy::TransformComponent::setRotation(const Vec3& rotation)
 	Vec3 differenceRadians = (difference * (MathUtils::PI / 180.0f));
 
 	m_rotation = rotation;
-	markAsDirty();
+	markAsDirty(m_position, currentRotation, m_scale);
 
 	GameObject& obj = getGameObject();
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
@@ -90,7 +90,7 @@ void jazzy::TransformComponent::setScale(const Vec3& scale)
 	};
 
 	m_scale = scale;
-	markAsDirty();
+	markAsDirty(m_position, m_scale, oldScale);
 
 	GameObject& obj = getGameObject();
 	for (auto i : std::views::iota(0u, obj.getChildCount()))
@@ -154,8 +154,13 @@ void jazzy::TransformComponent::updateWorldMatrix() noexcept
 		m_rigidWorldMatrix;
 }
 
-void jazzy::TransformComponent::markAsDirty()
+void jazzy::TransformComponent::markAsDirty(const Vec3& oldPosition, const Vec3& oldRotation, const Vec3& oldScale)
 {
+	Record::TransformData oldData{oldPosition,oldRotation,oldScale};
+	Record::TransformData newData{m_position, m_rotation, m_scale};
+
+	m_world.getRecordHolder().addRecord(Record(getGameObject().m_name, oldData, newData));
+
 	if (m_dirty) return;
 	m_dirty = true;
 	m_world.addDirtyTransformInternal(*this);

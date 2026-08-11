@@ -33,6 +33,17 @@ void jazzy::InspectorScreen::draw()
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 
         ImGui::Text(cube->getGameObject().m_name.c_str());
+
+        bool visible = !cube->getHidden();
+        if (ImGui::Checkbox("Visible", &visible))
+        {
+            bool hidden = !visible;
+
+            cube->setHidden(hidden);
+
+            setHiddenRecursive(&cube->getGameObject(),hidden);
+        }
+
         ImGui::Separator();
         ImGui::Text("Transform");
 
@@ -49,5 +60,22 @@ void jazzy::InspectorScreen::draw()
         }
 
         ImGui::End();
+    }
+}
+
+void jazzy::InspectorScreen::setHiddenRecursive(GameObject* object, bool hidden)
+{
+    for (ui32 i = 0; i < object->getChildCount(); ++i)
+    {
+        auto* child = object->getChildByIndex(i);
+
+        auto* cube = child->getComponent<CubeComponent>();
+
+        if (cube != nullptr)
+        {
+            cube->setHiddenByParent(hidden);
+        }
+
+        setHiddenRecursive(child, hidden);
     }
 }

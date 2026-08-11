@@ -181,6 +181,9 @@
     <ClCompile Include="Game\MainGame.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\MeshResource.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\MeshComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Recorder\Record.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -241,6 +244,9 @@
     <ClInclude Include="Game\MainGame.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\MeshResource.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\MeshComponent.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Recorder\Record.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.h" />
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,9 @@
 #include <ranges>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
+#include <JAZZY/Components/CubeComponent.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext)
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_recordHolder(*this)
 {
 }
 
@@ -86,4 +87,25 @@ jazzy::Component* const* jazzy::World::getComponentsInternal(size_t typeId, ui32
 	}
 	*numComponents = 0u;
 	return {};
+}
+
+jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
+{
+	return m_recordHolder;
+}
+
+jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept
+{
+	auto numCube = 0u;
+	auto cubes = getComponents<CubeComponent>(numCube);
+
+	for (ui32 i = 0; i < numCube; ++i)
+	{
+		auto* cube = cubes[i];
+
+		if (cube->getGameObject().m_name == name)
+			return &cube->getGameObject();
+	}
+
+	return nullptr;
 }

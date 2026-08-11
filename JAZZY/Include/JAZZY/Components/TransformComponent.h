@@ -28,7 +28,7 @@ namespace jazzy
 
 		void updateWorldMatrix() noexcept;
 	private:
-		void markAsDirty();
+		void markAsDirty(const Vec3& oldPosition, const Vec3& oldRotation, const Vec3& oldScale);
 
 	private:
 		Vec3 m_position{ 0.0f, 0.0f, 0.0f };
@@ -39,5 +39,6 @@ namespace jazzy
 		Mat4x4 m_affineWorldMatrix{};	// rotation + translation + scale
 
 		bool m_dirty{};
+
 	};
 }

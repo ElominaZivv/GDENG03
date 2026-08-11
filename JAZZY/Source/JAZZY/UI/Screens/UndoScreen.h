@@ -6,18 +6,15 @@
 
 namespace jazzy
 {
-    class InspectorScreen : public Screens
+    class UndoScreen : public Screens
     {
     public:
-        InspectorScreen(World& world);
+        UndoScreen(World& world);
 
         void draw() override;
 
     private:
         World& m_world;
-        int m_cubeCount = 1;
-        void setHiddenRecursive(GameObject* object, bool hidden);
     };
 
 }
-
