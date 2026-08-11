@@ -15,6 +15,7 @@
 #include "JAZZY/Components/CubeComponent.h"
 #include "JAZZY/Components/MeshComponent.h"
 #include "JAZZY/Components/PlaneComponent.h"
+#include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
@@ -93,6 +94,13 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	test_child->setParent(test_parent);
 	test_parent->setParent(plane);
+
+	// Sphere
+	auto sphere = m_world->createGameObject<jazzy::GameObject>("sphere");
+	auto sphereComp = sphere->createOrGetComponent<jazzy::SphereComponent>();
+	sphereComp->setMaterial(stoneMat);
+	sphere->getTransform().setPosition({ -2.0f, -2.0f, 2.0f });
+	sphere->getTransform().setScale({ 2.0f, 2.0f, 2.0f });
 
 	DX3DLogInfo("Game initialized.");
 }

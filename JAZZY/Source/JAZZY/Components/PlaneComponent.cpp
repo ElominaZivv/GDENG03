@@ -9,12 +9,18 @@ jazzy::PlaneComponent::PlaneComponent(const ComponentDesc& data) : Component(dat
 		{{-0.5f, 0.0f, -0.5f}, {0, 0}, {0, 1, 0}},
 		{{ 0.5f, 0.0f, -0.5f}, {1, 0}, {0, 1, 0}},
 		{{ 0.5f, 0.0f,  0.5f}, {1, 1}, {0, 1, 0}},
+		{{-0.5f, 0.0f,  0.5f}, {0, 1}, {0, -1, 0}},
+		{{ 0.5f, 0.0f,  0.5f}, {1, 1}, {0, -1, 0}},
+		{{ 0.5f, 0.0f, -0.5f}, {1, 0}, {0, -1, 0}},
+		{{-0.5f, 0.0f, -0.5f}, {0, 0}, {0, -1, 0}},
 	};
 
 	static const ui32 indexList[] =
 	{
 		0, 2, 1,
-		0, 3, 2
+		0, 3, 2,
+		4, 6, 5,
+		4, 7, 6
 	};
 
 	static const auto vb = m_context.device.createVertexBuffer({ vertexList, std::size(vertexList), sizeof(MeshVertex) });
