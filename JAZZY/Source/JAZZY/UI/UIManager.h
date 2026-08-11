@@ -13,6 +13,7 @@
 #include <JAZZY/UI/Screens/Screens.h>
 #include <JAZZY/UI/Screens/MenuScreen.h>
 #include <JAZZY/UI/Screens/UndoScreen.h>
+#include <JAZZY/UI/Screens/DebugConsole.h>
 
 namespace jazzy {
 
@@ -22,9 +23,21 @@ namespace jazzy {
 		explicit UIManager(const UIManagerDesc& desc);
 		void draw();
 		void destroy();
+
+		DebugConsole* GetDebugConsoleScreen();
+
 	private:
 
 		std::vector<UniquePtr<Screens>> m_screens;
+
+		enum UI_SCREENS {
+			UI_MENU = 0,
+			UI_INSPECTOR,
+			UI_HIERARCHY,
+			UI_UNDO,
+			UI_DEBUG
+		};
+
 	};
 }
 

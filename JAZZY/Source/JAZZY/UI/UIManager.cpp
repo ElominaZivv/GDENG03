@@ -4,6 +4,7 @@
 #include <JAZZY/UI/Screens/MenuScreen.h>
 #include <JAZZY/UI/Screens/InspectorScreen.h>
 #include <JAZZY/UI/Screens/HierarchyScreen.h>
+#include <JAZZY/UI/Screens/DebugConsole.h>
 #include <JAZZY/Graphics/SwapChain.h>
 #include <JAZZY/Game/World.h>
 #include <iostream>
@@ -33,6 +34,7 @@ jazzy::UIManager::UIManager(const UIManagerDesc& desc)
     m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(desc.world)));
     m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(desc.world)));
     m_screens.push_back(UniquePtr<UndoScreen>(new UndoScreen(desc.world)));
+    m_screens.push_back(UniquePtr<DebugConsole>(new DebugConsole()));
 }
 
 void jazzy::UIManager::draw()
@@ -59,4 +61,9 @@ void jazzy::UIManager::destroy()
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
+}
+
+jazzy::DebugConsole* jazzy::UIManager::GetDebugConsoleScreen()
+{
+    return static_cast<DebugConsole*>(m_screens[UI_DEBUG].get());
 }

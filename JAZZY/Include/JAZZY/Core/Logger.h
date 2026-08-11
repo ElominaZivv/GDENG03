@@ -26,8 +26,14 @@ namespace jazzy
 				str.c_str()
 			);
 		}
+
+		void SetDebugConsole(DebugConsole* consoleUI);
+
 	private:
 		void _log(LogLevel level, const char* message);
+
+		DebugConsole* debugConsole{};
+
 	private:
 		LogLevel m_logLevel = LogLevel::Error;
 	};

@@ -39,6 +39,7 @@ namespace jazzy
 	class UIManager;
 	class Screens;
 	class MenuScreen;
+	class DebugConsole;
 	class Texture;
 
 	class WorldRenderer;

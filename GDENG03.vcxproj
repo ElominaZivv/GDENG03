@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\InspectorScreen.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderInclude.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\HierarchyScreen.h" />

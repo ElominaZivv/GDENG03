@@ -1,4 +1,7 @@
 #include <JAZZY/Core/Logger.h>
+
+#include <JAZZY/UI/Screens/DebugConsole.h>
+
 #include <iostream>
 
 jazzy::Logger::Logger(LogLevel logLevel) : m_logLevel(logLevel)
@@ -7,6 +10,11 @@ jazzy::Logger::Logger(LogLevel logLevel) : m_logLevel(logLevel)
 
 jazzy::Logger::~Logger()
 {
+}
+
+void jazzy::Logger::SetDebugConsole(DebugConsole* consoleUI)
+{
+	debugConsole = consoleUI;
 }
 
 void jazzy::Logger::_log(LogLevel level, const char* message)
@@ -22,5 +30,9 @@ void jazzy::Logger::_log(LogLevel level, const char* message)
 		};
 
 	if (level > m_logLevel) return;
-	std::clog << "[JAZZY " << logLevelToString(level) << "]: " << message << "\n";
+	std::string logLvlStr = logLevelToString(level);
+	std::string fullMessage = "[JAZZY " + logLvlStr + "]: " + message;
+	std::clog << fullMessage << "\n";
+
+	debugConsole->AddToDebugLog(fullMessage);
 }
