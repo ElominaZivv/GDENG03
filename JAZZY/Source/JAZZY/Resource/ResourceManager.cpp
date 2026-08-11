@@ -1,6 +1,7 @@
 #include <JAZZY/Resource/ResourceManager.h>
 #include <JAZZY/Resource/MaterialResource.h>
 #include <JAZZY/Resource/TextureResource.h>
+#include <JAZZY/Resource/MeshResource.h>
 #include <filesystem>
 #include <iostream>
 
@@ -36,10 +37,8 @@ jazzy::RefPtr<jazzy::Resource> jazzy::ResourceManager::createResourceFromFileCon
 			resPtr = std::make_shared<MaterialResource>(MaterialResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
 		if (!ext.compare(L".jpg") || !ext.compare(L".png"))
 			resPtr = std::make_shared<TextureResource>(TextureResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
-		/*
 		if (!ext.compare(L".obj"))
 			resPtr = std::make_shared<MeshResource>(MeshResourceDesc{ getResourceDesc(file_path), m_context.graphicsDevice });
-		*/
 	}
 	catch (...)
 	{

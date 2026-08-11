@@ -218,6 +218,12 @@ namespace jazzy
 		GraphicsDevice& graphicsDevice;
 	};
 
+	struct MeshResourceDesc
+	{
+		ResourceDesc base;
+		GraphicsDevice& graphicsDevice;
+	};
+
 	struct GraphicsPipelineLayoutDesc
 	{
 		const RefPtr<ShaderBinary>& vsBinary;
@@ -242,5 +248,11 @@ namespace jazzy
 		Vec3 position{};
 		Vec2 texcoord{};
 		Vec3 normal{};
+	};
+	struct MaterialSlot
+	{
+		ui32 startIndex{};
+		ui32 indexCount{};
+		i32 materialIndex{};
 	};
 }

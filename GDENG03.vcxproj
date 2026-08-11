@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;$(IncludePath)</IncludePath>
+    <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;JAZZY/Vendor/tinyobjloader/include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -181,6 +181,13 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Recorder\Record.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.cpp" />
+    <ClCompile Include="Game\MainGame.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\MeshResource.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\MeshComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\PlaneComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\SphereComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\CylinderComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\CapsuleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -241,6 +248,13 @@
     <ClInclude Include="JAZZY\Source\JAZZY\Recorder\Record.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.h" />
+    <ClInclude Include="Game\MainGame.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\MeshResource.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\MeshComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\PlaneComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\SphereComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\CylinderComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\CapsuleComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

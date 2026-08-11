@@ -141,6 +141,27 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Resource\TextureResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\MainGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Resource\MeshResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\MeshComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\PlaneComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\SphereComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\CylinderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\CapsuleComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -306,6 +327,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Resource\TextureResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Resource\MeshResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\MeshComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\PlaneComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\SphereComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\CylinderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\CapsuleComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

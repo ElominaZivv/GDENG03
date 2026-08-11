@@ -13,6 +13,11 @@
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
+#include "JAZZY/Components/CapsuleComponent.h"
+#include "JAZZY/Components/CylinderComponent.h"
+#include "JAZZY/Components/MeshComponent.h"
+#include "JAZZY/Components/PlaneComponent.h"
+#include "JAZZY/Components/SphereComponent.h"
 #include "JAZZY/EditorCamera/EditorCamera.h"
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/UI/UIManager.h"
@@ -34,40 +39,84 @@ jazzy::Game::Game(const GameDesc& desc)
 	// My Free-cam
 	m_editorCamera = std::make_shared<EditorCamera>(EditorCameraDesc{ *m_logger , *m_inputSystem });
 
-	// Create Material
+	// Create Materials
 	auto woodTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
-	auto mat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-	if (mat)
+	auto stoneTexture = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
+	auto woodMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	auto stoneMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	if (woodMat)
 	{
-		mat->setTexture(0, woodTexture);
+		woodMat->setTexture(0, woodTexture);
 	}
+	if (stoneMat)
+	{
+		stoneMat->setTexture(0, stoneTexture);
+	}
+
+	// Meshes
+	auto marbleBustTex = getResourceManager().createResourceFromFile<jazzy::TextureResource>(L"Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
+	auto marbleBustMesh = getResourceManager().createResourceFromFile<jazzy::MeshResource>(L"./Game/Assets/Meshes/marble_bust_01.obj");
+	auto marbleBustMat = getResourceManager().createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+	if (marbleBustMat)
+	{
+		marbleBustMat->setTexture(0, marbleBustTex);
+	}
+
+	// Marble Bust
+	auto mesh = m_world->createGameObject<jazzy::GameObject>();
+	auto bustComp = mesh->createOrGetComponent<jazzy::MeshComponent>();
+	bustComp->setMesh(marbleBustMesh);
+	bustComp->setMaterial(0, marbleBustMat);
+	mesh->getTransform().setScale({ 4, 4, 4 });
+	mesh->getTransform().setPosition({ 0, -1, 2 });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
-	auto comp = plane->createOrGetComponent<jazzy::CubeComponent>();
-	comp->setMaterial(mat);
+	auto comp = plane->createOrGetComponent<jazzy::PlaneComponent>();
+	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
-	plane_transform->setPosition({ 0.0f, -10.0f, 0.0f });
-	plane_transform->setScale({ 20.0f, 0.05f, 20.0f });
+	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
+	plane_transform->setScale({ 25.0f, 25.0f, 25.0f });
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
 	auto parent_comp = test_parent->createOrGetComponent<jazzy::CubeComponent>();
-	parent_comp->setMaterial(mat);
+	parent_comp->setMaterial(woodMat);
 	
 	TransformComponent* parent_transform = test_parent->createOrGetComponent<jazzy::TransformComponent>();
-	parent_transform->setPosition({ 0.0f, 0.0f, 0.0f });
+	parent_transform->setPosition({ 2.0f, 0.0f, 4.0f });
 
 	// Child
 	test_child = m_world->createGameObject<jazzy::GameObject>("child");
 	auto child_comp = test_child->createOrGetComponent<jazzy::CubeComponent>();
-	child_comp->setMaterial(mat);
+	child_comp->setMaterial(woodMat);
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
-	child_transform->setPosition({ 2.0f, 0.0f, 0.0f });
+	child_transform->setPosition({ 0.0f, 0.0f, 4.0f });
 
 
 	test_child->setParent(test_parent);
 	test_parent->setParent(plane);
+
+	// Sphere
+	auto sphere = m_world->createGameObject<jazzy::GameObject>("sphere");
+	auto sphereComp = sphere->createOrGetComponent<jazzy::SphereComponent>();
+	sphereComp->setMaterial(woodMat);
+	sphere->getTransform().setPosition({ -2.0f, -2.0f, 2.0f });
+	sphere->getTransform().setScale({ 2.0f, 2.0f, 2.0f });
+
+	// Cylinder
+	auto cylinder = m_world->createGameObject<jazzy::GameObject>("cylinder");
+	auto cylinderComp = cylinder->createOrGetComponent<jazzy::CylinderComponent>();
+	cylinderComp->setMaterial(woodMat);
+	cylinder->getTransform().setPosition({ 4.0f, -2.5f, 2.0f });
+	cylinder->getTransform().setScale({ 2.0f, 3.0f, 2.0f });
+
+	// Capsule
+	auto capsule = m_world->createGameObject<jazzy::GameObject>("capsule");
+	auto capsuleComp = capsule->createOrGetComponent<jazzy::CapsuleComponent>();
+	capsuleComp->setMaterial(woodMat);
+	capsule->getTransform().setPosition({ 7.0f, -2.5f, 2.0f });
+	capsule->getTransform().setScale({ 1.0f, 1.0f, 1.0f });
 
 	DX3DLogInfo("Game initialized.");
 }
