@@ -33,6 +33,7 @@ void jazzy::InspectorScreen::draw()
     if (m_world.GetSelectedIndex() < num)
         selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
 
+    // for if nothing is selected
     if (selectedObject == nullptr)
     {
         if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags))
@@ -44,32 +45,51 @@ void jazzy::InspectorScreen::draw()
         return;
     }
 
+    // get initial obj info
     auto& transform = selectedObject->getTransform();
 
     float position[3] = {transform.getPosition().x, transform.getPosition().y, transform.getPosition().z };
     float scale[3] = { transform.getScale().x, transform.getScale().y, transform.getScale().z };
     float rotation[3] = { transform.getRotation().x, transform.getRotation().y, transform.getRotation().z };
 
+    // start sidebar
     if (ImGui::BeginViewportSideBar("Inspector", viewport, ImGuiDir_Right, 200.0f, windowFlags)) {
 
+        // displaying the obj name
         ImGui::Text(selectedObject->m_name.c_str());
+        ImGui::Separator();
 
-        bool visible = true;
+        // >>>> CHANGE OBJ NAME ----------------------------------------------------
+        static char objCurrentName[64] = "";
 
-        visible = !selectedObject->getComponent<TransformComponent>()->getHidden();
-
-
-        if (ImGui::Checkbox("Visible", &visible))
-        {
-            bool hidden = !visible;
-
-            selectedObject->getComponent<TransformComponent>()->setHidden(hidden);
-
-            setHiddenRecursive(selectedObject, hidden);
+        // Render the text input widget
+        if (selectedObject->_id != m_world.ROOTSCENE_ID) {
+            if (ImGui::InputText("Name", objCurrentName, sizeof(objCurrentName))) {
+                selectedObject->m_name = objCurrentName;
+            }
         }
 
+        // >>>> CHANGE OBJ VISIBILITY ----------------------------------------------
+        if (selectedObject->_id != m_world.ROOTSCENE_ID) {
+            bool visible = true;
 
-        ImGui::Separator();
+            visible = !selectedObject->getComponent<TransformComponent>()->getHidden();
+
+
+            if (ImGui::Checkbox("Visible", &visible))
+            {
+                bool hidden = !visible;
+
+                selectedObject->getComponent<TransformComponent>()->setHidden(hidden);
+
+                setHiddenRecursive(selectedObject, hidden);
+            }
+
+
+            ImGui::Separator();
+        }
+
+        // >>>> CHANGE OBJ TRANSFORM -----------------------------------------------
         ImGui::Text("Transform");
 
         if (ImGui::InputFloat3("Position", position, "%.2f")) {
@@ -85,55 +105,63 @@ void jazzy::InspectorScreen::draw()
         }
 
         ImGui::Separator();
-        ImGui::Text("Material");
 
-        auto marbleTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
-        auto marbleMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-        marbleMat->setTexture(0, marbleTexture);
+        // >>>> CHANGE OBJ MATERIAL ------------------------------------------------
+        if (selectedObject->_id != m_world.ROOTSCENE_ID) {
+            ImGui::Text("Material");
 
-        auto brickTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/red_brick_03_diff_1k.jpg");
-        auto brickMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-        brickMat->setTexture(0, brickTexture);
+            auto marbleTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/marble_bust_01_diff_1k.jpg");
+            auto marbleMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+            marbleMat->setTexture(0, marbleTexture);
 
-        auto stoneTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
-        auto stoneMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-        stoneMat->setTexture(0, stoneTexture);
+            auto brickTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/red_brick_03_diff_1k.jpg");
+            auto brickMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+            brickMat->setTexture(0, brickTexture);
 
-        auto stoneTileTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone_tiles_02_diff_1k.jpg");
-        auto stoneTileMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-        stoneTileMat->setTexture(0, stoneTileTexture);
+            auto stoneTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone.jpg");
+            auto stoneMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+            stoneMat->setTexture(0, stoneTexture);
 
-        auto woodTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
-        auto woodMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
-        woodMat->setTexture(0, woodTexture);
+            auto stoneTileTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/stone_tiles_02_diff_1k.jpg");
+            auto stoneTileMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+            stoneTileMat->setTexture(0, stoneTileTexture);
 
-        const char* materialNames[] = { "Marble", "Brick", "Stone", "Stone Tile", "Wood" }; 
-        static int selectedMaterial = 0; 
-        if (ImGui::Combo("##Material", &selectedMaterial, materialNames, IM_ARRAYSIZE(materialNames))) { 
-            switch (selectedMaterial) { 
-                case 0: 
-                    setMaterial(selectedObject, marbleMat); 
-                    break; 
-                case 1: setMaterial(selectedObject, brickMat); 
-                    break; 
-                case 2: setMaterial(selectedObject, stoneMat); 
-                    break; 
-                case 3: setMaterial(selectedObject, stoneTileMat); 
-                    break; 
-                case 4: setMaterial(selectedObject, woodMat); 
-                    break; 
-            } 
+            auto woodTexture = m_resource.createResourceFromFile<jazzy::TextureResource>(L"./Game/Assets/Textures/wood.jpg");
+            auto woodMat = m_resource.createResourceFromFile<jazzy::MaterialResource>(L"./Game/Assets/Shaders/BasicShader.hlsl");
+            woodMat->setTexture(0, woodTexture);
+
+            const char* materialNames[] = { "Marble", "Brick", "Stone", "Stone Tile", "Wood" };
+            static int selectedMaterial = 0;
+
+            if (ImGui::Combo("##Material", &selectedMaterial, materialNames, IM_ARRAYSIZE(materialNames))) {
+                switch (selectedMaterial) {
+                case 0:
+                    setMaterial(selectedObject, marbleMat);
+                    break;
+                case 1: setMaterial(selectedObject, brickMat);
+                    break;
+                case 2: setMaterial(selectedObject, stoneMat);
+                    break;
+                case 3: setMaterial(selectedObject, stoneTileMat);
+                    break;
+                case 4: setMaterial(selectedObject, woodMat);
+                    break;
+                }
+            }
+
+            ImGui::Separator();
         }
 
-        ImGui::Separator();
+        // >>>> DELETE OBJ ---------------------------------------------------------
+        if (selectedObject->_id != m_world.ROOTSCENE_ID) {
+            if (ImGui::Button("Delete"))
+            {
+                    m_world.deleteGameObject(selectedObject);
+                    m_world.resetSelectedObject();
 
-        if (ImGui::Button("Delete"))
-        {
-            m_world.deleteGameObject(selectedObject);
-            m_world.resetSelectedObject();
-
-            ImGui::End();
-            return;
+                ImGui::End();
+                return;
+            }
         }
 
         ImGui::End();

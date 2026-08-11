@@ -39,7 +39,7 @@ void jazzy::HierarchyScreen::draw()
         {
             auto* object = &allObjs[i]->getGameObject();
 
-            if (object->getParent() == nullptr)
+            if (object && object->getParent() == nullptr)
                 DrawObjectHierarchy(object, treeFlags);
         }
 

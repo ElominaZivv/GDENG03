@@ -50,6 +50,7 @@ namespace jazzy
 
 		RecordHolder& getRecordHolder() noexcept;
 
+		std::string ROOTSCENE_ID = "ROOTSCENE_0";
 		enum ComponentType {
 			COMP_Cube = 0,
 			COMP_Plane,
@@ -59,8 +60,8 @@ namespace jazzy
 			COMP_Mesh,
 			COMP_RigidBody
 		};
-		void AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd);
-		void AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position);
+		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd);
+		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position);
 
 	private:
 		enum class EventType

@@ -53,6 +53,13 @@ void jazzy::World::SetSelectedObject(const std::string& id)
 	auto num = 0u;
 	auto objs = getComponents<TransformComponent>(num);
 
+	for (auto i : std::views::iota(0u, num)) {
+		if (objs[i]->getGameObject().isSelected) {
+			objs[i]->getGameObject().isSelected = false;
+			break;
+		}
+	}
+
 	for (auto i : std::views::iota(0u, num))
 	{
 		if (objs[i]->getGameObject()._id == id)
@@ -72,6 +79,8 @@ void jazzy::World::SetSelectedObject(const std::string& id)
 			else if (objs[i]->getGameObject().getComponent<MeshComponent>())
 				selectedObjectType = "Mesh";
 
+			objs[i]->getGameObject().isSelected = true;
+
 			return;
 		}
 	}
@@ -88,16 +97,16 @@ void jazzy::World::deleteGameObject(GameObject* object)
 	if (!object)
 		return;
 
-	while (object->getChildCount() > 0)
-	{
-		GameObject* child = object->getChildByIndex(0);
-		deleteGameObject(child);
+	for (int i = 0; i < object->getChildCount(); i++) {
+		deleteGameObject(object->getChildByIndex(i));
 	}
 
 	if (GameObject* parent = object->getParent())
 	{
-		parent->removeChildById(object->_id);
+		if (parent)
+			parent->removeChildById(object->_id);
 	}
+
 	if (auto* component = object->getComponent<CubeComponent>())
 		removeComponent(component);
 
@@ -112,6 +121,11 @@ void jazzy::World::deleteGameObject(GameObject* object)
 
 	if (auto* component = object->getComponent<CylinderComponent>())
 		removeComponent(component);
+
+	if (auto* component = object->getComponent<MeshComponent>())
+		removeComponent(component);
+
+	removeComponent(object->getComponent<TransformComponent>());
 
 	for (auto& [typeId, objects] : m_objects)
 	{
@@ -192,7 +206,7 @@ jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
 	return m_recordHolder;
 }
 
-void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd)
+std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd)
 {
 	// Make object
 	auto newObj = createGameObject<jazzy::GameObject>(name);
@@ -249,9 +263,11 @@ void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentTyp
 	}
 
 	SCENE_OBJ_NUM++;
+
+	return newObj->_id;
 }
 
-void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position)
+std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position)
 {
 	// Make object
 	auto newObj = createGameObject<jazzy::GameObject>(name);
@@ -309,6 +325,8 @@ void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentTyp
 	}
 
 	SCENE_OBJ_NUM++;
+
+	return newObj->_id;
 }
 
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept

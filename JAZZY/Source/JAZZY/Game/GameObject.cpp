@@ -27,7 +27,7 @@ void jazzy::GameObject::setParent(GameObject* obj)
 
 jazzy::GameObject* jazzy::GameObject::getParent()
 {
-	if (!m_parent) return{};
+	if (!m_parent) return nullptr;
 	return static_cast<GameObject*>(m_parent);
 }
 

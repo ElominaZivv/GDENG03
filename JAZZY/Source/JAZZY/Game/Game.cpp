@@ -42,7 +42,7 @@ jazzy::Game::Game(const GameDesc& desc)
 
 	// SCENE ROOT NODE DO NOT REMOVE
 		auto rootScene = m_world->createGameObject<jazzy::GameObject>("Scene");
-		rootScene->_id = "ROOTSCENE_0";
+		rootScene->_id = m_world->ROOTSCENE_ID;
 		auto rootTransform = rootScene->createOrGetComponent<jazzy::TransformComponent>();
 		rootTransform->setPosition({ 0.0f, 0.0f, 0.0f });
 	// End of dont remove

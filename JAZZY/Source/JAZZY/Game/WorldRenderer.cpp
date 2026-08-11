@@ -94,7 +94,7 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
 
-				if(component->isVisible())
+				if(transform.isVisible())
 					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
@@ -132,7 +132,9 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
-				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+
+				if (transform.isVisible())
+					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
 	}
@@ -169,7 +171,9 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
-				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+
+				if (transform.isVisible())
+					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
 	}
@@ -206,7 +210,9 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
-				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+
+				if (transform.isVisible())
+					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
 	}
@@ -243,7 +249,9 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 
 				context.setVertexBuffer(component->getVertexBuffer());
 				context.setIndexBuffer(component->getIndexBuffer());
-				context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
+
+				if (transform.isVisible())
+					context.drawIndexedTriangleList(component->getIndexBuffer().getIndexListSize(), 0u, 0u);
 			}
 		}
 	}
@@ -291,7 +299,8 @@ void jazzy::WorldRenderer::render(const World& world, SwapChain& swapChain, Edit
 				}
 				context.setTextures(std::span<Texture*>{m_textures});
 
-				context.drawIndexedTriangleList(slot.indexCount, 0, slot.startIndex);
+				if (comp->getGameObject().getTransform().isVisible())
+					context.drawIndexedTriangleList(slot.indexCount, 0, slot.startIndex);
 			}
 		}
 	}
