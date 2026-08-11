@@ -5,7 +5,7 @@ jazzy::WorldPhysics::WorldPhysics(const WorldPhysicsDesc& desc) : Base(desc.base
 	m_common = std::make_shared<reactphysics3d::PhysicsCommon>();
 	reactphysics3d::PhysicsWorld::WorldSettings physicsWorldSettings;
 	physicsWorldSettings.defaultVelocitySolverNbIterations = 50;
-	physicsWorldSettings.gravity = Vector3(0.0f, -0.01f, 0.0f);
+	physicsWorldSettings.gravity = Vector3(0.0f, -9.81f, 0.0f);
 	m_world = m_common->createPhysicsWorld(physicsWorldSettings);
 }
 
