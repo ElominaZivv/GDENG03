@@ -22,6 +22,9 @@ namespace jazzy
 		RefPtr<reactphysics3d::PhysicsCommon> m_common{};
 		reactphysics3d::PhysicsWorld::WorldSettings m_settings;
 		reactphysics3d::PhysicsWorld* m_world{};
+		f32 m_accumulator{};
+		static constexpr f32 FixedTimeStep = 1.0f / 120.0f;
+		static constexpr i32 MaxSubsteps = 8;
 
 	};
 }

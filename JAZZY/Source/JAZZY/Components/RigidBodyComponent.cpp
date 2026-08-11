@@ -21,14 +21,20 @@ void jazzy::RigidBodyComponent::setBodyType(reactphysics3d::BodyType type) noexc
 	m_rigidBody->enableGravity(type == BodyType::DYNAMIC);
 }
 
-void jazzy::RigidBodyComponent::addBoxCollider(const Vec3& halfExtents) noexcept
+void jazzy::RigidBodyComponent::addBoxCollider(const Vec3& halfExtents, const Vec3& localOffset) noexcept
 {
 	if (!m_rigidBody || !m_physicsCommon || m_collider) return;
 
 	m_boxShape = m_physicsCommon->createBoxShape(
 		reactphysics3d::Vector3(halfExtents.x, halfExtents.y, halfExtents.z)
 	);
-	m_collider = m_rigidBody->addCollider(m_boxShape, reactphysics3d::Transform::identity());
+	m_collider = m_rigidBody->addCollider(
+		m_boxShape,
+		reactphysics3d::Transform(
+			reactphysics3d::Vector3(localOffset.x, localOffset.y, localOffset.z),
+			reactphysics3d::Quaternion::identity()
+		)
+	);
 
 	if (m_rigidBody->getType() == BodyType::DYNAMIC)
 	{

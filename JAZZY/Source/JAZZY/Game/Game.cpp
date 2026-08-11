@@ -88,7 +88,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	plane_transform->setScale({ 25.0f, 1.0f, 25.0f });
 	auto planeRb = plane->createOrGetComponent<jazzy::RigidBodyComponent>();
 	planeRb->setBodyType(reactphysics3d::BodyType::STATIC);
-	planeRb->addBoxCollider({ 12.5f, 0.025f, 12.5f });
+	planeRb->addBoxCollider({ 12.5f, 0.5f, 12.5f }, { 0.0f, -0.5f, 0.0f });
 
 	// Load bearing GameObject lol
 	// Parent
