@@ -10,6 +10,7 @@
 #include <JAZZY/Resource/ResourceManager.h>
 
 #include <iostream>
+#include <algorithm>
 #include <ranges>
 
 #include "JAZZY/Components/CubeComponent.h"
@@ -26,6 +27,8 @@
 
 jazzy::Game::Game(const GameDesc& desc)
 {
+	m_previousTime = std::chrono::steady_clock::now();
+
 	m_logger = std::make_unique<Logger>(desc.logLevel);
 	m_inputSystem = std::make_unique<InputSystem>(InputSystemDesc{ *m_logger });
 	m_graphicsDevice = std::make_shared<GraphicsDevice>(GraphicsDeviceDesc{ *m_logger });
@@ -157,7 +160,7 @@ void jazzy::Game::onInternalUpdate()
 	auto currentTime = std::chrono::steady_clock::now();
 	std::chrono::duration<f32> delta = currentTime - m_previousTime;
 	m_previousTime = currentTime;
-	auto deltaTime = delta.count();
+	auto deltaTime = std::min(delta.count(), 1.0f / 50.0f); // Set up safety clamp so it won't explode at first
 
 	// Input System
 	m_inputSystem->update();
