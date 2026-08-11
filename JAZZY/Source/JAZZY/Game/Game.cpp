@@ -79,7 +79,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	}
 
 	// Marble Bust
-	m_world->AddGameSceneObject("Marble Bust", { World::COMP_Mesh }, { 0, -1, 2 });
+	m_world->AddGameSceneObject("Marble Bust", { World::COMP_Mesh, World::COMP_RigidBody }, { 0, -1, 2 });
 	auto bustObj = m_world->getGameObjectByName("Marble Bust");
 	auto bustComp = bustObj->getComponent<jazzy::MeshComponent>();
 	bustComp->setMesh(marbleBustMesh);
@@ -87,9 +87,11 @@ jazzy::Game::Game(const GameDesc& desc)
 	bustObj->getTransform().setScale({ 4, 4, 4 });
 
 	// Plane
-	m_world->AddGameSceneObject("Floor", { World::COMP_Plane }, { 0.0f, -5.0f, 0.0f });
+	m_world->AddGameSceneObject("Floor", { World::COMP_Plane, World::COMP_RigidBody }, { 0.0f, -5.0f, 0.0f });
 	auto plane = m_world->getGameObjectByName("Floor");
 	auto planeComp = plane->getComponent<jazzy::PlaneComponent>();
+	auto planeRigidComp = plane->getComponent<jazzy::RigidBodyComponent>();
+	planeRigidComp->setBodyType(reactphysics3d::BodyType::STATIC);
 	planeComp->setMaterial(stoneMat);
 	plane->getTransform().setScale({ 25.0f, 25.0f, 25.0f });
 

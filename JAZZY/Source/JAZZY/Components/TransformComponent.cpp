@@ -13,6 +13,9 @@ jazzy::TransformComponent::TransformComponent(const ComponentDesc& data): Compon
 
 void jazzy::TransformComponent::setPosition(const Vec3& position)
 {
+	Vec3 currentPosition = m_position;
+	Vec3 newPosition = position;
+
 	Vec3 displacement = position - m_position;
 
 	m_position = position;
@@ -183,7 +186,7 @@ void jazzy::TransformComponent::syncFromPhysics(const reactphysics3d::Transform&
 	m_dirty = false;
 }
 
-void jazzy::TransformComponent::markAsDirty()
+void jazzy::TransformComponent::markAsDirty(const Vec3& oldPosition, const Vec3& oldRotation, const Vec3& oldScale)
 {
 	Record::TransformData oldData{oldPosition,oldRotation,oldScale};
 	Record::TransformData newData{m_position, m_rotation, m_scale};

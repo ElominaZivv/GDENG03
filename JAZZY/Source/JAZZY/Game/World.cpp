@@ -136,6 +136,9 @@ void jazzy::World::deleteGameObject(GameObject* object)
 	if (auto* component = object->getComponent<MeshComponent>())
 		removeComponent(component);
 
+	if (auto* component = object->getComponent<RigidBodyComponent>())
+		removeComponent(component);
+
 	removeComponent(object->getComponent<TransformComponent>());
 
 	for (auto& [typeId, objects] : m_objects)
@@ -267,7 +270,7 @@ std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<Compo
 					bodyCompAdded = true;
 					break;
 				case (COMP_RigidBody):
-					DX3DLogInfo("Attempted to add RigidBody component");
+					newObj->createOrGetComponent<jazzy::RigidBodyComponent>();
 					break;
 			}
 		}
@@ -329,7 +332,7 @@ std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<Compo
 				bodyCompAdded = true;
 				break;
 			case (COMP_RigidBody):
-				DX3DLogInfo("Attempted to add RigidBody component");
+				newObj->createOrGetComponent<jazzy::RigidBodyComponent>();
 				break;
 			}
 		}
