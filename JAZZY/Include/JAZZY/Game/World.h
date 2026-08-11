@@ -42,6 +42,7 @@ namespace jazzy
 		void update(f32 deltaTime);
 		void syncPhysicsComponents();
 
+		// Objects
 		void SetSelectedObject(const std::string& name);
 		void resetSelectedObject();
 		void deleteGameObject(GameObject* object);
@@ -53,6 +54,7 @@ namespace jazzy
 
 		RecordHolder& getRecordHolder() noexcept;
 
+		// Hierarchy
 		std::string ROOTSCENE_ID = "ROOTSCENE_0";
 		enum ComponentType {
 			COMP_Cube = 0,
@@ -65,6 +67,14 @@ namespace jazzy
 		};
 		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd);
 		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position);
+
+		// Scene states
+		enum SceneState {
+			EDIT_MODE = 0,
+			PLAY_MODE,
+			PAUSED_MODE
+		};
+		void ChangeSceneState(SceneState newState);
 
 	private:
 		enum class EventType
@@ -85,6 +95,9 @@ namespace jazzy
 
 		Component* const* getComponentsInternal(size_t typeId, ui32* numComponents) const noexcept;
 
+		void SaveCurrentTransforms();
+		void ResetTransforms();
+
 	private:
 		GameContext m_gameContext;
 		reactphysics3d::PhysicsCommon* m_physicsCommon;
@@ -103,11 +116,17 @@ namespace jazzy
 	
 		RecordHolder m_recordHolder;
 
-		friend class GameObject;
-		friend class TransformComponent;
-
+		// selection
 		ui32 selectedObjIndex = 0;
 		std::string selectedObjectType = "";
 		int SCENE_OBJ_NUM = 0;
+
+		// scene states again
+		std::vector<TransformComponent> EDIT_savedTransforms{};
+		SceneState currentSceneState = EDIT_MODE;
+
+		friend class GameObject;
+		friend class TransformComponent;
+
 	};
 }

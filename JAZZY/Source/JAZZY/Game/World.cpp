@@ -215,6 +215,32 @@ jazzy::Component* const* jazzy::World::getComponentsInternal(size_t typeId, ui32
 	return {};
 }
 
+void jazzy::World::SaveCurrentTransforms()
+{
+	auto num = 0u;
+	auto objs = getComponents<TransformComponent>(num);
+
+	for (auto i : std::views::iota(0u, num)) {
+		EDIT_savedTransforms.push_back(*(objs[i]));
+	}
+}
+
+void jazzy::World::ResetTransforms()
+{
+	auto num = 0u;
+	auto objs = getComponents<TransformComponent>(num);
+
+	for (auto i : std::views::iota(0u, num)) {
+
+		objs[i]->setHidden(EDIT_savedTransforms[i].getHidden());
+		objs[i]->setHiddenByParent(EDIT_savedTransforms[i].getHiddenByParent());
+		objs[i]->setPosition(EDIT_savedTransforms[i].getPosition());
+		objs[i]->setRotation(EDIT_savedTransforms[i].getRotation());
+		objs[i]->setScale(EDIT_savedTransforms[i].getScale());
+
+	}
+}
+
 jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
 {
 	return m_recordHolder;
@@ -341,6 +367,20 @@ std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<Compo
 	SCENE_OBJ_NUM++;
 
 	return newObj->_id;
+}
+
+void jazzy::World::ChangeSceneState(SceneState newState)
+{
+	if (currentSceneState != newState) {
+		switch (newState) {
+			case (EDIT_MODE):
+				break;	
+			case (PLAY_MODE):
+				break;	
+			case (PAUSED_MODE):
+				break;	
+		}
+	}
 }
 
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept

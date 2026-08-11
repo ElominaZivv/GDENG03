@@ -15,15 +15,23 @@ jazzy::WorldPhysics::WorldPhysics(const WorldPhysicsDesc& desc) : Base(desc.base
 
 void jazzy::WorldPhysics::update(f32 deltaTime)
 {
-	m_accumulator = std::min(m_accumulator + deltaTime, FixedTimeStep * static_cast<f32>(MaxSubsteps));
+	if (isPaused) physicsActive = proceed;
 
-	i32 numSteps = 0;
-	while (m_accumulator >= FixedTimeStep && numSteps < MaxSubsteps)
-	{
-		m_world->update(decimal(FixedTimeStep));
-		m_accumulator -= FixedTimeStep;
-		++numSteps;
+	if (physicsActive) {
+
+		m_accumulator = std::min(m_accumulator + deltaTime, FixedTimeStep * static_cast<f32>(MaxSubsteps));
+
+		i32 numSteps = 0;
+		while (m_accumulator >= FixedTimeStep && numSteps < MaxSubsteps)
+		{
+			m_world->update(decimal(FixedTimeStep));
+			m_accumulator -= FixedTimeStep;
+			++numSteps;
+		}
+
 	}
+
+	if (isPaused) proceed = false;
 }
 
 reactphysics3d::PhysicsCommon* jazzy::WorldPhysics::getCommon() const noexcept

@@ -18,6 +18,11 @@ namespace jazzy
 		reactphysics3d::PhysicsCommon* getCommon() const noexcept;
 		reactphysics3d::PhysicsWorld* getWorld() const noexcept;
 
+		// Scene state stuff
+		bool physicsActive = false;
+		bool isPaused = false;
+		bool proceed = false;
+
 	private:
 		RefPtr<reactphysics3d::PhysicsCommon> m_common{};
 		reactphysics3d::PhysicsWorld::WorldSettings m_settings;
@@ -25,6 +30,5 @@ namespace jazzy
 		f32 m_accumulator{};
 		static constexpr f32 FixedTimeStep = 1.0f / 120.0f;
 		static constexpr i32 MaxSubsteps = 8;
-
 	};
 }
