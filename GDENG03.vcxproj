@@ -74,7 +74,7 @@
     <OutDir>Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;JAZZY/Vendor/tinyobjloader/include/;JAZZY/Vendor/ReactPhysics3D/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)JAZZY/Vendor/ReactPhysics3D/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)JAZZY/Vendor/ReactPhysics3D/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
