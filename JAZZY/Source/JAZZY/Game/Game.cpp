@@ -77,7 +77,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	mesh->getTransform().setPosition({ 0, -1, 2 });
 	auto rbComp = mesh->createOrGetComponent<jazzy::RigidBodyComponent>();
 	rbComp->setBodyType(reactphysics3d::BodyType::DYNAMIC);
-	rbComp->addBoxCollider({ 1.5f, 2.0f, 1.5f });
+	rbComp->addBoxCollider({ 0.05f, 0.05f, 0.05f });
 
 	// Plane
 	auto plane = m_world->createGameObject<jazzy::GameObject>("plane");
@@ -85,10 +85,10 @@ jazzy::Game::Game(const GameDesc& desc)
 	comp->setMaterial(stoneMat);
 	TransformComponent* plane_transform = plane->createOrGetComponent<jazzy::TransformComponent>();
 	plane_transform->setPosition({ 0.0f, -5.0f, 0.0f });
-	plane_transform->setScale({ 25.0f, 25.0f, 25.0f });
+	plane_transform->setScale({ 25.0f, 1.0f, 25.0f });
 	auto planeRb = plane->createOrGetComponent<jazzy::RigidBodyComponent>();
 	planeRb->setBodyType(reactphysics3d::BodyType::STATIC);
-	planeRb->addBoxCollider({ 12.5f, 0.25f, 12.5f });
+	planeRb->addBoxCollider({ 12.5f, 0.01f, 12.5f });
 
 	// Parent
 	test_parent = m_world->createGameObject<jazzy::GameObject>("parent");
@@ -104,6 +104,9 @@ jazzy::Game::Game(const GameDesc& desc)
 	child_comp->setMaterial(woodMat);
 	TransformComponent* child_transform = test_child->createOrGetComponent<jazzy::TransformComponent>();
 	child_transform->setPosition({ 0.0f, 0.0f, 4.0f });
+	auto testChildRb = test_child->createOrGetComponent<jazzy::RigidBodyComponent>();
+	testChildRb->setBodyType(reactphysics3d::BodyType::DYNAMIC);
+	testChildRb->addBoxCollider({ 0.5f, 0.5f, 0.5f });
 
 
 	test_child->setParent(test_parent);
