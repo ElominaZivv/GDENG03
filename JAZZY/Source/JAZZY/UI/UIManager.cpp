@@ -1,6 +1,7 @@
 #include <JAZZY/UI/UIManager.h>
 #include <JAZZY/Graphics/DeviceContext.h>
 #include <JAZZY/Graphics/GraphicsDevice.h>
+#include <JAZZY/Resource/ResourceManager.h>
 #include <JAZZY/UI/Screens/MenuScreen.h>
 #include <JAZZY/UI/Screens/InspectorScreen.h>
 #include <JAZZY/UI/Screens/HierarchyScreen.h>
@@ -29,7 +30,7 @@ jazzy::UIManager::UIManager(const UIManagerDesc& desc)
         graphicsDevice.getContext()
     );
 
-    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world)));
+    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world, desc.resource)));
     m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(desc.world)));
     m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(desc.world)));
     m_screens.push_back(UniquePtr<UndoScreen>(new UndoScreen(desc.world)));

@@ -39,8 +39,10 @@ namespace jazzy
 
 		void update(f32 deltaTime);
 
-		void SetSelectedObject(ui32 index);
+		void SetSelectedObject(const std::string& name);
+		void resetSelectedObject();
 		ui32 GetSelectedIndex();
+		std::string getSelectedObjectType();
 		GameObject* getGameObjectByName(const std::string& name) noexcept;
 
 		RecordHolder& getRecordHolder() noexcept;
@@ -84,5 +86,6 @@ namespace jazzy
 		friend class TransformComponent;
 
 		ui32 selectedObjIndex = 0;
+		std::string selectedObjectType = "";
 	};
 }

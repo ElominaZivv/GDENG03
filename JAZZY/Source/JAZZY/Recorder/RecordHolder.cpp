@@ -51,13 +51,11 @@ namespace jazzy
 
         m_isUndoRedo = true;
 
-        GameObject* object =
-            m_world.getGameObjectByName(record.getObjectName());
+        GameObject* object = m_world.getGameObjectByName(record.getObjectName());
 
         if (object)
         {
-            TransformComponent* transform =
-                object->getComponent<TransformComponent>();
+            TransformComponent* transform = object->getComponent<TransformComponent>();
 
             if (transform)
             {
@@ -82,13 +80,11 @@ namespace jazzy
 
         m_isUndoRedo = true;
 
-        GameObject* object =
-            m_world.getGameObjectByName(record.getObjectName());
+        GameObject* object = m_world.getGameObjectByName(record.getObjectName());
 
         if (object)
         {
-            TransformComponent* transform =
-                object->getComponent<TransformComponent>();
+            TransformComponent* transform = object->getComponent<TransformComponent>();
 
             if (transform)
             {
