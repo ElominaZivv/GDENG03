@@ -26,48 +26,12 @@ void jazzy::InspectorScreen::draw()
                                    ImGuiWindowFlags_NoNavFocus;
 
     GameObject* selectedObject = nullptr;
-    std::string componentType;
 
-    if (m_world.getSelectedObjectType() == "Cube")
-    {
-        auto num = 0u;
-        auto objects = m_world.getComponents<CubeComponent>(num);
+    auto num = 0u;
+    auto objects = m_world.getComponents<TransformComponent>(num);
 
-        if (m_world.GetSelectedIndex() < num)
-            selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
-    }
-    else if (m_world.getSelectedObjectType() == "Plane")
-    {
-        auto num = 0u;
-        auto objects = m_world.getComponents<PlaneComponent>(num);
-
-        if (m_world.GetSelectedIndex() < num)
-            selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
-    }
-    else if (m_world.getSelectedObjectType() == "Sphere")
-    {
-        auto num = 0u;
-        auto objects = m_world.getComponents<SphereComponent>(num);
-
-        if (m_world.GetSelectedIndex() < num)
-            selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
-    }
-    else if (m_world.getSelectedObjectType() == "Capsule")
-    {
-        auto num = 0u;
-        auto objects = m_world.getComponents<CapsuleComponent>(num);
-
-        if (m_world.GetSelectedIndex() < num)
-            selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
-    }
-    else if (m_world.getSelectedObjectType() == "Cylinder")
-    {
-        auto num = 0u;
-        auto objects = m_world.getComponents<CylinderComponent>(num);
-
-        if (m_world.GetSelectedIndex() < num)
-            selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
-    }
+    if (m_world.GetSelectedIndex() < num)
+        selectedObject = &objects[m_world.GetSelectedIndex()]->getGameObject();
 
     if (selectedObject == nullptr)
     {
@@ -92,52 +56,14 @@ void jazzy::InspectorScreen::draw()
 
         bool visible = true;
 
-        if (m_world.getSelectedObjectType() == "Cube")
-        {
-            visible = !selectedObject->getComponent<CubeComponent>()->getHidden();
-        }
-        else if (m_world.getSelectedObjectType() == "Plane")
-        {
-            visible = !selectedObject->getComponent<PlaneComponent>()->getHidden();
-        }
-        else if (m_world.getSelectedObjectType() == "Sphere")
-        {
-            visible = !selectedObject->getComponent<SphereComponent>()->getHidden();
-        }
-        else if (m_world.getSelectedObjectType() == "Capsule")
-        {
-            visible = !selectedObject->getComponent<CapsuleComponent>()->getHidden();
-        }
-        else if (m_world.getSelectedObjectType() == "Cylinder")
-        {
-            visible = !selectedObject->getComponent<CylinderComponent>()->getHidden();
-        }
+        visible = !selectedObject->getComponent<TransformComponent>()->getHidden();
 
 
         if (ImGui::Checkbox("Visible", &visible))
         {
             bool hidden = !visible;
 
-            if (m_world.getSelectedObjectType() == "Cube")
-            {
-                selectedObject->getComponent<CubeComponent>()->setHidden(hidden);
-            }
-            else if (m_world.getSelectedObjectType() == "Plane")
-            {
-                selectedObject->getComponent<PlaneComponent>()->setHidden(hidden);
-            }
-            else if (m_world.getSelectedObjectType() == "Sphere")
-            {
-                selectedObject->getComponent<SphereComponent>()->setHidden(hidden);
-            }
-            else if (m_world.getSelectedObjectType() == "Capsule")
-            {
-                selectedObject->getComponent<CapsuleComponent>()->setHidden(hidden);
-            }
-            else if (m_world.getSelectedObjectType() == "Cylinder")
-            {
-                selectedObject->getComponent<CylinderComponent>()->setHidden(hidden);
-            }
+            selectedObject->getComponent<TransformComponent>()->setHidden(hidden);
 
             setHiddenRecursive(selectedObject, hidden);
         }
@@ -219,22 +145,10 @@ void jazzy::InspectorScreen::setHiddenRecursive(GameObject* object, bool hidden)
 {
     for (ui32 i = 0; i < object->getChildCount(); i++)
     {
-        GameObject* child =object->getChildByIndex(i);
+        GameObject* child = object->getChildByIndex(i);
 
-        if (auto* cube = child->getComponent<CubeComponent>())
-            cube->setHiddenByParent(hidden);
-        
-        if (auto* plane =child->getComponent<PlaneComponent>())
-            plane->setHiddenByParent(hidden);
-        
-        if (auto* sphere = child->getComponent<SphereComponent>())
-            sphere->setHiddenByParent(hidden);
-        
-        if (auto* capsule = child->getComponent<CapsuleComponent>())
-            capsule->setHiddenByParent(hidden);
-        
-        if (auto* cylinder = child->getComponent<CylinderComponent>())
-            cylinder->setHiddenByParent(hidden);
+        if (auto* object = child->getComponent<TransformComponent>())
+            object->setHiddenByParent(hidden);
         
         setHiddenRecursive(child, hidden);
     }
@@ -258,4 +172,7 @@ void jazzy::InspectorScreen::setMaterial(GameObject* object, RefPtr<MaterialReso
 
     else if (m_world.getSelectedObjectType() == "Cylinder")
         object->getComponent<CylinderComponent>()->setMaterial(material);
+
+    else if (m_world.getSelectedObjectType() == "Mesh")
+        object->getComponent<MeshComponent>()->setMaterial(0, material);
 }

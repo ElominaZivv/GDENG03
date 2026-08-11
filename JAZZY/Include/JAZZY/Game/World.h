@@ -46,8 +46,21 @@ namespace jazzy
 		ui32 GetSelectedIndex();
 		std::string getSelectedObjectType();
 		GameObject* getGameObjectByName(const std::string& name) noexcept;
+		GameObject* getGameObjectByID(const std::string& name) noexcept;
 
 		RecordHolder& getRecordHolder() noexcept;
+
+		enum ComponentType {
+			COMP_Cube = 0,
+			COMP_Plane,
+			COMP_Capsule,
+			COMP_Cylinder,
+			COMP_Sphere,
+			COMP_Mesh,
+			COMP_RigidBody
+		};
+		void AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd);
+		void AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position);
 
 	private:
 		enum class EventType
@@ -89,5 +102,6 @@ namespace jazzy
 
 		ui32 selectedObjIndex = 0;
 		std::string selectedObjectType = "";
+		int SCENE_OBJ_NUM = 0;
 	};
 }

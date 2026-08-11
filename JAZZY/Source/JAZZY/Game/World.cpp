@@ -6,6 +6,7 @@
 #include <JAZZY/Components/SphereComponent.h>
 #include <JAZZY/Components/CylinderComponent.h>
 #include <JAZZY/Components/CapsuleComponent.h>
+#include <JAZZY/Components/MeshComponent.h>
 
 jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), m_recordHolder(*this)
 {
@@ -47,69 +48,30 @@ void jazzy::World::update(f32 deltaTime)
 	m_dirtyTransforms.clear();
 }
 
-void jazzy::World::SetSelectedObject(const std::string& name)
+void jazzy::World::SetSelectedObject(const std::string& id)
 {
-	auto numCube = 0u;
-	auto cubes = getComponents<CubeComponent>(numCube);
+	auto num = 0u;
+	auto objs = getComponents<TransformComponent>(num);
 
-	for (ui32 i = 0; i < numCube; ++i)
+	for (auto i : std::views::iota(0u, num))
 	{
-		if (cubes[i]->getGameObject().m_name == name)
+		if (objs[i]->getGameObject()._id == id)
 		{
 			selectedObjIndex = i;
-			selectedObjectType = "Cube";
-			return;
-		}
-	}
 
-	auto numPlane = 0u;
-	auto planes = getComponents<PlaneComponent>(numPlane);
+			if (objs[i]->getGameObject().getComponent<CubeComponent>())
+				selectedObjectType = "Cube";
+			else if (objs[i]->getGameObject().getComponent<PlaneComponent>())
+				selectedObjectType = "Plane";
+			else if (objs[i]->getGameObject().getComponent<SphereComponent>())
+				selectedObjectType = "Sphere";
+			else if (objs[i]->getGameObject().getComponent<CapsuleComponent>())
+				selectedObjectType = "Capsule";
+			else if (objs[i]->getGameObject().getComponent<CylinderComponent>())
+				selectedObjectType = "Cylinder";
+			else if (objs[i]->getGameObject().getComponent<MeshComponent>())
+				selectedObjectType = "Mesh";
 
-	for (ui32 i = 0; i < numPlane; ++i)
-	{
-		if (planes[i]->getGameObject().m_name == name)
-		{
-			selectedObjIndex = i;
-			selectedObjectType = "Plane";
-			return;
-		}
-	}
-
-	auto numSphere = 0u;
-	auto spheres = getComponents<SphereComponent>(numSphere);
-
-	for (ui32 i = 0; i < numSphere; ++i)
-	{
-		if (spheres[i]->getGameObject().m_name == name)
-		{
-			selectedObjIndex = i;
-			selectedObjectType = "Sphere";
-			return;
-		}
-	}
-
-	auto numCapsule = 0u;
-	auto capsules = getComponents<CapsuleComponent>(numCapsule);
-
-	for (ui32 i = 0; i < numCapsule; ++i)
-	{
-		if (capsules[i]->getGameObject().m_name == name)
-		{
-			selectedObjIndex = i;
-			selectedObjectType = "Capsule";
-			return;
-		}
-	}
-
-	auto numCylinder = 0u;
-	auto cylinders = getComponents<CylinderComponent>(numCylinder);
-
-	for (ui32 i = 0; i < numCylinder; ++i)
-	{
-		if (cylinders[i]->getGameObject().m_name == name)
-		{
-			selectedObjIndex = i;
-			selectedObjectType = "Cylinder";
 			return;
 		}
 	}
@@ -134,7 +96,7 @@ void jazzy::World::deleteGameObject(GameObject* object)
 
 	if (GameObject* parent = object->getParent())
 	{
-		parent->removeChildByName(object->m_name);
+		parent->removeChildById(object->_id);
 	}
 	if (auto* component = object->getComponent<CubeComponent>())
 		removeComponent(component);
@@ -230,61 +192,153 @@ jazzy::RecordHolder& jazzy::World::getRecordHolder() noexcept
 	return m_recordHolder;
 }
 
+void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd)
+{
+	// Make object
+	auto newObj = createGameObject<jazzy::GameObject>(name);
+	newObj->_id = name + "_" + std::to_string(SCENE_OBJ_NUM);
+
+	newObj->createOrGetComponent<jazzy::TransformComponent>();
+
+	// Set root
+	auto numObj = 0u;
+	auto allObjs = getComponents<TransformComponent>(numObj);
+	newObj->setParent(&allObjs[0]->getGameObject());
+
+	if (!compsToAdd.empty()) {
+		// Add other comps
+		bool bodyCompAdded = false;
+
+		for (int i = 0; i < compsToAdd.size(); i++) {
+
+			if (compsToAdd[i] < COMP_RigidBody && bodyCompAdded) {
+				DX3DLogWarning("Attempted to add incomptabile components. Object cannot be multiple mesh types.");
+				continue;
+			}
+
+			switch (compsToAdd[i]) {
+				case (COMP_Cube):
+					newObj->createOrGetComponent<jazzy::CubeComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_Plane):
+					newObj->createOrGetComponent<jazzy::PlaneComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_Capsule):
+					newObj->createOrGetComponent<jazzy::CapsuleComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_Cylinder):
+					newObj->createOrGetComponent<jazzy::CylinderComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_Sphere):
+					newObj->createOrGetComponent<jazzy::SphereComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_Mesh):
+					newObj->createOrGetComponent<jazzy::MeshComponent>();
+					bodyCompAdded = true;
+					break;
+				case (COMP_RigidBody):
+					DX3DLogInfo("Attempted to add RigidBody component");
+					break;
+			}
+		}
+	}
+
+	SCENE_OBJ_NUM++;
+}
+
+void jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position)
+{
+	// Make object
+	auto newObj = createGameObject<jazzy::GameObject>(name);
+	newObj->_id = name + "_" + std::to_string(SCENE_OBJ_NUM);
+
+	newObj->createOrGetComponent<jazzy::TransformComponent>();
+	newObj->getComponent<TransformComponent>()->setPosition(position);
+
+	// Set root
+	auto numObj = 0u;
+	auto allObjs = getComponents<TransformComponent>(numObj);
+	newObj->setParent(&allObjs[0]->getGameObject());
+
+	if (!compsToAdd.empty()) {
+		// Add other comps
+		bool bodyCompAdded = false;
+
+		for (int i = 0; i < compsToAdd.size(); i++) {
+
+			if (compsToAdd[i] < COMP_RigidBody && bodyCompAdded) {
+				DX3DLogWarning("Attempted to add incomptabile components. Object cannot be multiple mesh types.");
+				continue;
+			}
+
+			switch (compsToAdd[i]) {
+			case (COMP_Cube):
+				newObj->createOrGetComponent<jazzy::CubeComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_Plane):
+				newObj->createOrGetComponent<jazzy::PlaneComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_Capsule):
+				newObj->createOrGetComponent<jazzy::CapsuleComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_Cylinder):
+				newObj->createOrGetComponent<jazzy::CylinderComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_Sphere):
+				newObj->createOrGetComponent<jazzy::SphereComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_Mesh):
+				newObj->createOrGetComponent<jazzy::MeshComponent>();
+				bodyCompAdded = true;
+				break;
+			case (COMP_RigidBody):
+				DX3DLogInfo("Attempted to add RigidBody component");
+				break;
+			}
+		}
+	}
+
+	SCENE_OBJ_NUM++;
+}
+
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept
 {
-	auto numPlane = 0u;
-	auto planes = getComponents<PlaneComponent>(numPlane);
+	auto num = 0u;
+	auto allObjs = getComponents<TransformComponent>(num);
 
-	auto numCube = 0u;
-	auto cubes = getComponents<CubeComponent>(numCube);
-
-	auto numSphere = 0u;
-	auto spheres = getComponents<SphereComponent>(numSphere);
-
-	auto numCapsule = 0u;
-	auto capsules = getComponents<CapsuleComponent>(numCapsule);
-
-	auto numCylinder = 0u;
-	auto cylinders = getComponents<CylinderComponent>(numCylinder);
-
-	for (ui32 i = 0; i < numPlane; ++i)
+	for (auto i : std::views::iota(0u, num))
 	{
-		auto* plane = planes[i];
+		auto* obj = allObjs[i];
 
-		if (plane->getGameObject().m_name == name)
-			return &plane->getGameObject();
+		if (obj->getGameObject().m_name == name)
+			return &obj->getGameObject();
 	}
 
-	for (ui32 i = 0; i < numCube; ++i)
-	{
-		auto* cube = cubes[i];
+	return nullptr;
+}
 
-		if (cube->getGameObject().m_name == name)
-			return &cube->getGameObject();
+jazzy::GameObject* jazzy::World::getGameObjectByID(const std::string& name) noexcept
+{
+	auto num = 0u;
+	auto allObjs = getComponents<TransformComponent>(num);
+
+	for (auto i : std::views::iota(0u, num))
+	{
+		auto* obj = allObjs[i];
+
+		if (obj->getGameObject()._id == name)
+			return &obj->getGameObject();
 	}
 
-	for (ui32 i = 0; i < numSphere; ++i)
-	{
-		auto* sphere = spheres[i];
-
-		if (sphere->getGameObject().m_name == name)
-			return &sphere->getGameObject();
-	}
-
-	for (ui32 i = 0; i < numCapsule; ++i)
-	{
-		auto* capsule = capsules[i];
-
-		if (capsule->getGameObject().m_name == name)
-			return &capsule->getGameObject();
-	}
-
-	for (ui32 i = 0; i < numCylinder; ++i)
-	{
-		auto* cylinder = cylinders[i];
-
-		if (cylinder->getGameObject().m_name == name)
-			return &cylinder->getGameObject();
-	}
 	return nullptr;
 }

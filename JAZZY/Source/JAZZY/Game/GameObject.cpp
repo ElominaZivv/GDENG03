@@ -45,14 +45,14 @@ void jazzy::GameObject::removeChildByIndex(ui32 index)
 	m_children.pop_back();
 }
 
-void jazzy::GameObject::removeChildByName(std::string name)
+void jazzy::GameObject::removeChildById(std::string id)
 {
 	if (m_children.empty()) return;
 
 	i32 indexToRemove = -1;
 	for (auto i : std::views::iota(0u, m_children.size()))
 	{
-		if (m_children[i]->m_name == name) indexToRemove = i;
+		if (m_children[i]->_id == id) indexToRemove = i;
 	}
 
 	if (indexToRemove < 0) return;

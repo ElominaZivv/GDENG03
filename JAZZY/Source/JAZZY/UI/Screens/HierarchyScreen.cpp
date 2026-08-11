@@ -28,60 +28,16 @@ void jazzy::HierarchyScreen::draw()
     ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick |
         ImGuiTreeNodeFlags_DefaultOpen;
 
-    auto numPlane = 0u;
-    auto planes = m_world.getComponents<PlaneComponent>(numPlane);
-
-    auto numCube = 0u;
-    auto cubes = m_world.getComponents<CubeComponent>(numCube);
-
-    auto numSphere = 0u;
-    auto spheres = m_world.getComponents<SphereComponent>(numSphere);
-
-    auto numCapsule = 0u;
-    auto capsules = m_world.getComponents<CapsuleComponent>(numCapsule);
-
-    auto numCylinder = 0u;
-    auto cylinders = m_world.getComponents<CylinderComponent>(numCylinder);
+    auto numObj = 0u;
+    auto allObjs = m_world.getComponents<TransformComponent>(numObj);
 
     if (ImGui::BeginViewportSideBar("Hierarchy", viewport, ImGuiDir_Left, 150.0f, windowFlags))
     {
         ImGui::Text("Game Objects");
 
-        for (auto i : std::views::iota(0u, numPlane))
+        for (auto i : std::views::iota(0u, numObj))
         {
-            auto* object = &planes[i]->getGameObject();
-
-            if (object->getParent() == nullptr)
-                DrawObjectHierarchy(object, treeFlags);
-        }
-
-        for (auto i : std::views::iota(0u, numCube))
-        {
-            auto* object = &cubes[i]->getGameObject();
-
-            if (object->getParent() == nullptr)
-                DrawObjectHierarchy(object, treeFlags);
-        }
-
-        for (auto i : std::views::iota(0u, numSphere))
-        {
-            auto* object = &spheres[i]->getGameObject();
-
-            if (object->getParent() == nullptr)
-                DrawObjectHierarchy(object, treeFlags);
-        }
-
-        for (auto i : std::views::iota(0u, numCapsule))
-        {
-            auto* object = &capsules[i]->getGameObject();
-
-            if (object->getParent() == nullptr)
-                DrawObjectHierarchy(object, treeFlags);
-        }
-
-        for (auto i : std::views::iota(0u, numCylinder))
-        {
-            auto* object = &cylinders[i]->getGameObject();
+            auto* object = &allObjs[i]->getGameObject();
 
             if (object->getParent() == nullptr)
                 DrawObjectHierarchy(object, treeFlags);
@@ -106,7 +62,7 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(GameObject* obj, ImGuiTreeNodeF
 
     if (ImGui::IsItemClicked())
     {
-        m_world.SetSelectedObject(obj->m_name);
+        m_world.SetSelectedObject(obj->_id);
     }
 
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -133,8 +89,8 @@ void jazzy::HierarchyScreen::DrawObjectHierarchy(GameObject* obj, ImGuiTreeNodeF
             {
                 if (GameObject* oldParent = draggedObject->getParent())
                 {
-                    oldParent->removeChildByName(
-                        draggedObject->m_name
+                    oldParent->removeChildById(
+                        draggedObject->_id
                     );
                 }
                 draggedObject->setParent(obj);
