@@ -52,7 +52,6 @@ void jazzy::MenuScreen::draw()
                 float newPosition =
                     m_planeCount * 1.5f;
 
-                // Plane
                 auto id = m_world.AddGameSceneObject(name, { World::COMP_Plane }, { 0.0f, 1.0f, newPosition });
                 auto plane = m_world.getGameObjectByID(id);
                 auto planeComp = plane->getComponent<jazzy::PlaneComponent>();
@@ -75,7 +74,6 @@ void jazzy::MenuScreen::draw()
                 float newPosition =
                     m_cubeCount * 1.5f;
 
-                // Plane
                 auto id = m_world.AddGameSceneObject(name, { World::COMP_Cube }, { 0.0f, 1.0f, newPosition });
                 auto obj = m_world.getGameObjectByID(id);
                 auto objComp = obj->getComponent<jazzy::CubeComponent>();
@@ -97,7 +95,6 @@ void jazzy::MenuScreen::draw()
                 float newPosition =
                     m_sphereCount * 1.5f;
 
-                // Plane
                 auto id = m_world.AddGameSceneObject(name, { World::COMP_Sphere }, { 0.0f, 1.0f, newPosition });
                 auto obj = m_world.getGameObjectByID(id);
                 auto objComp = obj->getComponent<jazzy::SphereComponent>();
@@ -116,23 +113,13 @@ void jazzy::MenuScreen::draw()
                 std::string name =
                     "Capsule " + std::to_string(m_capsuleCount);
 
-                auto capsule =
-                    m_world.createGameObject<GameObject>(name);
-
-                auto capsuleComp =
-                    capsule->createOrGetComponent<CapsuleComponent>();
-
-                capsuleComp->setMaterial(woodMat);
-
-                auto transform =
-                    capsule->createOrGetComponent<TransformComponent>();
-
                 float newPosition =
                     m_capsuleCount * 1.5f;
 
-                transform->setPosition(
-                    { 0.0f, 1.0f, newPosition }
-                );
+                auto id = m_world.AddGameSceneObject(name, { World::COMP_Capsule }, { 0.0f, 1.0f, newPosition });
+                auto obj = m_world.getGameObjectByID(id);
+                auto objComp = obj->getComponent<jazzy::CapsuleComponent>();
+                objComp->setMaterial(woodMat);
 
                 m_capsuleCount++;
             }
@@ -147,23 +134,13 @@ void jazzy::MenuScreen::draw()
                 std::string name =
                     "Cylinder " + std::to_string(m_cylinderCount);
 
-                auto cylinder =
-                    m_world.createGameObject<GameObject>(name);
-
-                auto cylinderComp =
-                    cylinder->createOrGetComponent<CylinderComponent>();
-
-                cylinderComp->setMaterial(woodMat);
-
-                auto transform =
-                    cylinder->createOrGetComponent<TransformComponent>();
-
                 float newPosition =
                     m_cylinderCount * 1.5f;
 
-                transform->setPosition(
-                    { 0.0f, 1.0f, newPosition }
-                );
+                auto id = m_world.AddGameSceneObject(name, { World::COMP_Cylinder }, { 0.0f, 1.0f, newPosition });
+                auto obj = m_world.getGameObjectByID(id);
+                auto objComp = obj->getComponent<jazzy::CylinderComponent>();
+                objComp->setMaterial(woodMat);
 
                 m_cylinderCount++;
             }
