@@ -227,6 +227,10 @@ void jazzy::MenuScreen::draw()
             {
                 m_world.ChangeSceneState(m_world.EDIT_MODE);
             }
+            if (ImGui::Button(" || "))
+            {
+                m_world.ChangeSceneState(m_world.PLAY_MODE);
+            }
             if (ImGui::Button(" -> "))
             {
                 m_world.ProceedWhenPaused();

@@ -10,7 +10,6 @@
 #include <JAZZY/Game/GameObject.h>
 #include <ranges>
 #include <iostream>
-#include "DebugConsole.h"
 
 
 jazzy::HierarchyScreen::HierarchyScreen(World & world)

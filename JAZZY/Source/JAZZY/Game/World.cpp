@@ -399,6 +399,10 @@ void jazzy::World::ChangeSceneState(SceneState newState)
 			case (PLAY_MODE):
 				SaveCurrentTransforms();
 				worldPhysicsObj.physicsActive = true;
+				if (worldPhysicsObj.isPaused) {
+					worldPhysicsObj.isPaused = false;
+					worldPhysicsObj.proceed = false;
+				}
 				currentSceneState = PLAY_MODE;
 				break;	
 			case (PAUSED_MODE):
