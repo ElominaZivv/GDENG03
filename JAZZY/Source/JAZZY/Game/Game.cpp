@@ -70,6 +70,7 @@ jazzy::Game::Game(const GameDesc& desc)
 	}
 
 	// Plane
+	/*
 	m_world->AddGameSceneObject("Floor", { World::COMP_Plane, World::COMP_RigidBody }, { 0.0f, -5.0f, 0.0f });
 	auto plane = m_world->getGameObjectByName("Floor");
 	auto planeComp = plane->getComponent<jazzy::PlaneComponent>();
@@ -95,6 +96,7 @@ jazzy::Game::Game(const GameDesc& desc)
 			cube->getTransform().setPosition({ f32(-10.0f + (i * 2)), f32(3.0f + (i+j)), f32(-10.0f + (j * 2)) });
 		}
 	}
+	*/
 
 	DX3DLogInfo("Game initialized.");
 }

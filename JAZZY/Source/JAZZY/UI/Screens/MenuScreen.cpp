@@ -65,12 +65,11 @@ void jazzy::MenuScreen::draw()
             {
                 static char objCurrentName[100] = "";
 
-                if (ImGui::InputText("##Name", objCurrentName, sizeof(objCurrentName))) {
-                    meshFileName.append(objCurrentName);
-                }
+                ImGui::InputText("##Name", objCurrentName, sizeof(objCurrentName));
 
                 if (ImGui::Button(" [Load] "))
                 {
+                    meshFileName.append(objCurrentName);
                     std::string name =
                         "Custom " + std::to_string(customMeshCount);
 

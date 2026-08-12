@@ -7,8 +7,8 @@ jazzy::WorldPhysics::WorldPhysics(const WorldPhysicsDesc& desc) : Base(desc.base
 	reactphysics3d::PhysicsWorld::WorldSettings physicsWorldSettings;
 	physicsWorldSettings.defaultVelocitySolverNbIterations = 18;
 	physicsWorldSettings.defaultPositionSolverNbIterations = 8;
-	physicsWorldSettings.defaultBounciness = decimal(0.0);
-	physicsWorldSettings.defaultFrictionCoefficient = decimal(1.0);
+	//physicsWorldSettings.defaultBounciness = decimal(0.0);
+	//physicsWorldSettings.defaultFrictionCoefficient = decimal(1.0);
 	physicsWorldSettings.gravity = Vector3(0.0f, -9.81f, 0.0f);
 	m_world = m_common->createPhysicsWorld(physicsWorldSettings);
 }

@@ -10,8 +10,12 @@ EditorCamera::EditorCamera(const EditorCameraDesc& desc): Base(desc.base), m_inp
 
 void EditorCamera::update(f32 _deltaTime)
 {
+	/*
 	if (m_inputSystem.isKeyPressed(KeyCode::P)) m_projection = Projection::PERSPECTIVE;
 	if (m_inputSystem.isKeyPressed(KeyCode::O)) m_projection = Projection::ORTHOGRAPHIC;
+	*/
+
+	// The camera uses keyboard controls
 
 	f32 moveSpeed = m_moveSpeed;
 	if (m_inputSystem.isKeyDown(KeyCode::Shift)) moveSpeed = m_fasterMoveSpeed;
