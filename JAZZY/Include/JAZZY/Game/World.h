@@ -9,6 +9,7 @@
 #include "JAZZY/Components/TransformComponent.h"
 #include "JAZZY/Recorder/RecordHolder.h"
 #include <JAZZY/SaveSystem/SaveStructs.h>
+#include <JAZZY/SaveSystem/SceneSerializer.h>
 
 namespace jazzy
 {
@@ -60,8 +61,8 @@ namespace jazzy
 		RefPtr<TextureResource> LoadTexture(std::string filepath);
 
 		// Scene persistence. Level names are read from and written to Game/Assets/Levels.
-		bool saveScene(const std::string& levelName, std::string* error = nullptr);
-		bool loadScene(const std::string& levelName, std::string* error = nullptr);
+		void saveScene(const std::string& levelName);
+		void loadScene(const std::string& levelName);
 
 		// Hierarchy
 		std::string ROOTSCENE_ID = "ROOTSCENE_0";
@@ -129,6 +130,7 @@ namespace jazzy
 		std::vector<GameObjectEvents> m_eventsSwapBuffer{};
 	
 		RecordHolder m_recordHolder;
+		SceneSerializer& m_sceneSerializer;
 
 		// selection
 		ui32 selectedObjIndex = 0;

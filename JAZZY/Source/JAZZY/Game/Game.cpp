@@ -24,6 +24,7 @@
 #include "JAZZY/Game/GameObject.h"
 #include "JAZZY/Game/WorldPhysics.h"
 #include "JAZZY/UI/UIManager.h"
+#include <JAZZY/SaveSystem/SceneSerializer.h>
 
 jazzy::Game::Game(const GameDesc& desc)
 {
@@ -37,7 +38,8 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
 	
 	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
-	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, *m_worldPhysics });
+	m_sceneSerializer = std::make_unique<SceneSerializer>(SceneSerializerDesc{ BaseDesc{*m_logger}, std::filesystem::path("Game") / "Assets" / "Levels" });
+	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, *m_worldPhysics, *m_sceneSerializer });
 	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{ *m_display, *m_graphicsDevice, *m_world, *m_resourceManager });
 	m_logger->SetDebugConsole(m_uiManager->GetDebugConsoleScreen());
 

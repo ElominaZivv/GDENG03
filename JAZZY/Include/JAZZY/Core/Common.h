@@ -5,6 +5,7 @@
 #include <JAZZY/Math/Vec3.h>
 #include <JAZZY/Math/Vec2.h>
 #include <reactphysics3d/decimal.h>
+#include <filesystem>
 
 // ReactPhysics3D
 #include <reactphysics3d/reactphysics3d.h>
@@ -180,8 +181,7 @@ namespace jazzy
 		BaseDesc base;
 		GameContext gameContext;
 		WorldPhysics& worldPhysics;
-		/*reactphysics3d::PhysicsCommon* physicsCommon;
-		reactphysics3d::PhysicsWorld* worldPhysics;*/
+		SceneSerializer& sceneSerializer;
 	};
 
 	struct ComponentDesc
@@ -271,5 +271,11 @@ namespace jazzy
 	struct WorldPhysicsDesc
 	{
 		BaseDesc base;
+	};
+
+	struct SceneSerializerDesc
+	{
+		BaseDesc base;
+		std::filesystem::path levelDirectory = std::filesystem::path("Game") / "Assets" / "Levels";
 	};
 }

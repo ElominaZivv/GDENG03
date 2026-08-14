@@ -1,29 +1,29 @@
 #pragma once
 
+#include <JAZZY/Core/Common.h>
+#include <JAZZY/Core/Base.h>
 #include <filesystem>
 #include <string>
+#include <json.h>
 
 namespace jazzy
 {
-	class World;
-
-	// Reads and writes editable world data as text-based .lvl files.
-	class SceneSerializer final
+	class SceneSerializer final : public Base
 	{
 	public:
-		explicit SceneSerializer(World& world,
-			std::filesystem::path levelDirectory = std::filesystem::path("Game") / "Assets" / "Levels");
+		explicit SceneSerializer(const SceneSerializerDesc& desc);
 
-		bool save(const std::string& levelName, std::string* error = nullptr) const;
-		bool load(const std::string& levelName, std::string* error = nullptr) const;
+		void save(const World& world, const std::string& levelName);
+		void load(World& world, const std::string& levelName);
 
 		const std::filesystem::path& getLevelDirectory() const noexcept;
 
 	private:
-		std::filesystem::path getLevelPath(const std::string& levelName) const;
+		std::filesystem::path getLevelPath(const std::string& levelName) const noexcept;
 
 	private:
-		World& m_world;
 		std::filesystem::path m_levelDirectory;
+
+		friend class World;
 	};
 }

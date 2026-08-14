@@ -2,6 +2,9 @@
 #include <stdexcept>
 #include <memory>
 
+// JSON Parser
+#include <json-forwards.h>
+
 //	These /**/ is causing issues with the code. I have to use the // instead >:[
 //	these "= delete" forbids the surface level copying of anything that inherits from the Base class
 //	Basically, you cant assign this class to anything and manipulate the copy, this will now cause an error
@@ -50,6 +53,8 @@ namespace jazzy
 	class MaterialResource;
 	class TextureResource;
 	class MeshResource;
+
+	class SceneSerializer;
 
 	using i32 = int;
 	using ui32 = unsigned int;

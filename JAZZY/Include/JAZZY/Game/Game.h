@@ -34,6 +34,7 @@ namespace jazzy
 		UniquePtr<Display> m_display{};
 		UniquePtr<UIManager> m_uiManager{};
 		UniquePtr<ResourceManager> m_resourceManager{};
+		UniquePtr<SceneSerializer> m_sceneSerializer{};
 		UniquePtr<World> m_world{};
 
 		UniquePtr<WorldPhysics>m_worldPhysics{};

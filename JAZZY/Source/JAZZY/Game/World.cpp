@@ -14,7 +14,7 @@
 #include <JAZZY/Resource/ResourceManager.h>
 #include <JAZZY/Game/WorldPhysics.h>
 
-jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), worldPhysicsObj(desc.worldPhysics), m_recordHolder(*this)
+jazzy::World::World(const WorldDesc& desc) : Base(desc.base), m_gameContext(desc.gameContext), worldPhysicsObj(desc.worldPhysics), m_recordHolder(*this), m_sceneSerializer(desc.sceneSerializer)
 {
 	SetPhysics();
 }
@@ -470,12 +470,13 @@ void jazzy::World::SetPhysics() {
 	m_worldPhysics = worldPhysicsObj.getWorld();
 }
 
-bool jazzy::World::saveScene(const std::string& levelName, std::string* error)
+void jazzy::World::saveScene(const std::string& levelName)
 {
-	return SceneSerializer(*this).save(levelName, error);
+	m_sceneSerializer.save(*this, levelName);
+	//SceneSerializer(*this).save(levelName);
 }
 
-bool jazzy::World::loadScene(const std::string& levelName, std::string* error)
+void jazzy::World::loadScene(const std::string& levelName)
 {
-	return SceneSerializer(*this).load(levelName, error);
+	m_sceneSerializer.load(*this, levelName);
 }

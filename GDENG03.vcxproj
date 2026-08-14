@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;JAZZY/Vendor/tinyobjloader/include/;JAZZY/Vendor/ReactPhysics3D/include/;$(IncludePath)</IncludePath>
+    <IncludePath>JAZZY/Include;JAZZY/Source;JAZZY/Vendor/stb-image/include/;JAZZY/Vendor/tinyobjloader/include/;JAZZY/Vendor/ReactPhysics3D/include/;JAZZY/Vendor/jsoncpp-parser/json/;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)JAZZY/Vendor/ReactPhysics3D/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -112,7 +112,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)JAZZY/Assets/Shaders;$(ProjectDir)JAZZY/Vendor/ReactPhysics3D/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)JAZZY/Assets/Shaders;$(ProjectDir)JAZZY/Vendor/ReactPhysics3D/include;$(ProjectDir)JAZZY/Vendor/jsoncpp-parser/json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UseStandardPreprocessor>Yes</UseStandardPreprocessor>
     </ClCompile>
     <Link>
@@ -171,7 +171,6 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\World.cpp" />
-
     <ClCompile Include="JAZZY\Source\JAZZY\SaveSystem\SceneSerializer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\TransformComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\UIManager.cpp" />
@@ -195,6 +194,7 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Components\CapsuleComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\WorldPhysics.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\RigidBodyComponent.cpp" />
+    <ClCompile Include="JAZZY\Vendor\jsoncpp-parser\jsoncpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\SaveSystem\SaveStructs.h" />
@@ -267,6 +267,8 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Components\CapsuleComponent.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\WorldPhysics.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\RigidBodyComponent.h" />
+    <ClInclude Include="JAZZY\Vendor\jsoncpp-parser\json\json-forwards.h" />
+    <ClInclude Include="JAZZY\Vendor\jsoncpp-parser\json\json.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

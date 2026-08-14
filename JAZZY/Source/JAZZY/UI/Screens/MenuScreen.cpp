@@ -51,6 +51,7 @@ void jazzy::MenuScreen::draw()
             {
                 m_showSaveSceneDialog = true;
                 m_saveSceneStatus.clear();
+				m_saveSceneSucceeded = false;
             }
 
             if (ImGui::IsItemHovered())
@@ -62,6 +63,7 @@ void jazzy::MenuScreen::draw()
             {
                 m_showLoadSceneDialog = true;
                 m_loadSceneStatus.clear();
+				m_loadSceneSucceeded = false;
             }
 
             if (ImGui::IsItemHovered())
@@ -280,11 +282,9 @@ void jazzy::MenuScreen::draw()
 
         if (ImGui::Button("Save"))
         {
-            std::string error;
-            m_saveSceneSucceeded = m_world.saveScene(m_levelName, &error);
-            m_saveSceneStatus = m_saveSceneSucceeded
-                ? "Scene saved successfully."
-                : error;
+            m_world.saveScene(m_levelName);
+            m_saveSceneSucceeded = true;
+            m_saveSceneStatus = "Scene saved successfully.";
         }
         ImGui::SameLine();
         if (ImGui::Button("Close"))
@@ -316,11 +316,9 @@ void jazzy::MenuScreen::draw()
 
         if (ImGui::Button("Load"))
         {
-            std::string error;
-            m_loadSceneSucceeded = m_world.loadScene(m_loadLevelName, &error);
-            m_loadSceneStatus = m_loadSceneSucceeded
-                ? "Scene loaded successfully."
-                : error;
+            m_world.loadScene(m_loadLevelName);
+            m_loadSceneSucceeded = true;
+            m_loadSceneStatus = "Scene loaded successfully.";
         }
         ImGui::SameLine();
         if (ImGui::Button("Close"))
