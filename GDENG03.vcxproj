@@ -193,8 +193,11 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Components\CapsuleComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\WorldPhysics.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\RigidBodyComponent.cpp" />
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\SaveLoadSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\json.hpp" />
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\SaveStructs.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\SaveSystem\SaveStructs.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
@@ -264,6 +267,7 @@
     <ClInclude Include="JAZZY\Include\JAZZY\Components\CapsuleComponent.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Game\WorldPhysics.h" />
     <ClInclude Include="JAZZY\Include\JAZZY\Components\RigidBodyComponent.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\SaveLoadSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

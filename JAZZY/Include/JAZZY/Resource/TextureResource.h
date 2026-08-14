@@ -9,8 +9,12 @@ namespace jazzy
 		explicit TextureResource(const TextureResourceDesc& desc);
 		jazzy::Texture& getTexture();
 
+		std::string GetTextureFileName();
+
 	private:
 		RefPtr<Texture> m_texture{};
+
+		std::string fileName{};
 	};
 }
 

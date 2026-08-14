@@ -12,6 +12,7 @@
 #include <JAZZY/Components/MeshComponent.h>
 #include <JAZZY/Resource/MaterialResource.h>
 #include <JAZZY/Resource/ResourceManager.h>
+#include <JAZZY/Core/Logger.h>
 #include <iostream>
 
 jazzy::InspectorScreen::InspectorScreen(World& world, ResourceManager& resource)
@@ -176,22 +177,39 @@ void jazzy::InspectorScreen::draw()
 
             // >>>> CHANGE RIGID BODY ---------------------------------------------------------
 
-            
-            float rbColScale[3]{};
-            if (rb) {
+            bool showScale = true;
+            float rbColScale[3];
+            if (rb && rb->getColliderDimensions().x) {
                 rbColScale[0] = rb->getColliderDimensions().x;
                 rbColScale[1] = rb->getColliderDimensions().y;
                 rbColScale[2] = rb->getColliderDimensions().z;
             }
+            else {
+                showScale = false;
+                rbColScale[0] = transform.getScale().x / 2;
+                rbColScale[1] = transform.getScale().y / 2;
+                rbColScale[2] = transform.getScale().z / 2;
+            }
 
             if (selectedObject->_id != m_world.ROOTSCENE_ID && rb) {
-                ImGui::Text("Box Collider Scale");
-                if (ImGui::InputFloat3("##Box Collider Scale", rbColScale, "%.2f")) {
-                    rb->addBoxCollider(Vec3(
-                        rbColScale[0],
-                        rbColScale[1],
-                        rbColScale[2]
-                    ), { 0.0f, 0.0f,0.0f });
+                if (showScale)
+                {
+                    ImGui::Text("Box Collider Scale");
+                    if (ImGui::InputFloat3("##Box Collider Scale", rbColScale, "%.2f")) {
+
+                        if (rbColScale[0] <= 0) rbColScale[0] = 0.01;
+                        if (rbColScale[1] <= 0) rbColScale[1] = 0.01;
+                        if (rbColScale[2] <= 0) rbColScale[2] = 0.01;
+
+                        rb->addBoxCollider(Vec3(
+                            rbColScale[0],
+                            rbColScale[1],
+                            rbColScale[2]
+                        ), { 0.0f, 0.0f,0.0f });
+                    }
+                }
+                else {
+                    ImGui::Text("Cannot alter collider scale.");
                 }
                 
                 ImGui::Text("Rigid Body Type");

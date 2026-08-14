@@ -6,6 +6,8 @@
 #include <JAZZY/Components/CylinderComponent.h>
 #include <JAZZY/Components/CapsuleComponent.h>
 #include <JAZZY/Components/MeshComponent.h>
+#include <JAZZY/Components/RigidBodyComponent.h>
+#include <JAZZY/Components/TransformComponent.h>
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Resource/ResourceManager.h>
@@ -79,6 +81,14 @@ void jazzy::MenuScreen::draw()
                     auto id = m_world.AddGameSceneObject(name, { World::COMP_Mesh, World::COMP_RigidBody }, { 0.0f, 1.0f, newPosition });
                     auto obj = m_world.getGameObjectByID(id);
                     auto objComp = obj->getComponent<jazzy::MeshComponent>();
+                    auto rb = obj->getComponent<RigidBodyComponent>();
+
+                    rb->setBodyType(BodyType::STATIC);
+                    rb->addBoxCollider(Vec3(
+                        obj->getTransform().getScale().x / 2,
+                        obj->getTransform().getScale().y / 2,
+                        obj->getTransform().getScale().z / 2
+                    ), { 0.0f, 0.0f,0.0f });
                     
                     auto mesh = m_world.LoadMesh(meshFileName);
                     std::cout << meshFileName << std::endl;

@@ -49,6 +49,7 @@ namespace jazzy
 		void removeChildById(std::string name);
 		GameObject* getChildByIndex(ui32 index);
 		ui32 getChildCount();
+		std::vector<GameObject*> GetAllChildren();
 		
 		// Hierarchy stuff
 		bool isSelected = false;

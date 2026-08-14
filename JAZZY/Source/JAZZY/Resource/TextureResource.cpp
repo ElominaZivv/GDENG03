@@ -22,9 +22,25 @@ jazzy::TextureResource::TextureResource(const TextureResourceDesc& desc) : Resou
 
 	if (!pixels) DX3DLogThrowError("Failed to load texture file {}", textureFileStr.c_str());
 	m_texture = desc.graphicsDevice.createTexture({ {width, height}, pixels });
+
+	// saving the file name
+	size_t lastSlash = textureFileStr.find_last_of('/');
+
+	if (lastSlash != std::string::npos) {
+		fileName = textureFileStr.substr(lastSlash + 1);
+		DX3DLogInfo("Loaded texture file '{}'", fileName);
+	}
+	else {
+		DX3DLogError("Could not save TextureResource file name.");
+	}
 }
 
 jazzy::Texture& jazzy::TextureResource::getTexture()
 {
 	return *m_texture;
+}
+
+std::string jazzy::TextureResource::GetTextureFileName()
+{
+	return fileName;
 }

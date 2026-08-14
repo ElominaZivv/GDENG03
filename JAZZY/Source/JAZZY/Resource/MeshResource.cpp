@@ -39,6 +39,18 @@ jazzy::MeshResource::MeshResource(const MeshResourceDesc& desc) : Resource(desc.
 	std::map<jazzy::i32, std::vector<jazzy::ui32>> indicesPerMaterial{};
 
 
+	// saving the file name
+	size_t lastSlash = inputfile.find_last_of('/');
+
+	if (lastSlash != std::string::npos) {
+		fileName = inputfile.substr(lastSlash + 1);
+		DX3DLogInfo("Loaded mesh file '{}'", fileName);
+	}
+	else {
+		DX3DLogError("Could not save TextureResource file name.");
+	}
+
+	// actual stuff 
 	for (const auto& shape : shapes)
 	{
 		auto indexOffset{ 0u };
@@ -131,4 +143,9 @@ const jazzy::VertexBuffer& jazzy::MeshResource::getVertexBuffer() const noexcept
 const jazzy::IndexBuffer& jazzy::MeshResource::getIndexBuffer() const noexcept
 {
 	return *m_indexBuffer;
+}
+
+std::string jazzy::MeshResource::GetMeshFileName()
+{
+	return fileName;
 }

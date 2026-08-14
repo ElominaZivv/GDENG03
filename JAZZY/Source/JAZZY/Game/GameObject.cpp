@@ -71,6 +71,11 @@ jazzy::ui32 jazzy::GameObject::getChildCount()
 	return m_children.size();
 }
 
+std::vector<jazzy::GameObject*> jazzy::GameObject::GetAllChildren()
+{
+	return m_children;
+}
+
 jazzy::Component* jazzy::GameObject::createComponentInternal(UniquePtr<Component>& component)
 {
 	if (!component) return{};

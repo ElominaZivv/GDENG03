@@ -162,6 +162,27 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Components\CapsuleComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Recorder\Record.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\WorldPhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Components\RigidBodyComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JAZZY\Source\JAZZY\Game\SaveLoadSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Include\JAZZY\Core\Base.h">
@@ -348,6 +369,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JAZZY\Include\JAZZY\Components\CapsuleComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\SaveStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Recorder\Record.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\Recorder\RecordHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\UndoScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Game\WorldPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\Components\RigidBodyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\SaveLoadSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JAZZY\Source\JAZZY\SaveSystem\SaveStructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
