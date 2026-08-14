@@ -31,7 +31,7 @@ jazzy::UIManager::UIManager(const UIManagerDesc& desc)
         graphicsDevice.getContext()
     );
 
-    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world, desc.resource)));
+    m_screens.push_back(UniquePtr<MenuScreen>(new MenuScreen(desc.world, desc.resource, desc.saveLoadSystem)));
     m_screens.push_back(UniquePtr<InspectorScreen>(new InspectorScreen(desc.world, desc.resource)));
     m_screens.push_back(UniquePtr<HierarchyScreen>(new HierarchyScreen(desc.world)));
     m_screens.push_back(UniquePtr<UndoScreen>(new UndoScreen(desc.world)));

@@ -9,13 +9,15 @@ namespace jazzy
     class MenuScreen : public Screens
     {
     public:
-       MenuScreen(World& world, ResourceManager& resource);
+       MenuScreen(World& world, ResourceManager& resource, SaveLoadSystem& saveSystem);
 
         void draw() override;
 
     private:
         World& m_world;
         ResourceManager& m_resource;
+        SaveLoadSystem& m_saveSystem;
+
         int m_planeCount = 1;
         int m_cubeCount = 0;
         int m_sphereCount = 0;

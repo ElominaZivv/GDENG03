@@ -35,6 +35,7 @@ namespace jazzy
 		UniquePtr<UIManager> m_uiManager{};
 		UniquePtr<ResourceManager> m_resourceManager{};
 		UniquePtr<World> m_world{};
+		UniquePtr<SaveLoadSystem> m_saveLoadSystem{};
 
 		UniquePtr<WorldPhysics>m_worldPhysics{};
 		UniquePtr<WorldRenderer>m_worldRenderer{};

@@ -5,6 +5,7 @@
 #include <JAZZY/Input/InputSystem.h>
 #include <JAZZY/Game/Display.h>
 #include <JAZZY/Game/World.h>
+#include <JAZZY/SaveSystem/SaveLoadSystem.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Game/WorldRenderer.h>
 #include <JAZZY/Resource/ResourceManager.h>
@@ -37,8 +38,11 @@ jazzy::Game::Game(const GameDesc& desc)
 	m_resourceManager = std::make_unique<ResourceManager>(ResourceManagerDesc{ {*m_logger}, context });
 	
 	m_worldPhysics = std::make_unique<WorldPhysics>(WorldPhysicsDesc{ BaseDesc{ *m_logger } });
+
 	m_world = std::make_unique<World>(WorldDesc{ BaseDesc{*m_logger}, GameContext{*m_inputSystem, *m_resourceManager, *m_graphicsDevice}, *m_worldPhysics });
-	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{ *m_display, *m_graphicsDevice, *m_world, *m_resourceManager });
+	m_saveLoadSystem = std::make_unique<SaveLoadSystem>(*m_world, *m_resourceManager);
+
+	m_uiManager = std::make_unique<UIManager>(UIManagerDesc{ *m_display, *m_graphicsDevice, *m_world, *m_resourceManager, *m_saveLoadSystem });
 	m_logger->SetDebugConsole(m_uiManager->GetDebugConsoleScreen());
 
 	m_worldRenderer = std::make_unique<WorldRenderer>(WorldRendererDesc{ {*m_logger},*m_graphicsDevice });

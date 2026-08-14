@@ -27,6 +27,10 @@ void jazzy::RigidBodyComponent::addBoxCollider(const Vec3& halfExtents, const Ve
 {
 	if (!m_rigidBody || !m_physicsCommon) return;
 
+	if (m_collider) {
+		m_rigidBody->removeCollider(m_collider);
+	}
+
 	m_boxShape = m_physicsCommon->createBoxShape(
 		reactphysics3d::Vector3(halfExtents.x, halfExtents.y, halfExtents.z)
 	);
@@ -58,9 +62,19 @@ void jazzy::RigidBodyComponent::syncPhysicsToTransform() noexcept
 
 jazzy::Vec3 jazzy::RigidBodyComponent::getColliderDimensions()
 {
-	return Vec3(m_boxShape->getHalfExtents().x,
-		m_boxShape->getHalfExtents().y,
-		m_boxShape->getHalfExtents().z);
+	if (m_boxShape) {
+		return Vec3(m_boxShape->getHalfExtents().x,
+			m_boxShape->getHalfExtents().y,
+			m_boxShape->getHalfExtents().z);
+	}
+	else {
+		return Vec3(-1.0f, 0.0f, 0.0f);
+	}
+}
+
+BodyType jazzy::RigidBodyComponent::GetRigidBodyType()
+{
+	return m_rigidBody->getType();
 }
 
 reactphysics3d::Transform jazzy::RigidBodyComponent::buildPhysicsTransform(const TransformComponent& transform) const noexcept

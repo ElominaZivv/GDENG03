@@ -25,6 +25,7 @@ namespace jazzy
 
 		// Misc for inspector
 		Vec3 getColliderDimensions();
+		BodyType GetRigidBodyType();
 
 	private:
 		reactphysics3d::Transform buildPhysicsTransform(const TransformComponent& transform) const noexcept;

@@ -1,0 +1,122 @@
+[
+{
+    "_id": "ROOTSCENE_0",
+    "_name": "Scene",
+    "transform": {
+        "position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    }
+},
+{
+    "_id": "Cube 0_0",
+    "_name": "Cube 0",
+    "colliderDimensions": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "isHidden": false,
+    "isHiddenByParent": false,
+    "meshType": "cube",
+    "parentID": "ROOTSCENE_0",
+    "rigidBodyActive": true,
+    "rigidBodyType": 2,
+    "textureFile": "wood.jpg",
+    "transform": {
+        "position": [
+            0.0,
+            2.0,
+            0.0
+        ],
+        "rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    }
+},
+{
+    "_id": "Cube 1_1",
+    "_name": "named cube",
+    "colliderDimensions": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "isHidden": false,
+    "isHiddenByParent": false,
+    "meshType": "cube",
+    "parentID": "Cube 0_0",
+    "rigidBodyActive": true,
+    "rigidBodyType": 0,
+    "textureFile": "wood.jpg",
+    "transform": {
+        "position": [
+            0.0,
+            2.0,
+            1.5
+        ],
+        "rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    }
+},
+{
+    "_id": "Plane 1_2",
+    "_name": "Plane 1",
+    "colliderDimensions": [
+        12.5,
+        0.009999999776482582,
+        12.5
+    ],
+    "isHidden": false,
+    "isHiddenByParent": false,
+    "meshType": "plane",
+    "parentID": "ROOTSCENE_0",
+    "rigidBodyActive": true,
+    "rigidBodyType": 0,
+    "textureFile": "stone.jpg",
+    "transform": {
+        "position": [
+            0.0,
+            -2.0,
+            1.5
+        ],
+        "rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "scale": [
+            25.0,
+            25.0,
+            25.0
+        ]
+    }
+}
+]

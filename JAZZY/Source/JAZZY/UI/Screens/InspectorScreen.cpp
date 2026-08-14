@@ -179,7 +179,7 @@ void jazzy::InspectorScreen::draw()
 
             bool showScale = true;
             float rbColScale[3];
-            if (rb && rb->getColliderDimensions().x) {
+            if (rb && rb->getColliderDimensions().x != -1.0f) {
                 rbColScale[0] = rb->getColliderDimensions().x;
                 rbColScale[1] = rb->getColliderDimensions().y;
                 rbColScale[2] = rb->getColliderDimensions().z;

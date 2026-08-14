@@ -254,6 +254,7 @@ namespace jazzy
 		GraphicsDevice& graphicsDevice;
 		World& world;
 		ResourceManager& resource;
+		SaveLoadSystem& saveLoadSystem;
 	};
 
 	struct MeshVertex

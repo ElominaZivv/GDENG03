@@ -11,13 +11,14 @@
 #include <JAZZY/Game/World.h>
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Resource/ResourceManager.h>
+#include <JAZZY/SaveSystem/SaveLoadSystem.h>
 
 #include <format>
 #include <string>
 #include <iostream>
 
-jazzy::MenuScreen::MenuScreen(World& world, ResourceManager& resource)
-    : Screens("Menu"), m_world(world), m_resource(resource)
+jazzy::MenuScreen::MenuScreen(World& world, ResourceManager& resource, SaveLoadSystem& saveSystem)
+    : Screens("Menu"), m_world(world), m_resource(resource), m_saveSystem(saveSystem)
 {
 }
 
@@ -25,6 +26,7 @@ void jazzy::MenuScreen::draw()
 {
     static bool showCredits = false;
     static bool enterFilename = false;
+    static bool enterSaveFilename = false;
 
     if (ImGui::BeginMainMenuBar())
     {
@@ -59,7 +61,44 @@ void jazzy::MenuScreen::draw()
                 ImGui::SetTooltip("Load in an .obj from the Assets folder");
             }
 
+            if (ImGui::MenuItem("Save/Load"))
+            {
+                enterSaveFilename = true;
+            }
+
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip("Save or load scene.");
+            }
+
             ImGui::EndMenu();
+        }
+
+        if (enterSaveFilename) {
+            if (ImGui::BeginMenu("Scene Name"))
+            {
+                static char sceneName[100] = "";
+
+                ImGui::InputText("##SceneName", sceneName, sizeof(sceneName));
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetTooltip("Write the file name only.");
+                }
+
+                if (ImGui::Button(" [Save Scene] "))
+                {
+                    m_saveSystem.SaveScene(sceneName);
+                    enterSaveFilename = false;
+                }
+
+                if (ImGui::Button(" [Load Scene] "))
+                {
+                    m_saveSystem.LoadScene(sceneName);
+                    enterSaveFilename = false;
+                }
+
+                ImGui::EndMenu();
+            }
         }
 
         if (enterFilename) {

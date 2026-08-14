@@ -37,6 +37,7 @@ namespace jazzy
 	class GameObject;
 	class World;
 	class UIManager;
+	class SaveLoadSystem;
 	class Screens;
 	class MenuScreen;
 	class DebugConsole;
