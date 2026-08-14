@@ -24,6 +24,14 @@ namespace jazzy
         int customMeshCount = 0;
 
         std::string meshFileName = "./Game/Assets/Meshes/";
+        bool m_showSaveSceneDialog = false;
+        char m_levelName[100] = "Untitled";
+        std::string m_saveSceneStatus;
+        bool m_saveSceneSucceeded = false;
+        bool m_showLoadSceneDialog = false;
+        char m_loadLevelName[100] = "Untitled";
+        std::string m_loadSceneStatus;
+        bool m_loadSceneSucceeded = false;
     };
 
 }

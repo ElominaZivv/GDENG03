@@ -1,0 +1,4 @@
+JAZZY_LEVEL 2
+objects 2
+object "Plane 1" "Plane 1_0" "ROOTSCENE_0" 1 1 "" "./Game/Assets/Shaders/BasicShader.hlsl" 1 "./Game/Assets/Textures/red_brick_03_diff_1k.jpg" 0 1 1.5 0 0 0 25 25 25
+object "Cylinder 0" "Cylinder 0_1" "ROOTSCENE_0" 1 3 "" "./Game/Assets/Shaders/BasicShader.hlsl" 1 "./Game/Assets/Textures/stone.jpg" 0 10 0 0 0 0 5 20 5

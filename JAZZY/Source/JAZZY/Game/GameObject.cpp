@@ -21,8 +21,10 @@ jazzy::InputSystem& jazzy::GameObject::getInputSystem() noexcept
 void jazzy::GameObject::setParent(GameObject* obj)
 {
 	if (!obj) return;
-	obj->addChild(this);
+	if (m_parent == obj) return;
+	if (m_parent) m_parent->removeChildById(_id);
 	m_parent = obj;
+	obj->addChild(this);
 }
 
 jazzy::GameObject* jazzy::GameObject::getParent()

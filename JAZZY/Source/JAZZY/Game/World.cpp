@@ -10,6 +10,7 @@
 #include <JAZZY/Components/MeshComponent.h>
 
 #include <JAZZY/SaveSystem/SaveStructs.h>
+#include <JAZZY/SaveSystem/SceneSerializer.h>
 #include <JAZZY/Resource/ResourceManager.h>
 #include <JAZZY/Game/WorldPhysics.h>
 
@@ -263,6 +264,20 @@ jazzy::RefPtr<jazzy::MeshResource> jazzy::World::LoadMesh(std::string filepath)
 	return resMan.createResourceFromFile<jazzy::MeshResource>(filepathFull);
 }
 
+jazzy::RefPtr<jazzy::MaterialResource> jazzy::World::LoadMaterial(std::string filepath)
+{
+	std::wstring wideStr(filepath.begin(), filepath.end());
+	ResourceManager& resMan = m_gameContext.resourceManager;
+	return resMan.createResourceFromFile<jazzy::MaterialResource>(wideStr.c_str());
+}
+
+jazzy::RefPtr<jazzy::TextureResource> jazzy::World::LoadTexture(std::string filepath)
+{
+	std::wstring wideStr(filepath.begin(), filepath.end());
+	ResourceManager& resMan = m_gameContext.resourceManager;
+	return resMan.createResourceFromFile<jazzy::TextureResource>(wideStr.c_str());
+}
+
 std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd)
 {
 	// Make object
@@ -453,4 +468,14 @@ jazzy::GameObject* jazzy::World::getGameObjectByID(const std::string& name) noex
 void jazzy::World::SetPhysics() {
 	m_physicsCommon = worldPhysicsObj.getCommon();
 	m_worldPhysics = worldPhysicsObj.getWorld();
+}
+
+bool jazzy::World::saveScene(const std::string& levelName, std::string* error)
+{
+	return SceneSerializer(*this).save(levelName, error);
+}
+
+bool jazzy::World::loadScene(const std::string& levelName, std::string* error)
+{
+	return SceneSerializer(*this).load(levelName, error);
 }

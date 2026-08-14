@@ -47,6 +47,28 @@ void jazzy::MenuScreen::draw()
 
         if (ImGui::BeginMenu("File"))
         {
+            if (ImGui::MenuItem("Save Scene..."))
+            {
+                m_showSaveSceneDialog = true;
+                m_saveSceneStatus.clear();
+            }
+
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip("Save the current scene as a .lvl file in Game/Assets/Levels");
+            }
+
+            if (ImGui::MenuItem("Load Scene..."))
+            {
+                m_showLoadSceneDialog = true;
+                m_loadSceneStatus.clear();
+            }
+
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip("Load a .lvl file from Game/Assets/Levels");
+            }
+
             if (ImGui::MenuItem("Load Obj"))
             {
                 enterFilename = true;
@@ -243,6 +265,78 @@ void jazzy::MenuScreen::draw()
     {
         ImGui::OpenPopup("Credits");
         showCredits = false;
+    }
+
+    if (m_showSaveSceneDialog)
+    {
+        ImGui::OpenPopup("Save Scene");
+        m_showSaveSceneDialog = false;
+    }
+
+    if (ImGui::BeginPopupModal("Save Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("Level files are saved to Game/Assets/Levels.");
+        ImGui::InputText("Level name", m_levelName, sizeof(m_levelName));
+
+        if (ImGui::Button("Save"))
+        {
+            std::string error;
+            m_saveSceneSucceeded = m_world.saveScene(m_levelName, &error);
+            m_saveSceneStatus = m_saveSceneSucceeded
+                ? "Scene saved successfully."
+                : error;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Close"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        if (!m_saveSceneStatus.empty())
+        {
+            const auto color = m_saveSceneSucceeded
+                ? ImVec4(0.25f, 0.85f, 0.35f, 1.0f)
+                : ImVec4(0.95f, 0.25f, 0.25f, 1.0f);
+            ImGui::TextColored(color, "%s", m_saveSceneStatus.c_str());
+        }
+
+        ImGui::EndPopup();
+    }
+
+    if (m_showLoadSceneDialog)
+    {
+        ImGui::OpenPopup("Load Scene");
+        m_showLoadSceneDialog = false;
+    }
+
+    if (ImGui::BeginPopupModal("Load Scene", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("Load a .lvl file from Game/Assets/Levels.");
+        ImGui::InputText("Level name", m_loadLevelName, sizeof(m_loadLevelName));
+
+        if (ImGui::Button("Load"))
+        {
+            std::string error;
+            m_loadSceneSucceeded = m_world.loadScene(m_loadLevelName, &error);
+            m_loadSceneStatus = m_loadSceneSucceeded
+                ? "Scene loaded successfully."
+                : error;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Close"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        if (!m_loadSceneStatus.empty())
+        {
+            const auto color = m_loadSceneSucceeded
+                ? ImVec4(0.25f, 0.85f, 0.35f, 1.0f)
+                : ImVec4(0.95f, 0.25f, 0.25f, 1.0f);
+            ImGui::TextColored(color, "%s", m_loadSceneStatus.c_str());
+        }
+
+        ImGui::EndPopup();
     }
 
     if (ImGui::BeginPopupModal(

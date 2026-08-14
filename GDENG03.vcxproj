@@ -171,6 +171,8 @@
     <ClCompile Include="JAZZY\Source\JAZZY\Graphics\VertexShaderSignature.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\EditorCamera\EditorCamera.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Game\World.cpp" />
+
+    <ClCompile Include="JAZZY\Source\JAZZY\SaveSystem\SceneSerializer.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\Components\TransformComponent.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\UIManager.cpp" />
     <ClCompile Include="JAZZY\Source\JAZZY\UI\Screens\Screens.cpp" />
@@ -196,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JAZZY\Source\JAZZY\SaveSystem\SaveStructs.h" />
+    <ClInclude Include="JAZZY\Include\JAZZY\SaveSystem\SceneSerializer.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\UI\Screens\DebugConsole.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\GraphicsPipelineLayout.h" />
     <ClInclude Include="JAZZY\Source\JAZZY\Graphics\ShaderInclude.h" />

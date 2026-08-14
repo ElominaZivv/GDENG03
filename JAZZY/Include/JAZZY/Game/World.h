@@ -56,6 +56,12 @@ namespace jazzy
 		RecordHolder& getRecordHolder() noexcept;
 
 		RefPtr<MeshResource> LoadMesh(std::string filepath);
+		RefPtr<MaterialResource> LoadMaterial(std::string filepath);
+		RefPtr<TextureResource> LoadTexture(std::string filepath);
+
+		// Scene persistence. Level names are read from and written to Game/Assets/Levels.
+		bool saveScene(const std::string& levelName, std::string* error = nullptr);
+		bool loadScene(const std::string& levelName, std::string* error = nullptr);
 
 		// Hierarchy
 		std::string ROOTSCENE_ID = "ROOTSCENE_0";

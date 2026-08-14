@@ -9,6 +9,7 @@ namespace jazzy
 	{
 	public:
 		explicit Resource(const ResourceDesc& desc);
+		const std::wstring& getPath() const noexcept;
 	protected:
 		std::wstring m_path{};
 		ResourceManager& m_manager;
