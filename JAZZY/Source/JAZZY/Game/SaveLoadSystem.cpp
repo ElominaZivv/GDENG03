@@ -171,6 +171,9 @@ nlohmann::json jazzy::SaveLoadSystem::EncodeOneObject(int index)
 			obj->getComponent<RigidBodyComponent>()->getColliderDimensions().z
 		};
 	}
+	else {
+		objJson["rigidBodyActive"] = false;
+	}
 
 	return objJson;
 }
