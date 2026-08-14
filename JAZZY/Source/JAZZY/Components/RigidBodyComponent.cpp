@@ -3,6 +3,8 @@
 #include <JAZZY/Game/GameObject.h>
 #include <JAZZY/Math/MathUtils.h>
 
+#include <reactphysics3d/reactphysics3d.h>
+
 jazzy::RigidBodyComponent::RigidBodyComponent(const ComponentDesc& data) : Component(data)
 {
 	m_rigidBody = data.worldPhysics->createRigidBody(buildPhysicsTransform(getGameObject().getTransform()));
@@ -23,7 +25,7 @@ void jazzy::RigidBodyComponent::setBodyType(reactphysics3d::BodyType type) noexc
 
 void jazzy::RigidBodyComponent::addBoxCollider(const Vec3& halfExtents, const Vec3& localOffset) noexcept
 {
-	if (!m_rigidBody || !m_physicsCommon || m_collider) return;
+	if (!m_rigidBody || !m_physicsCommon) return;
 
 	m_boxShape = m_physicsCommon->createBoxShape(
 		reactphysics3d::Vector3(halfExtents.x, halfExtents.y, halfExtents.z)
@@ -52,6 +54,13 @@ void jazzy::RigidBodyComponent::syncPhysicsToTransform() noexcept
 {
 	if (!m_rigidBody) return;
 	getGameObject().getTransform().syncFromPhysics(m_rigidBody->getTransform());
+}
+
+jazzy::Vec3 jazzy::RigidBodyComponent::getColliderDimensions()
+{
+	return Vec3(m_boxShape->getHalfExtents().x,
+		m_boxShape->getHalfExtents().y,
+		m_boxShape->getHalfExtents().z);
 }
 
 reactphysics3d::Transform jazzy::RigidBodyComponent::buildPhysicsTransform(const TransformComponent& transform) const noexcept

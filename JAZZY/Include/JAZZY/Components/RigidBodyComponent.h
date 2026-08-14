@@ -2,6 +2,8 @@
 #include <JAZZY/Core/Core.h>
 #include <JAZZY/Game/Component.h>
 
+#include <JAZZY/Math/Vec3.h>
+
 // ReactPhysics3D
 #include <reactphysics3d/reactphysics3d.h>
 using namespace reactphysics3d;
@@ -20,6 +22,9 @@ namespace jazzy
 		void addBoxCollider(const Vec3& halfExtents, const Vec3& localOffset = Vec3{}) noexcept;
 		void syncTransformToPhysics() noexcept;
 		void syncPhysicsToTransform() noexcept;
+
+		// Misc for inspector
+		Vec3 getColliderDimensions();
 
 	private:
 		reactphysics3d::Transform buildPhysicsTransform(const TransformComponent& transform) const noexcept;

@@ -155,10 +155,45 @@ void jazzy::InspectorScreen::draw()
                 ImGui::Separator();
             }
 
+            // >>>> ADD RIGID BODY ------------------------------------------------------------
+            RigidBodyComponent* rb = selectedObject->getComponent<RigidBodyComponent>();
+            if (selectedObject->_id != m_world.ROOTSCENE_ID && !rb) {
+                if (ImGui::Button("Add Rigid Body Component"))
+                {
+                    selectedObject->createOrGetComponent<RigidBodyComponent>();
+                    rb = selectedObject->getComponent<RigidBodyComponent>();
+                    rb->setBodyType(BodyType::STATIC);
+                    rb->addBoxCollider(Vec3(
+                        transform.getScale().x/2,
+                        transform.getScale().y/2,
+                        transform.getScale().z/2
+                    ), { 0.0f, 0.0f,0.0f } );
+
+                    ImGui::End();
+                    return;
+                }
+            }
 
             // >>>> CHANGE RIGID BODY ---------------------------------------------------------
-            RigidBodyComponent* rb = selectedObject->getComponent<RigidBodyComponent>();
+
+            
+            float rbColScale[3]{};
+            if (rb) {
+                rbColScale[0] = rb->getColliderDimensions().x;
+                rbColScale[1] = rb->getColliderDimensions().y;
+                rbColScale[2] = rb->getColliderDimensions().z;
+            }
+
             if (selectedObject->_id != m_world.ROOTSCENE_ID && rb) {
+                ImGui::Text("Box Collider Scale");
+                if (ImGui::InputFloat3("##Box Collider Scale", rbColScale, "%.2f")) {
+                    rb->addBoxCollider(Vec3(
+                        rbColScale[0],
+                        rbColScale[1],
+                        rbColScale[2]
+                    ), { 0.0f, 0.0f,0.0f });
+                }
+                
                 ImGui::Text("Rigid Body Type");
                 const char* bodyTypeNames[] = { "Dynamic", "Kinematic", "Static"};
                 static int selectedBodyType = 0;
