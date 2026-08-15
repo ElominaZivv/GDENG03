@@ -1,0 +1,175 @@
+{
+  "format" : "jazzy-level",
+  "objects" : 
+  [
+    {
+      "components" : 
+      [
+        "Plane"
+      ],
+      "id" : "Plane 1_0",
+      "name" : "Plane 1",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/marble_bust_01_diff_1k.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          10.0,
+          10.0,
+          10.0
+        ]
+      }
+    },
+    {
+      "components" : 
+      [
+        "Cube"
+      ],
+      "id" : "Cube 0_1",
+      "name" : "Cube 0",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/wood.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "components" : 
+      [
+        "Cube"
+      ],
+      "id" : "Cube 1_2",
+      "name" : "Cube 1",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/wood.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          -1.5,
+          2.0,
+          0.0
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "components" : 
+      [
+        "Cube"
+      ],
+      "id" : "Cube 2_3",
+      "name" : "Cube 2",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/wood.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          -1.5,
+          3.0,
+          -1.5
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "version" : 1
+}
