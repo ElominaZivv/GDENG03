@@ -297,37 +297,37 @@ std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<Compo
 
 		for (int i = 0; i < compsToAdd.size(); i++) {
 
-			if (compsToAdd[i] < COMP_RigidBody && bodyCompAdded) {
+			if (compsToAdd[i] < ComponentType::COMP_RigidBody && bodyCompAdded) {
 				DX3DLogWarning("Attempted to add incomptabile components. Object cannot be multiple mesh types.");
 				continue;
 			}
 
 			switch (compsToAdd[i]) {
-				case (COMP_Cube):
+				case (ComponentType::COMP_Cube):
 					newObj->createOrGetComponent<jazzy::CubeComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_Plane):
+				case (ComponentType::COMP_Plane):
 					newObj->createOrGetComponent<jazzy::PlaneComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_Capsule):
+				case (ComponentType::COMP_Capsule):
 					newObj->createOrGetComponent<jazzy::CapsuleComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_Cylinder):
+				case (ComponentType::COMP_Cylinder):
 					newObj->createOrGetComponent<jazzy::CylinderComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_Sphere):
+				case (ComponentType::COMP_Sphere):
 					newObj->createOrGetComponent<jazzy::SphereComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_Mesh):
+				case (ComponentType::COMP_Mesh):
 					newObj->createOrGetComponent<jazzy::MeshComponent>();
 					bodyCompAdded = true;
 					break;
-				case (COMP_RigidBody):
+				case (ComponentType::COMP_RigidBody):
 					newObj->createOrGetComponent<jazzy::RigidBodyComponent>();
 					break;
 			}
@@ -359,37 +359,37 @@ std::string jazzy::World::AddGameSceneObject(std::string name, std::vector<Compo
 
 		for (int i = 0; i < compsToAdd.size(); i++) {
 
-			if (compsToAdd[i] < COMP_RigidBody && bodyCompAdded) {
+			if (compsToAdd[i] < ComponentType::COMP_RigidBody && bodyCompAdded) {
 				DX3DLogWarning("Attempted to add incomptabile components. Object cannot be multiple mesh types.");
 				continue;
 			}
 
 			switch (compsToAdd[i]) {
-			case (COMP_Cube):
+			case (ComponentType::COMP_Cube):
 				newObj->createOrGetComponent<jazzy::CubeComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_Plane):
+			case (ComponentType::COMP_Plane):
 				newObj->createOrGetComponent<jazzy::PlaneComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_Capsule):
+			case (ComponentType::COMP_Capsule):
 				newObj->createOrGetComponent<jazzy::CapsuleComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_Cylinder):
+			case (ComponentType::COMP_Cylinder):
 				newObj->createOrGetComponent<jazzy::CylinderComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_Sphere):
+			case (ComponentType::COMP_Sphere):
 				newObj->createOrGetComponent<jazzy::SphereComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_Mesh):
+			case (ComponentType::COMP_Mesh):
 				newObj->createOrGetComponent<jazzy::MeshComponent>();
 				bodyCompAdded = true;
 				break;
-			case (COMP_RigidBody):
+			case (ComponentType::COMP_RigidBody):
 				newObj->createOrGetComponent<jazzy::RigidBodyComponent>();
 				break;
 			}
@@ -405,24 +405,24 @@ void jazzy::World::ChangeSceneState(SceneState newState)
 {
 	if (currentSceneState != newState) {
 		switch (newState) {
-			case (EDIT_MODE):
+			case (SceneState::EDIT_MODE):
 				worldPhysicsObj.physicsActive = false;
 				ResetTransforms();
 				EDIT_savedTransforms.clear();
-				currentSceneState = EDIT_MODE;
+				currentSceneState = SceneState::EDIT_MODE;
 				break;	
-			case (PLAY_MODE):
+			case (SceneState::PLAY_MODE):
 				SaveCurrentTransforms();
 				worldPhysicsObj.physicsActive = true;
 				if (worldPhysicsObj.isPaused) {
 					worldPhysicsObj.isPaused = false;
 					worldPhysicsObj.proceed = false;
 				}
-				currentSceneState = PLAY_MODE;
+				currentSceneState = SceneState::PLAY_MODE;
 				break;	
-			case (PAUSED_MODE):
+			case (SceneState::PAUSED_MODE):
 				worldPhysicsObj.isPaused = true;
-				currentSceneState = PAUSED_MODE;
+				currentSceneState = SceneState::PAUSED_MODE;
 				break;	
 		}
 	}
@@ -430,7 +430,7 @@ void jazzy::World::ChangeSceneState(SceneState newState)
 
 void jazzy::World::ProceedWhenPaused()
 {
-	if (currentSceneState = PAUSED_MODE) worldPhysicsObj.proceed = true;
+	if (currentSceneState == SceneState::PAUSED_MODE) worldPhysicsObj.proceed = true;
 }
 
 jazzy::GameObject* jazzy::World::getGameObjectByName(const std::string& name) noexcept

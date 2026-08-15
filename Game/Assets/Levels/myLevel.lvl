@@ -1,0 +1,91 @@
+{
+  "format" : "jazzy-level",
+  "objects" : 
+  [
+    {
+      "components" : 
+      [
+        "Plane"
+      ],
+      "id" : "Plane 1_0",
+      "name" : "Plane 1",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/wood.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          0.0,
+          1.0,
+          1.5
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          25.0,
+          25.0,
+          25.0
+        ]
+      }
+    },
+    {
+      "components" : 
+      [
+        "Cube"
+      ],
+      "id" : "Cube 0_1",
+      "name" : "Cube 0",
+      "parentId" : "ROOTSCENE_0",
+      "resources" : 
+      {
+        "material" : 
+        {
+          "shader" : "./Game/Assets/Shaders/BasicShader.hlsl",
+          "textures" : 
+          [
+            "./Game/Assets/Textures/stone.jpg"
+          ]
+        },
+        "mesh" : ""
+      },
+      "transform" : 
+      {
+        "position" : 
+        [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "rotation" : 
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale" : 
+        [
+          5.0,
+          5.0,
+          5.0
+        ]
+      }
+    }
+  ],
+  "version" : 1
+}

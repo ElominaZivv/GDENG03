@@ -66,15 +66,6 @@ namespace jazzy
 
 		// Hierarchy
 		std::string ROOTSCENE_ID = "ROOTSCENE_0";
-		enum ComponentType {
-			COMP_Cube = 0,
-			COMP_Plane,
-			COMP_Capsule,
-			COMP_Cylinder,
-			COMP_Sphere,
-			COMP_Mesh,
-			COMP_RigidBody
-		};
 		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd);
 		std::string AddGameSceneObject(std::string name, std::vector<ComponentType> compsToAdd, Vec3 position);
 
@@ -86,7 +77,7 @@ namespace jazzy
 		};
 		void ChangeSceneState(SceneState newState);
 		void ProceedWhenPaused();
-		SceneState currentSceneState = EDIT_MODE;
+		SceneState currentSceneState = SceneState::EDIT_MODE;
 
 	private:
 		enum class EventType

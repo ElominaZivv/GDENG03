@@ -147,6 +147,16 @@ namespace jazzy
 		Count
 	};
 
+	enum ComponentType {
+		COMP_Cube = 0,
+		COMP_Plane,
+		COMP_Capsule,
+		COMP_Cylinder,
+		COMP_Sphere,
+		COMP_Mesh,
+		COMP_RigidBody
+	};
+
 	struct InputSystemDesc
 	{
 		BaseDesc base;

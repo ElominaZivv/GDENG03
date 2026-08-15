@@ -1,4 +1,0 @@
-JAZZY_LEVEL 2
-objects 2
-object "Plane 1" "Plane 1_0" "ROOTSCENE_0" 1 1 "" "./Game/Assets/Shaders/BasicShader.hlsl" 1 "./Game/Assets/Textures/stone.jpg" 0 1 1.5 0 0 0 25 25 25
-object "Cube 0" "Cube 0_1" "ROOTSCENE_0" 1 0 "" "./Game/Assets/Shaders/BasicShader.hlsl" 1 "./Game/Assets/Textures/wood.jpg" 0 10 0 0 0 0 7 7 7
